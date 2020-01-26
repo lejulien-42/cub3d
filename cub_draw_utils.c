@@ -43,6 +43,27 @@ void	ft_mlx_horizline(data_t *data, int color, pos_t *pos, int len)
 	}
 }
 
+
+void	ft_vertline(mlx_data_t *data, int color, pos_t *pos, pos_t *postwo)
+{
+    int i;
+
+    i = 0;
+    if (pos->y < postwo->y) {
+        while (i < (postwo->y - pos->y)) {
+            data->img.data[(pos->y + i) * data->sort->resw + pos->x] = color;
+            i++;
+        }
+    }
+    else
+    {
+        while (i < (pos->y - postwo->y)) {
+            data->img.data[(postwo->y + i) * data->sort->resw + postwo->x] = color;
+            i++;
+        }
+    }
+}
+
 void	ft_mlx_vertline(mlx_data_t *data, int color, pos_t *pos, int len)
 {
 	int i;
@@ -53,20 +74,6 @@ void	ft_mlx_vertline(mlx_data_t *data, int color, pos_t *pos, int len)
 		data->img.data[(pos->y + i) * data->sort->resw + pos->x] = color;
 		i++;
 	}
-}
-
-void
-	ft_mlx_draw_square(square_t *square, data_t *data, int color)
-{
-	pos_t bottomleft;
-	pos_t topright;
-
-	bottomleft = ft_set_pos(square->pos.x, square->pos.y + square->h);
-	topright = ft_set_pos(square->pos.x + square->w, square->pos.y);
-	ft_mlx_horizline(data, color, &square->pos, square->w);
-	ft_mlx_vertline(data, color, &square->pos, square->h);
-	ft_mlx_horizline(data, color, &bottomleft, square->w);
-	ft_mlx_vertline(data, color, &topright, square->h);
 }
 
 void

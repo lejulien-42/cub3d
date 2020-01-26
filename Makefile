@@ -13,7 +13,7 @@
 
 SRCS	= $(wildcard cub*.c) $(wildcard ./libft-42/*.c)
 SRCSTEST= ./cub_draw_utils.c ./cub_get_next_line.c ./cub_get_next_line_utils.c ./test.c $(wildcard ./libft-42/*.c)
-OTEST= $(wildcard ./*.o)
+OTEST= $(wildcard ./*.o) $(wildcard ./*/*.o)
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -48,7 +48,7 @@ fclean: clean
 re: fclean all
 
 %.o: %.c
-	$(GCC) -D BUFFER_SIZE=1 $(INCLUDEH) -c $<  -o $(<:.c=.o)
+	$(GCC) -w -D BUFFER_SIZE=1024 $(INCLUDEH) -c $<  -o $(<:.c=.o)
 
-run: fclean $(NAME)
+run: fclean $(NAME) clean
 	./cub3d.out conf.cub

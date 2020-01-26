@@ -80,9 +80,16 @@ typedef struct  mlx_data_s
     int         left;
     int         right;
     int         esc;
+    int         mkey;
     double      posx;
     double      posy;
-    int         **screen;
+    double      dirx;
+    double      diry;
+    double      time;
+    double      oldtime;
+    double      planeX;
+    double      planeY;
+    int         promton;
 	t_img		img;
 }               mlx_data_t;
 
@@ -90,4 +97,5 @@ void		ft_mlx_draw_square(square_t *square, data_t *data, int color);
 void		ft_mlx_drawfilled_square(square_t *square, data_t *data, int color, mlx_data_t *mlxData);
 square_t	ft_set_square(int w, int h, int x, int y);
 int			rgb_int(int red, int green, int blue);
+void	    ft_vertline(mlx_data_t *data, int color, pos_t *pos, pos_t *postwo);
 #endif

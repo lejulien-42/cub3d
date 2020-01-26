@@ -6,11 +6,14 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/01/19 21:11:22 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/01/22 03:50:06 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
 #include "cub.h"
 #include "get_next_line.h"
 #include "./libft-42/libft.h"
@@ -25,13 +28,13 @@ static sort_t
 	sort.southpath = NULL;
 	sort.eastpath = NULL;
 	sort.westpath = NULL;
-	sort.resw = 1080;
-	sort.resh = 720;
+	sort.resw = 900;
+	sort.resh = 800;
 	sort.sprite = NULL;
 	sort.rgbf = 0;
 	sort.rgbc = 0;
-	sort.mapwidth = 13;
-	sort.mapheight = 13;
+	sort.mapwidth = 10;
+	sort.mapheight = 10;
 	return (sort);
 }
 
@@ -204,8 +207,8 @@ void
 
 	i = 0;
 	j = 0;
-	playerx = mlxdata->player->x / sort->mapwidth * 10;
-	playery = mlxdata->player->y / sort->mapheight * 10;
+	playerx = mlxdata->posx;
+	playery = mlxdata->posy;
 	if (playerx > 20)
 	    playerx = 20;
 	if (playery > 20)
@@ -217,18 +220,20 @@ void
 			if (mlxdata->map[i][j] == '1')
 			{
 				square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-				ft_mlx_drawfilled_square(&square, data, rgb_int(0, 204, 153));
+				ft_mlx_drawfilled_square(&square, data, rgb_int(0, 204, 153), mlxdata);
 			}
 			else
             {
 			    square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-                ft_mlx_drawfilled_square(&square, data, rgb_int(255, 255, 255));
+                ft_mlx_drawfilled_square(&square, data, rgb_int(255, 255, 255), mlxdata);
             }
 		    j++;
 		}
 		j = 0;
 		i++;
 	}
+    square = ft_set_square(resph, resph, 10 + playerx * resph, 10 + playery * resph);
+	ft_mlx_drawfilled_square(&square, data, rgb_int(255, 127, 80), mlxdata);
 }
 
 int
@@ -261,8 +266,14 @@ mlx_data_t
     mlx_data.down = 0;
     mlx_data.right = 0;
     mlx_data.esc = 0;
-    mlx_data.posx = 10;
-    mlx_data.posy = 10;
+    mlx_data.mkey = 0;
+    mlx_data.posx = 2;
+    mlx_data.posy = 2;
+    mlx_data.dirx = -1;
+    mlx_data.diry = 0;
+    mlx_data.planeX = 0;
+    mlx_data.planeY = 0.66;
+    mlx_data.promton = 0;
     return (mlx_data);
 }
 player_t
@@ -279,7 +290,7 @@ player_t
 int
     key_press(int key, mlx_data_t *data)
 {
-    printf("%d\n", key);
+    //printf("%d\n", key);
     if (key == 0)
         data->left = 1;
     if (key == 2)
@@ -290,6 +301,8 @@ int
         data->down = 1;
     if (key == 53)
         data->esc = 1;
+    if (key == 46)
+        data->mkey = 1;
     return (1);
 }
 
@@ -306,24 +319,155 @@ key_release(int key, mlx_data_t *data)
         data->down = 0;
     if (key == 53)
         data->esc = 0;
+    if (key == 46)
+        data->mkey = 0;
     return (1);
 }
 
-void
-    ft_mlx_show_screen(mlx_data_t *data)
+int
+    get_click(int button, int x, int y, mlx_data_t *data)
 {
-    int i = 0;
-    int j = 0;
-
-    while (i < data->sort->resh)
+    if (button == 1)
     {
-        j = 0;
-        while (j < data->sort->resw)
+        data->posx = x * 0.20 / data->sort->mapheight;
+        data->posy = y * 0.20 / data->sort->mapheight;
+    }
+}
+
+
+void
+ft_setimg(mlx_data_t *data)
+{
+    int count_h = -1;
+    int count_w = -1;
+
+    while (++count_h < data->sort->resh)
+    {
+        count_w = -1;
+        while (++count_w < data->sort->resw)
         {
-            mlx_pixel_put(data->data->mlx_ptr, data->data->mlx_win, j, i, data->screen[i][j]);
-            j++;
+            if (count_h < (data->sort->resh / 2))
+                data->img.data[count_h * data->sort->resw + count_w] = rgb_int(0, 0, 255);
+            else
+                data->img.data[count_h * data->sort->resw + count_w] = rgb_int(205,133,63);
         }
-        i++;
+    }
+}
+
+void
+    ft_raycast(mlx_data_t *data)
+{
+    double cameraX;
+    double rayDirX;
+    double rayDirY;
+    int    x = 0;
+
+    while (x < data->sort->resw)
+    {
+        cameraX = 2 / (double)data->sort->resw - 1;
+        rayDirX = data->dirx + data->planeX * cameraX;
+        rayDirY = data->diry + data->planeY * cameraX;
+        int mapX = (int)data->posx;
+        int mapY = (int)data->posy;
+
+        double sideDistX;
+        double deltaDistX = fabs(1 / rayDirX);
+        double sideDistY;
+        double deltaDistY = fabs(1 / rayDirY);
+        double perpWalldist;
+        int    stepX;
+        int    stepY;
+        int    hit = 0;
+        int    side;
+
+        //printf("raycasting start");
+        if (rayDirX < 0)
+        {
+            stepX = -1;
+            sideDistX = (data->posx - mapX) * deltaDistX;
+        }
+        else
+        {
+            stepX = 1;
+            sideDistX = (mapX + 1.0 - data->posx) * deltaDistX;
+        }
+        if (rayDirY < 0)
+        {
+            stepY = -1;
+            sideDistY = (data->posy - mapY) * deltaDistY;
+        }
+        else
+        {
+            stepY = 1;
+            sideDistY = (mapY + 1.0 - data->posy) * deltaDistY;
+        }
+
+        //detection des murs
+        while (hit == 0)
+        {
+            if (sideDistX < sideDistY)
+            {
+                sideDistX++;
+                mapX = mapX + stepX;
+                side = 0;
+            }
+            else
+            {
+                sideDistY = sideDistY + deltaDistY;
+                mapY = mapY + stepY;
+                side = 1;
+            }
+            if (data->map[mapX][mapY] > 0)
+                hit = 1;
+        }
+
+        if (side == 0)
+            perpWalldist = (mapX - data->posx + (1 - stepX) / 2) / rayDirX;
+        else
+            perpWalldist = (mapY - data->posy + (1 - stepY) / 2) / rayDirY;
+        double lineheight = (data->sort->resh / perpWalldist);
+        int drawstart = -lineheight / 2 + data->sort->resh / 2;
+        if (drawstart < 0)
+            drawstart = 0;
+        else if (drawstart > data->sort->resh)
+            drawstart = data->sort->resh - 1;
+        int drawend = lineheight / 2 + data->sort->resh / 2;
+        if (drawend >= data->sort->resh)
+            drawend = data->sort->resh - 1;
+        else if (drawend < 0)
+        {
+            drawend = 0;
+        }
+
+        //wall color
+        int color;
+        int i = 0;
+        int y = 0;
+
+        while (data->map[i][y])
+        {
+            y = 0;
+            while (data->map[i][y])
+            {
+                if (data->map[i][y] == '1')
+                    color = rgb_int(255, 0, 0);
+                else if (data->map[i][y] == '2')
+                    color = rgb_int(0, 255, 0);
+                else
+                    color = rgb_int(88,88,88);
+                y++;
+            }
+            i++;
+        }
+
+        //dim light
+        if (side == 1)
+            color = color / 2;
+        //printf("start = %d, end=%d, x = %d, res=%d\n", drawstart, drawend, x, drawend - drawstart);
+        /*draw raycast*/
+        pos_t posone = ft_setpoint(x, drawstart);
+        ft_mlx_vertline(data, color, &posone, drawend - drawstart);
+        x++;
     }
 }
 
@@ -331,71 +475,61 @@ int
     draw(mlx_data_t *data)
 {
     square_t    square;
+    double moveSpeed = 0.05;
+    double playerspeed = 0.05;
+    double rotSpeed = 0.05;
 
+    //printf("x=%f y=%f dirx=%f diry=%f\n", data->posx, data->posy, data->dirx, data->diry);
     if (data->esc == 1)
         closeit(NULL);
+    if (data->mkey == 1)
+    {
+        data->promton = 1;
+    }
     if (data->right == 1)
-        data->posx = data->posx + 5;
+    {
+        double oldDirX = data->dirx;
+        data->dirx = data->dirx * cos(-rotSpeed) - data->diry * sin(-rotSpeed);
+        data->diry = oldDirX * sin(-rotSpeed) + data->diry * cos(-rotSpeed);
+        double oldPlaneX = data->planeX;
+        data->planeX = data->planeX * cos(-rotSpeed) - data->planeY * sin(-rotSpeed);
+        data->planeY = oldPlaneX * sin(-rotSpeed) + data->planeY * cos(-rotSpeed);
+    }
     if (data->left == 1)
-        data->posx = data->posx - 5;
+    {
+        double oldDirX = data->dirx;
+        data->dirx = data->dirx * cos(rotSpeed) - data->diry * sin(rotSpeed);
+        data->diry = oldDirX * sin(rotSpeed) + data->diry * cos(rotSpeed);
+        double oldPlaneX = data->planeX;
+        data->planeX = data->planeX * cos(rotSpeed) - data->planeY * sin(rotSpeed);
+        data->planeY = oldPlaneX * sin(rotSpeed) + data->planeY * cos(rotSpeed);
+    }
     if (data->up == 1)
-        data->posy = data->posy - 5;
+    {
+        if (data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '0')
+            data->posx += data->dirx * moveSpeed;
+        if(data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '0')
+            data->posy += data->diry * moveSpeed;
+    }
     if (data->down == 1)
-        data->posy = data->posy + 5;
-    ft_mlx_show_screen(data);
+    {
+        if (data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '0')
+            data->posx -= data->dirx * moveSpeed;
+        if (data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '0')
+            data->posy -= data->diry * moveSpeed;
+    }
+    ft_setimg(data);
+    ft_raycast(data);
     square = ft_set_square(10, 10, (int)data->posx, (int)data->posy);
-    //ft_mlx_show_minimap(data->data, data, data->sort, square);
-    //ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0));
-//    if (data->right == 1)
-//        mlx_string_put ( data->data->mlx_ptr, data->data->mlx_win, 10, 10, rgb_int(0, 0, 255), "Push right");
-//    if (data->left == 1)
-//        mlx_string_put ( data->data->mlx_ptr, data->data->mlx_win, 10, 10, rgb_int(0, 0, 255), "Push left");
-//    if (data->down == 1)
-//        mlx_string_put ( data->data->mlx_ptr, data->data->mlx_win, 10, 10, rgb_int(0, 0, 255), "Push down");
-//    if (data->up == 1)
-//        mlx_string_put ( data->data->mlx_ptr, data->data->mlx_win, 10, 10, rgb_int(0, 0, 255), "Push up");
+    square = ft_set_square(10, 10, (int)data->posx, (int)data->posy);
+    //ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
+    ft_mlx_show_minimap(data->data, data, data->sort, square);
+    mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
+    if (data->promton)
+        mlx_string_put(data->data->mlx_ptr, data->data->mlx_win, 0, data->sort->resh - 30, rgb_int(255, 0, 0), ">");
+    else
+        mlx_string_put(data->data->mlx_ptr, data->data->mlx_win, 0, data->sort->resh - 30, rgb_int(255, 0, 0), "press m for command promt");
     return (1);
-}
-
-void
-    ft_setscreen(mlx_data_t *data)
-{
-    int **table = malloc(data->sort->resh * sizeof(int *));
-    int i = 0;
-    int j = 0;
-
-    while (i < data->sort->resh)
-    {
-        j = 0;
-        table[i] = malloc(data->sort->resw * sizeof(int));
-        while (j < data->sort->resw)
-        {
-            table[i][j] = rgb_int(120, 120, 120);
-            j++;
-        }
-        i++;
-    }
-    data->screen = (int **) table;
-}
-
-void
-    ft_debugscreen(mlx_data_t *data)
-{
-    int i = 0;
-    int j = 0;
-
-    printf("screenmap = \n");
-    while (i < data->sort->resh)
-    {
-        j = 0;
-        while (j < data->sort->resw)
-        {
-            printf("[%d]", data->screen[i][j]);
-            j++;
-        }
-        printf("\n");
-        i++;
-    }
 }
 
 int
@@ -414,19 +548,22 @@ int
 	free(compressedmap);
     mlx_data = ft_set_mlx_data(map, &data, sort, &player);
     ft_debugmap(map);
-    ft_setscreen(&mlx_data);
-    ft_debugscreen(&mlx_data);
 	if (!(data.mlx_ptr = mlx_init()))
 		return (EXIT_FAILURE);
 	if (!(data.mlx_win = mlx_new_window(data.mlx_ptr, sort->resw, sort->resh, "cub3d")))
 		return (EXIT_FAILURE);
+	mlx_data.img.img_ptr = mlx_new_image(data.mlx_win, mlx_data.sort->resw, mlx_data.sort->resh);
+	mlx_data.img.data = (int *)mlx_get_data_addr(mlx_data.img.img_ptr, &mlx_data.img.bpp, &mlx_data.img.size_l,
+	        &mlx_data.img.endian);
+	ft_setimg(&mlx_data);
 	int game = 1;
 	while (game)
     {
         mlx_hook(data.mlx_win, 17, 0L, closeit, NULL);
-        mlx_loop_hook(data.mlx_ptr, draw, &mlx_data);
         mlx_hook(data.mlx_win, 2, 1L, key_press, &mlx_data);
+        mlx_mouse_hook(data.mlx_win, get_click, &mlx_data);
         mlx_key_hook(data.mlx_win, key_release, &mlx_data);
+        mlx_loop_hook(data.mlx_ptr, draw, &mlx_data);
         mlx_loop(data.mlx_ptr);
     }
 
