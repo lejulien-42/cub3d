@@ -85,6 +85,7 @@ typedef struct  mlx_data_s
     double      posy;
     double      dirx;
     double      diry;
+    int         health;
     double      time;
     double      oldtime;
     double      planeX;

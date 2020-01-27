@@ -222,6 +222,11 @@ void
 				square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
 				ft_mlx_drawfilled_square(&square, data, rgb_int(0, 204, 153), mlxdata);
 			}
+			else if (mlxdata->map[i][j] == '2')
+            {
+                square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
+                ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 200), mlxdata);
+            }
 			else
             {
 			    square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
@@ -232,7 +237,7 @@ void
 		j = 0;
 		i++;
 	}
-    square = ft_set_square(resph, resph, 10 + playerx * resph, 10 + playery * resph);
+    square = ft_set_square(resph, resph, 10 + playery * resph, 10 + playerx * resph);
 	ft_mlx_drawfilled_square(&square, data, rgb_int(255, 127, 80), mlxdata);
 }
 
@@ -272,8 +277,9 @@ mlx_data_t
     mlx_data.dirx = -1;
     mlx_data.diry = 0;
     mlx_data.planeX = 0;
-    mlx_data.planeY = 0.66;
+    mlx_data.planeY = 0.50;
     mlx_data.promton = 0;
+    mlx_data.health = 100;
     return (mlx_data);
 }
 player_t
@@ -350,7 +356,9 @@ ft_setimg(mlx_data_t *data)
                 data->img.data[count_h * data->sort->resw + count_w] = rgb_int(0, 0, 255);
             else
                 data->img.data[count_h * data->sort->resw + count_w] = rgb_int(205,133,63);
+            //printf("%d ", data->img.data[count_h * data->sort->resw + count_w]);
         }
+//        printf("\n");
     }
 }
 
@@ -364,19 +372,22 @@ void
 
     while (x < data->sort->resw)
     {
-        cameraX = 2 / (double)data->sort->resw - 1;
+        cameraX = 2 * x / (double)data->sort->resw - 1;
         rayDirX = data->dirx + data->planeX * cameraX;
         rayDirY = data->diry + data->planeY * cameraX;
         int mapX = (int)data->posx;
         int mapY = (int)data->posy;
 
         double sideDistX;
-        double deltaDistX = fabs(1 / rayDirX);
         double sideDistY;
+
+        double deltaDistX = fabs(1 / rayDirX);
         double deltaDistY = fabs(1 / rayDirY);
         double perpWalldist;
+
         int    stepX;
         int    stepY;
+
         int    hit = 0;
         int    side;
 
@@ -417,27 +428,27 @@ void
                 mapY = mapY + stepY;
                 side = 1;
             }
-            if (data->map[mapX][mapY] > 0)
+            if (data->map[mapX][mapY] != '0')
                 hit = 1;
         }
+
 
         if (side == 0)
             perpWalldist = (mapX - data->posx + (1 - stepX) / 2) / rayDirX;
         else
             perpWalldist = (mapY - data->posy + (1 - stepY) / 2) / rayDirY;
-        double lineheight = (data->sort->resh / perpWalldist);
+
+
+        int lineheight = (int)(data->sort->resh / perpWalldist);
+
+
         int drawstart = -lineheight / 2 + data->sort->resh / 2;
+
         if (drawstart < 0)
             drawstart = 0;
-        else if (drawstart > data->sort->resh)
-            drawstart = data->sort->resh - 1;
         int drawend = lineheight / 2 + data->sort->resh / 2;
         if (drawend >= data->sort->resh)
             drawend = data->sort->resh - 1;
-        else if (drawend < 0)
-        {
-            drawend = 0;
-        }
 
         //wall color
         int color;
@@ -451,20 +462,15 @@ void
             {
                 if (data->map[i][y] == '1')
                     color = rgb_int(255, 0, 0);
-                else if (data->map[i][y] == '2')
-                    color = rgb_int(0, 255, 0);
                 else
                     color = rgb_int(88,88,88);
                 y++;
             }
             i++;
         }
-
-        //dim light
         if (side == 1)
             color = color / 2;
-        //printf("start = %d, end=%d, x = %d, res=%d\n", drawstart, drawend, x, drawend - drawstart);
-        /*draw raycast*/
+        printf("start = %d | end = %d\n", drawstart, drawend);
         pos_t posone = ft_setpoint(x, drawstart);
         ft_mlx_vertline(data, color, &posone, drawend - drawstart);
         x++;
@@ -480,6 +486,8 @@ int
     double rotSpeed = 0.05;
 
     //printf("x=%f y=%f dirx=%f diry=%f\n", data->posx, data->posy, data->dirx, data->diry);
+    //13468991
+    printf("%d\n", rgb_int(0, 0, 0));
     if (data->esc == 1)
         closeit(NULL);
     if (data->mkey == 1)
@@ -520,15 +528,20 @@ int
     }
     ft_setimg(data);
     ft_raycast(data);
-    square = ft_set_square(10, 10, (int)data->posx, (int)data->posy);
-    square = ft_set_square(10, 10, (int)data->posx, (int)data->posy);
-    //ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
     ft_mlx_show_minimap(data->data, data, data->sort, square);
+    data->health++;
+    if (data->health > 100)
+    {
+        data->health = 0;
+    }
+    square = ft_set_square(108, 18, (data->sort->resh * 0.25) - 4, 16);
+    ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
+    square = ft_set_square(100, 10, data->sort->resh * 0.25, 20);
+    ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 255, 255), data);
+    square = ft_set_square(data->health, 10, data->sort->resh * 0.25, 20);
+    ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
+    mlx_string_put(data->data->mlx_ptr, data->data->mlx_win, 20,  data->sort->resh * 0.25, rgb_int(0, 0 , 0), "100 pv");
     mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
-    if (data->promton)
-        mlx_string_put(data->data->mlx_ptr, data->data->mlx_win, 0, data->sort->resh - 30, rgb_int(255, 0, 0), ">");
-    else
-        mlx_string_put(data->data->mlx_ptr, data->data->mlx_win, 0, data->sort->resh - 30, rgb_int(255, 0, 0), "press m for command promt");
     return (1);
 }
 
@@ -556,6 +569,7 @@ int
 	mlx_data.img.data = (int *)mlx_get_data_addr(mlx_data.img.img_ptr, &mlx_data.img.bpp, &mlx_data.img.size_l,
 	        &mlx_data.img.endian);
 	ft_setimg(&mlx_data);
+    mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, mlx_data.img.img_ptr, 0, 0);
 	int game = 1;
 	while (game)
     {
