@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/01/22 03:50:06 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/01/29 14:01:38 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static sort_t
 	sort.southpath = NULL;
 	sort.eastpath = NULL;
 	sort.westpath = NULL;
-	sort.resw = 900;
+	sort.resw = 800;
 	sort.resh = 800;
 	sort.sprite = NULL;
 	sort.rgbf = 0;
 	sort.rgbc = 0;
-	sort.mapwidth = 10;
-	sort.mapheight = 10;
+	sort.mapwidth = 29;
+	sort.mapheight = 19;
 	return (sort);
 }
 
@@ -209,6 +209,8 @@ void
 	j = 0;
 	playerx = mlxdata->posx;
 	playery = mlxdata->posy;
+	square = ft_set_square(resph - 2, resph - 2, 10, 10 );
+	ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 0), mlxdata);
 	if (playerx > 20)
 	    playerx = 20;
 	if (playery > 20)
@@ -223,6 +225,11 @@ void
 				ft_mlx_drawfilled_square(&square, data, rgb_int(0, 204, 153), mlxdata);
 			}
 			else if (mlxdata->map[i][j] == '2')
+            {
+                square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
+                ft_mlx_drawfilled_square(&square, data, rgb_int(0, 200, 0), mlxdata);
+            }
+			else if (mlxdata->map[i][j] == '3')
             {
                 square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
                 ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 200), mlxdata);
@@ -272,12 +279,14 @@ mlx_data_t
     mlx_data.right = 0;
     mlx_data.esc = 0;
     mlx_data.mkey = 0;
-    mlx_data.posx = 2;
-    mlx_data.posy = 2;
+	mlx_data.key_left = 0;
+	mlx_data.key_right = 0;
+    mlx_data.posx = 1.5;
+    mlx_data.posy = 1.5;
     mlx_data.dirx = -1;
     mlx_data.diry = 0;
     mlx_data.planeX = 0;
-    mlx_data.planeY = 0.50;
+    mlx_data.planeY = 0.66;
     mlx_data.promton = 0;
     mlx_data.health = 100;
     return (mlx_data);
@@ -296,7 +305,7 @@ player_t
 int
     key_press(int key, mlx_data_t *data)
 {
-    //printf("%d\n", key);
+    printf("%d\n", key);
     if (key == 0)
         data->left = 1;
     if (key == 2)
@@ -309,6 +318,10 @@ int
         data->esc = 1;
     if (key == 46)
         data->mkey = 1;
+    if (key == 123)
+        data->key_left = 1;
+    if (key == 124)
+        data->key_right = 1;
     return (1);
 }
 
@@ -327,6 +340,10 @@ key_release(int key, mlx_data_t *data)
         data->esc = 0;
     if (key == 46)
         data->mkey = 0;
+    if (key == 123)
+        data->key_left = 0;
+    if (key == 124)
+        data->key_right = 0;
     return (1);
 }
 
@@ -338,6 +355,7 @@ int
         data->posx = x * 0.20 / data->sort->mapheight;
         data->posy = y * 0.20 / data->sort->mapheight;
     }
+	return (1);
 }
 
 
@@ -356,9 +374,7 @@ ft_setimg(mlx_data_t *data)
                 data->img.data[count_h * data->sort->resw + count_w] = rgb_int(0, 0, 255);
             else
                 data->img.data[count_h * data->sort->resw + count_w] = rgb_int(205,133,63);
-            //printf("%d ", data->img.data[count_h * data->sort->resw + count_w]);
         }
-//        printf("\n");
     }
 }
 
@@ -372,7 +388,7 @@ void
 
     while (x < data->sort->resw)
     {
-        cameraX = 2 * x / (double)data->sort->resw - 1;
+        cameraX = 2 * x / (double)(data->sort->resw) - 1;
         rayDirX = data->dirx + data->planeX * cameraX;
         rayDirY = data->diry + data->planeY * cameraX;
         int mapX = (int)data->posx;
@@ -391,7 +407,6 @@ void
         int    hit = 0;
         int    side;
 
-        //printf("raycasting start");
         if (rayDirX < 0)
         {
             stepX = -1;
@@ -418,7 +433,7 @@ void
         {
             if (sideDistX < sideDistY)
             {
-                sideDistX++;
+                sideDistX = sideDistX + deltaDistX;
                 mapX = mapX + stepX;
                 side = 0;
             }
@@ -428,7 +443,7 @@ void
                 mapY = mapY + stepY;
                 side = 1;
             }
-            if (data->map[mapX][mapY] != '0')
+            if (data->map[mapX][mapY] == '1' || data->map[mapX][mapY] == '3')
                 hit = 1;
         }
 
@@ -446,33 +461,40 @@ void
 
         if (drawstart < 0)
             drawstart = 0;
+
         int drawend = lineheight / 2 + data->sort->resh / 2;
         if (drawend >= data->sort->resh)
             drawend = data->sort->resh - 1;
 
-        //wall color
-        int color;
-        int i = 0;
-        int y = 0;
+		char textNum = data->map[mapX][mapY];
+		double wallx;
+		if (side == 0)
+			wallx = data->posy + perpWalldist * rayDirY;
+		else
+			wallx = data->posx + perpWalldist * rayDirX;
+		wallx = wallx - floor((wallx));
 
-        while (data->map[i][y])
-        {
-            y = 0;
-            while (data->map[i][y])
-            {
-                if (data->map[i][y] == '1')
-                    color = rgb_int(255, 0, 0);
-                else
-                    color = rgb_int(88,88,88);
-                y++;
-            }
-            i++;
-        }
-        if (side == 1)
-            color = color / 2;
-        printf("start = %d | end = %d\n", drawstart, drawend);
-        pos_t posone = ft_setpoint(x, drawstart);
-        ft_mlx_vertline(data, color, &posone, drawend - drawstart);
+		//x of the texture
+		int texx = (int)(wallx * (double)(data->texwidth));
+		if (side == 0 && rayDirX > 0)
+			texx = data->texwidth - texx - 1;
+		if (side == 1 && rayDirY < 0)
+			texx = data->texwidth - texx - 1;
+
+		double step = 1.0 * data->texheight / lineheight;
+
+		double texpos = (drawstart - data->sort->resh / 2 + lineheight / 2) * step;
+		int y = drawstart;
+		while (y < drawend)
+		{
+			int texy = (int)texpos & (data->texheight - 1);
+			texpos = texpos + step;
+			int color = data->s_wall.data[texy * data->texheight + texx];
+			if (side == 1)
+				color = (color >> 1) & 8355711;
+			data->img.data[y * data->sort->resw + x] = color;			///there
+			y++;
+		}
         x++;
     }
 }
@@ -484,64 +506,106 @@ int
     double moveSpeed = 0.05;
     double playerspeed = 0.05;
     double rotSpeed = 0.05;
+	int youdied = 0;
 
-    //printf("x=%f y=%f dirx=%f diry=%f\n", data->posx, data->posy, data->dirx, data->diry);
-    //13468991
-    printf("%d\n", rgb_int(0, 0, 0));
     if (data->esc == 1)
         closeit(NULL);
     if (data->mkey == 1)
     {
         data->promton = 1;
     }
-    if (data->right == 1)
-    {
-        double oldDirX = data->dirx;
-        data->dirx = data->dirx * cos(-rotSpeed) - data->diry * sin(-rotSpeed);
-        data->diry = oldDirX * sin(-rotSpeed) + data->diry * cos(-rotSpeed);
-        double oldPlaneX = data->planeX;
-        data->planeX = data->planeX * cos(-rotSpeed) - data->planeY * sin(-rotSpeed);
-        data->planeY = oldPlaneX * sin(-rotSpeed) + data->planeY * cos(-rotSpeed);
-    }
-    if (data->left == 1)
-    {
-        double oldDirX = data->dirx;
-        data->dirx = data->dirx * cos(rotSpeed) - data->diry * sin(rotSpeed);
-        data->diry = oldDirX * sin(rotSpeed) + data->diry * cos(rotSpeed);
-        double oldPlaneX = data->planeX;
-        data->planeX = data->planeX * cos(rotSpeed) - data->planeY * sin(rotSpeed);
-        data->planeY = oldPlaneX * sin(rotSpeed) + data->planeY * cos(rotSpeed);
-    }
-    if (data->up == 1)
-    {
-        if (data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '0')
-            data->posx += data->dirx * moveSpeed;
-        if(data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '0')
-            data->posy += data->diry * moveSpeed;
-    }
-    if (data->down == 1)
-    {
-        if (data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '0')
-            data->posx -= data->dirx * moveSpeed;
-        if (data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '0')
-            data->posy -= data->diry * moveSpeed;
-    }
+
+	if (data->health > 0)
+	{
+		if (data->key_right == 1)
+		{
+			double oldDirX = data->dirx;
+			data->dirx = data->dirx * cos(-rotSpeed) - data->diry * sin(-rotSpeed);
+			data->diry = oldDirX * sin(-rotSpeed) + data->diry * cos(-rotSpeed);
+			double oldPlaneX = data->planeX;
+			data->planeX = data->planeX * cos(-rotSpeed) - data->planeY * sin(-rotSpeed);
+			data->planeY = oldPlaneX * sin(-rotSpeed) + data->planeY * cos(-rotSpeed);
+		}
+		if (data->key_left == 1)
+		{
+			double oldDirX = data->dirx;
+			data->dirx = data->dirx * cos(rotSpeed) - data->diry * sin(rotSpeed);
+			data->diry = oldDirX * sin(rotSpeed) + data->diry * cos(rotSpeed);
+			double oldPlaneX = data->planeX;
+			data->planeX = data->planeX * cos(rotSpeed) - data->planeY * sin(rotSpeed);
+			data->planeY = oldPlaneX * sin(rotSpeed) + data->planeY * cos(rotSpeed);
+		}
+		if (data->up == 1)
+		{
+			if (data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '0' ||
+				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '2' ||
+				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '4')
+				data->posx += data->dirx * moveSpeed;
+			if (data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '0' ||
+				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '2' ||
+				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '4')
+				data->posy += data->diry * moveSpeed;
+		}
+		if (data->down == 1)
+		{
+			if (data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '0' ||
+				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '2' ||
+				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '4')
+				data->posx -= data->dirx * moveSpeed;
+			if (data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '0' ||
+				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '2' ||
+				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '4')
+				data->posy -= data->diry * moveSpeed;
+		}
+		if (data->right == 1)
+		{
+			if (data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '0' ||
+				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '2' ||
+				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '4')
+				data->posx += data->planeX * moveSpeed;
+			if (data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '0' ||
+				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '2' ||
+				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '4')
+				data->posy += data->planeY * moveSpeed;
+		}
+		if (data->left == 1)
+		{
+			if (data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '0' ||
+				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '2' ||
+				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '4')
+				data->posx -= data->planeX * moveSpeed;
+			if (data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '0' ||
+				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '2' ||
+				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '4')
+				data->posy -= data->planeY * moveSpeed;
+		}
+	}
+
     ft_setimg(data);
     ft_raycast(data);
     ft_mlx_show_minimap(data->data, data, data->sort, square);
-    data->health++;
-    if (data->health > 100)
+    if (data->map[(int)data->posx][(int)data->posy] == '2')
+		data->health--;
+    if (data->map[(int)data->posx][(int)data->posy] == '4')
+	{
+		data->posx = 2.5;
+		data->posy = 1.5;
+	}
+    if (data->health <= 0)
     {
-        data->health = 0;
+        youdied = 1;
     }
+    square = ft_set_square(112, 22, (data->sort->resh * 0.25) - 6, 14);
+    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
     square = ft_set_square(108, 18, (data->sort->resh * 0.25) - 4, 16);
-    ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
+    ft_mlx_drawfilled_square(&square, data->data, rgb_int(180, 0, 0), data);
     square = ft_set_square(100, 10, data->sort->resh * 0.25, 20);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 255, 255), data);
     square = ft_set_square(data->health, 10, data->sort->resh * 0.25, 20);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
-    mlx_string_put(data->data->mlx_ptr, data->data->mlx_win, 20,  data->sort->resh * 0.25, rgb_int(0, 0 , 0), "100 pv");
-    mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
+	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
+	if (youdied)
+		mlx_string_put(data->data->mlx_ptr, data->data->mlx_win, data->sort->resw * 0.5 - 40,  data->sort->resh * 0.5, rgb_int(0, 0 , 0), "YOU DIED");
     return (1);
 }
 
@@ -554,6 +618,8 @@ int
 	mlx_data_t  mlx_data;
 	player_t    player;
 	char        **map;
+	int			wallresX;
+	int			wallresY;
 
 	player = ft_setplayer(40, 40, 0);
 	compressedmap = ft_compressmap(fd);
@@ -566,22 +632,21 @@ int
 	if (!(data.mlx_win = mlx_new_window(data.mlx_ptr, sort->resw, sort->resh, "cub3d")))
 		return (EXIT_FAILURE);
 	mlx_data.img.img_ptr = mlx_new_image(data.mlx_win, mlx_data.sort->resw, mlx_data.sort->resh);
+	mlx_data.s_wall.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./WALL_01.xpm", &mlx_data.texwidth, &mlx_data.texheight);
 	mlx_data.img.data = (int *)mlx_get_data_addr(mlx_data.img.img_ptr, &mlx_data.img.bpp, &mlx_data.img.size_l,
 	        &mlx_data.img.endian);
+	mlx_data.s_wall.data = (int *)mlx_get_data_addr(mlx_data.s_wall.img_ptr, &mlx_data.s_wall.bpp, &mlx_data.s_wall.size_l,
+	        &mlx_data.s_wall.endian);
 	ft_setimg(&mlx_data);
-    mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, mlx_data.img.img_ptr, 0, 0);
 	int game = 1;
 	while (game)
     {
         mlx_hook(data.mlx_win, 17, 0L, closeit, NULL);
         mlx_hook(data.mlx_win, 2, 1L, key_press, &mlx_data);
-        mlx_mouse_hook(data.mlx_win, get_click, &mlx_data);
         mlx_key_hook(data.mlx_win, key_release, &mlx_data);
         mlx_loop_hook(data.mlx_ptr, draw, &mlx_data);
         mlx_loop(data.mlx_ptr);
     }
-
-
 	return (1);
 }
 

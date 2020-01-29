@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/01/22 03:48:14 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/01/29 13:34:06 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ typedef struct  mlx_data_s
     int         down;
     int         left;
     int         right;
+	int			key_left;
+	int			key_right;
     int         esc;
     int         mkey;
     double      posx;
@@ -92,6 +94,9 @@ typedef struct  mlx_data_s
     double      planeY;
     int         promton;
 	t_img		img;
+	t_img		s_wall;
+	int			texwidth;
+	int			texheight;
 }               mlx_data_t;
 
 void		ft_mlx_draw_square(square_t *square, data_t *data, int color);
