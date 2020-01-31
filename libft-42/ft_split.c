@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 19:39:14 by lejulien          #+#    #+#             */
-/*   Updated: 2020/01/03 05:22:05 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/01/31 00:58:43 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char		**ft_split(char const *s1, char const c)
 	if (s1 == 0)
 		return (0);
 	nb = countstr(s1, c);
-	if (!(strs = (char**)malloc(sizeof(char*) * (nb + 1))))
+	if (!(strs = (char**)malloc(sizeof(char*) * (nb + 2))))
 		return (0);
 	if (!(allocstrs(s1, c, nb, strs)))
 		return (0);

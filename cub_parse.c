@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/01/30 09:49:03 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/01/31 06:58:22 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static sort_t
 	sort.southpath = NULL;
 	sort.eastpath = NULL;
 	sort.westpath = NULL;
-	sort.resw = 800;
-	sort.resh = 800;
+	sort.resw = 1080;
+	sort.resh = 980;
 	sort.sprite = NULL;
 	sort.rgbf = 0;
 	sort.rgbc = 0;
@@ -244,7 +244,7 @@ void
 		j = 0;
 		i++;
 	}
-    square = ft_set_square(resph, resph, 10 + playery * resph, 10 + playerx * resph);
+    square = ft_set_square(5, 5, 8 + mlxdata->posy * resph, 8 + mlxdata->posx * resph);
 	ft_mlx_drawfilled_square(&square, data, rgb_int(255, 127, 80), mlxdata);
 }
 
@@ -289,6 +289,11 @@ mlx_data_t
     mlx_data.planeY = 0.66;
     mlx_data.promton = 0;
     mlx_data.health = 100;
+	mlx_data.img.img_ptr = NULL;
+	mlx_data.s_wall.img_ptr = NULL;
+	mlx_data.s_walltwo.img_ptr = NULL;
+	mlx_data.s_wallthree.img_ptr = NULL;
+	mlx_data.s_wallfour.img_ptr = NULL;
     return (mlx_data);
 }
 player_t
@@ -305,7 +310,7 @@ player_t
 int
     key_press(int key, mlx_data_t *data)
 {
-    printf("%d\n", key);
+    //printf("%d\n", key);
     if (key == 0)
         data->left = 1;
     if (key == 2)
@@ -381,11 +386,50 @@ ft_setimg(mlx_data_t *data)
 void
     ft_raycast(mlx_data_t *data)
 {
-    double cameraX;
-    double rayDirX;
-    double rayDirY;
-    int    x = 0;
+    double	cameraX;
+    double	rayDirX;
+    double	rayDirY;
+    int		x = 0;
+	int		y = 0;
 
+	while (y < data->sort->resh)
+	{
+		float	rayDirX0 = data->dirx - data->planeX;
+		float	rayDirY0 = data->diry - data->planeY;
+		float	rayDirX1 = data->dirx + data->planeX;
+		float	rayDirY1 = data->diry - data->planeY;
+
+		int p = y - data->sort->resh / 2;
+
+		float posZ = 0.5 * data->sort->resh;
+
+		float rowDistance = posZ / p;
+
+		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / data->sort->resw;
+		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / data->sort->resw;
+
+		float floorX = data->posx + rowDistance * rayDirX0;
+		float floorY = data->posy + rowDistance * rayDirY0;
+
+		while (x < data->sort->resw)
+		{
+			int cellX = (int)floorX;
+			int cellY = (int)floorY;
+
+			//int tx = (int)(data->texwidth * (floorX - cellX)) & (data->texwidth - 1);
+			//int ty = (int)(data->texheight * (floorY - cellY)) & (data->texheight - 1);
+
+			floorX += floorStepX;
+			floorY += floorStepY;
+
+			//data->img.data[y * data->sort->resw + x] = data->s_wallfour.data[ty * data->texwidth + tx];
+			//data->img.data[x * data->sort->resw + (data->sort->resh - y - 1)] = data->s_walltwo.data[data->texwidth * ty + tx];
+			x++;
+		}
+		y++;
+	}
+	y = 0;
+	x = 0;
     while (x < data->sort->resw)
     {
         cameraX = 2 * x / (double)(data->sort->resw) - 1;
@@ -489,10 +533,22 @@ void
 		{
 			int texy = (int)texpos & (data->texheight - 1);
 			texpos = texpos + step;
-			int color = data->s_wall.data[texy * data->texheight + texx];
+			int color = 0;
 			if (side == 1)
-				color = data->s_walltwo.data[texy * data->texheight + texx];
-			data->img.data[y * data->sort->resw + x] = color;			///there
+			{
+				if (rayDirY < 0)
+					color = data->s_wall.data[texy * data->texheight + texx]; //TEX_NORTH
+				else
+					color = data->s_walltwo.data[texy * data->texheight + texx]; //TEX_SOUTH
+			}
+			else
+			{
+				if (rayDirX < 0)
+					color = data->s_wallfour.data[texy * data->texheight + texx]; //TEX_WEST
+				else
+					color = data->s_wallthree.data[texy * data->texheight + texx]; //TEX_EAST
+			}
+			data->img.data[y * data->sort->resw + x] = color;
 			y++;
 		}
         x++;
@@ -591,18 +647,20 @@ int
 		data->posx = 2.5;
 		data->posy = 1.5;
 	}
+	//health
     if (data->health <= 0)
     {
         youdied = 1;
     }
-    square = ft_set_square(112, 22, (data->sort->resh * 0.25) - 6, 14);
+    square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
-    square = ft_set_square(108, 18, (data->sort->resh * 0.25) - 4, 16);
+    square = ft_set_square(108, 18, data->sort->resw - (data->sort->resh * 0.25) - 4, 16);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(180, 0, 0), data);
-    square = ft_set_square(100, 10, data->sort->resh * 0.25, 20);
+    square = ft_set_square(100, 10, data->sort->resw - data->sort->resh * 0.25, 20);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 255, 255), data);
-    square = ft_set_square(data->health, 10, data->sort->resh * 0.25, 20);
+    square = ft_set_square(data->health, 10, data->sort->resw - data->sort->resh * 0.25, 20);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
+	//
 	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
 	if (youdied)
 		mlx_string_put(data->data->mlx_ptr, data->data->mlx_win, data->sort->resw * 0.5 - 40,  data->sort->resh * 0.5, rgb_int(0, 0 , 0), "YOU DIED");
@@ -634,22 +692,28 @@ int
 	mlx_data.img.img_ptr = mlx_new_image(data.mlx_win, mlx_data.sort->resw, mlx_data.sort->resh);
 	mlx_data.s_wall.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_01.xpm", &mlx_data.texwidth, &mlx_data.texheight);
 	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_02.xpm", &mlx_data.texwidth, &mlx_data.texheight);
+	mlx_data.s_wallthree.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_03.xpm", &mlx_data.texwidth, &mlx_data.texheight);
+	mlx_data.s_wallfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_04.xpm", &mlx_data.texwidth, &mlx_data.texheight);
 	mlx_data.img.data = (int *)mlx_get_data_addr(mlx_data.img.img_ptr, &mlx_data.img.bpp, &mlx_data.img.size_l,
 	        &mlx_data.img.endian);
 	mlx_data.s_wall.data = (int *)mlx_get_data_addr(mlx_data.s_wall.img_ptr, &mlx_data.s_wall.bpp, &mlx_data.s_wall.size_l,
 	        &mlx_data.s_wall.endian);
 	mlx_data.s_walltwo.data = (int *)mlx_get_data_addr(mlx_data.s_walltwo.img_ptr, &mlx_data.s_walltwo.bpp, &mlx_data.s_walltwo.size_l,
 	        &mlx_data.s_walltwo.endian);
+	mlx_data.s_wallthree.data = (int *)mlx_get_data_addr(mlx_data.s_wallthree.img_ptr, &mlx_data.s_wallthree.bpp, &mlx_data.s_wallthree.size_l,
+	        &mlx_data.s_wallthree.endian);
+	mlx_data.s_wallfour.data = (int *)mlx_get_data_addr(mlx_data.s_wallfour.img_ptr, &mlx_data.s_wallfour.bpp, &mlx_data.s_wallfour.size_l,
+	        &mlx_data.s_wallfour.endian);
 	ft_setimg(&mlx_data);
 	int game = 1;
 	while (game)
-    {
-        mlx_hook(data.mlx_win, 17, 0L, closeit, NULL);
-        mlx_hook(data.mlx_win, 2, 1L, key_press, &mlx_data);
-        mlx_key_hook(data.mlx_win, key_release, &mlx_data);
-        mlx_loop_hook(data.mlx_ptr, draw, &mlx_data);
-        mlx_loop(data.mlx_ptr);
-    }
+	{
+		mlx_hook(data.mlx_win, 17, 0L, closeit, NULL);
+		mlx_hook(data.mlx_win, 2, 1L, key_press, &mlx_data);
+		mlx_key_hook(data.mlx_win, key_release, &mlx_data);
+		mlx_loop_hook(data.mlx_ptr, draw, &mlx_data);
+		mlx_loop(data.mlx_ptr);
+	}
 	return (1);
 }
 
