@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/01/30 09:41:42 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/01 12:04:23 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ typedef struct  mlx_data_s
 	t_img		s_walltwo;
 	t_img		s_wallthree;
 	t_img		s_wallfour;
+	t_img		s_floorfour;
+	t_img		s_lava;
+	t_img		s_roofeleven;
 	int			texwidth;
 	int			texheight;
 }               mlx_data_t;
