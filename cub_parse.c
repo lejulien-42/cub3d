@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/01 14:13:50 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/02 08:14:57 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static sort_t
 	sort.sprite = NULL;
 	sort.rgbf = 0;
 	sort.rgbc = 0;
-	sort.mapwidth = 29;
-	sort.mapheight = 19;
+	sort.mapwidth = 100;
+	sort.mapheight = 100;
 	return (sort);
 }
 
@@ -45,6 +45,17 @@ int     rgb_int(int red, int green, int blue)
     rgb = red;
     rgb = (rgb << 8) + green;
     rgb = (rgb << 8) + blue;
+    return (rgb);
+}
+
+int     rgba_int(int red, int green, int blue, int alpha)
+{
+    int     rgb;
+
+    rgb = red;
+    rgb = (rgb << 8) + green;
+    rgb = (rgb << 8) + blue;
+	rgb = (rgb << 8) + alpha;
     return (rgb);
 }
 																				#include <stdio.h>
@@ -105,13 +116,14 @@ char
 }
 
 char
-	*ft_compressmap(int fd)
+	*ft_compressmap(int fd, sort_t *sort)
 {
 	int		ret;
 	char	*currentline;
 	char	*previousline;
 	char	*tofree;
 	char	*temp;
+	static int		isatmap = 0;
 
 
 	ret = 1;
@@ -119,25 +131,61 @@ char
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &currentline);
-		if (ret == 0)
-			return (previousline);
-		if (currentline[0] != '1' && ret == 1)
+		if (currentline[0] == '1')
+			isatmap = 1;
+		if (isatmap)
 		{
-			write(1, "error\n", 6);
-		}
-		if (previousline)
-		{
-			tofree = ft_strjoin(previousline, "~");
-			temp = ft_strjoin(tofree, currentline);
-			ft_subspace(temp);
-			free(tofree);
-			free(previousline);
-			previousline = ft_subspace(temp);
-			free(temp);
-			free(currentline);
+			if (ret == 0)
+			{
+				free(currentline);
+				return (previousline);
+			}
+			if (currentline[0] != '1' && ret == 1)
+			{
+				write(1, "error map\n", 10);
+			}
+			if (previousline)
+			{
+				tofree = ft_strjoin(previousline, "~");
+				temp = ft_strjoin(tofree, currentline);
+				ft_subspace(temp);
+				free(tofree);
+				free(previousline);
+				previousline = ft_subspace(temp);
+				free(temp);
+				free(currentline);
+			}
+			else
+				previousline = currentline;
 		}
 		else
-			previousline = currentline;
+		{
+			if (ret == 0)
+			{
+				printf("Error no map\n");
+				exit(0);
+			}
+			if (currentline[0] == 'R')
+			{
+				int i = 1;
+				if (currentline[i] != ' ')
+				{
+					printf("res error\n");
+					exit(0);
+				}
+				sort->resw = ft_atoi(&currentline[i]);
+				while (currentline[i] == ' ')
+					i++;
+				while (ft_isdigit(currentline[i]) == 1)
+					i++;
+				if (currentline[i] != ' ')
+				{
+					printf("res error\n");
+					exit(0);
+				}
+				sort->resh = ft_atoi(&currentline[i]);
+			}
+		}
 	}
 	return (NULL);
 }
@@ -166,7 +214,8 @@ void
 void
 	ft_mlx_show_minimap(data_t *data, mlx_data_t *mlxdata, sort_t *sort, square_t square)
 {
-	int		resph = sort->resh * 0.20 / sort->mapheight;
+	int	pers = (mlxdata->sort->resw < mlxdata->sort->resh)?mlxdata->sort->resh:mlxdata->sort->resw;
+	int	resph = pers * 0.20 / sort->mapheight;
 	int	i;
 	int	j;
 	int playerx;
@@ -186,26 +235,17 @@ void
 	{
 		while (mlxdata->map[i][j])
 		{
+			square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
 			if (mlxdata->map[i][j] == '1')
-			{
-				square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
 				ft_mlx_drawfilled_square(&square, data, rgb_int(0, 204, 153), mlxdata);
-			}
 			else if (mlxdata->map[i][j] == '2')
-            {
-                square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-                ft_mlx_drawfilled_square(&square, data, rgb_int(0, 200, 0), mlxdata);
-            }
+                ft_mlx_drawfilled_square(&square, data, rgb_int(255, 0, 0), mlxdata);
 			else if (mlxdata->map[i][j] == '3')
-            {
-                square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
                 ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 200), mlxdata);
-            }
+			else if (mlxdata->map[i][j] == '5')
+                ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 0), mlxdata);
 			else
-            {
-			    square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
                 ft_mlx_drawfilled_square(&square, data, rgb_int(255, 255, 255), mlxdata);
-            }
 		    j++;
 		}
 		j = 0;
@@ -256,8 +296,12 @@ mlx_data_t
     mlx_data.right = 0;
     mlx_data.esc = 0;
     mlx_data.mkey = 0;
+	mlx_data.r = 0;
 	mlx_data.key_left = 0;
 	mlx_data.key_right = 0;
+	mlx_data.key_up = 0;
+	mlx_data.key_down = 0;
+	mlx_data.shift = 0;
     mlx_data.posx = 1.5;
     mlx_data.posy = 1.5;
     mlx_data.dirx = -1;
@@ -266,6 +310,8 @@ mlx_data_t
     mlx_data.planeY = 0.66;
     mlx_data.promton = 0;
     mlx_data.health = 100;
+    mlx_data.stamina = 100;
+    mlx_data.hasstamina = 1;
 	mlx_data.img.img_ptr = NULL;
 	mlx_data.s_wall.img_ptr = NULL;
 	mlx_data.s_walltwo.img_ptr = NULL;
@@ -274,21 +320,18 @@ mlx_data_t
 	mlx_data.s_lava.img_ptr = NULL;
     return (mlx_data);
 }
-player_t
-    ft_setplayer(int x, int y, int o)
+void
+    ft_setplayer(double x, double y, mlx_data_t *data)
 {
-    player_t    player;
 
-    player.x = x;
-    player.y = y;
-    player.o = o;
-    return (player);
+    data->posx = x;
+	data->posy = y;
 }
 
 int
     key_press(int key, mlx_data_t *data)
 {
-    //printf("%d\n", key);
+	printf("key=%d\n", key);
     if (key == 0)
         data->left = 1;
     if (key == 2)
@@ -305,6 +348,14 @@ int
         data->key_left = 1;
     if (key == 124)
         data->key_right = 1;
+    if (key == 257)
+        data->shift = 1;
+    if (key == 15)
+        data->r = 1;
+    if (key == 126)
+        data->key_up = 1;
+    if (key == 125)
+        data->key_down = 1;
     return (1);
 }
 
@@ -327,6 +378,15 @@ key_release(int key, mlx_data_t *data)
         data->key_left = 0;
     if (key == 124)
         data->key_right = 0;
+    if (key == 257)
+        data->shift = 0;
+    if (key == 15)
+        data->r = 0;
+    if (key == 126)
+        data->key_up = 0;
+    if (key == 125)
+        data->key_down = 0;
+
     return (1);
 }
 
@@ -471,7 +531,7 @@ void
                 mapY = mapY + stepY;
                 side = 1;
             }
-            if (data->map[mapX][mapY] == '1' || data->map[mapX][mapY] == '3')
+            if (data->map[mapX][mapY] != '0' && data->map[mapX][mapY] != '2')
 			{
 				what = data->map[mapX][mapY];
                 hit = 1;
@@ -538,9 +598,13 @@ void
 						color = data->s_wallthree.data[texy * data->texheight + texx]; //TEX_EAST
 				}
 			}
+			else if (what == '3')
+			{
+				color = data->s_walltwo.data[texy * data->texheight + texx];
+			}
 			else
 			{
-				color = data->s_wallthree.data[texy * data->texheight + texx];
+				color = data->s_wallfour.data[texy * data->texheight + texx];
 			}
 			data->img.data[y * data->sort->resw + x] = color;
 			y++;
@@ -563,6 +627,24 @@ int
 
     if (data->esc == 1)
         closeit(NULL);
+	if (data->shift == 1 && data->hasstamina == 1 && data->health > 0)
+	{
+		moveSpeed = 0.1;
+		data->stamina--;
+		if (data->stamina <= 0)
+		{
+			data->hasstamina = 0;
+			data->stamina = 0;
+		}
+	}
+	else
+	{
+		data->stamina++;
+		if (data->stamina == 100)
+			data->hasstamina = 1;
+	}
+	if (data->stamina > 100)
+		data->stamina = 100;
     if (data->mkey == 1)
     {
         data->promton = 1;
@@ -588,7 +670,7 @@ int
 			data->planeX = data->planeX * cos(rotSpeed) - data->planeY * sin(rotSpeed);
 			data->planeY = oldPlaneX * sin(rotSpeed) + data->planeY * cos(rotSpeed);
 		}
-		if (data->up == 1)
+		if (data->up == 1 || data->key_up == 1)
 		{
 			if (data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '0' ||
 				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '2' ||
@@ -599,7 +681,7 @@ int
 				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '4')
 				data->posy += data->diry * moveSpeed;
 		}
-		if (data->down == 1)
+		if (data->down == 1 || data->key_down == 1)
 		{
 			if (data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '0' ||
 				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '2' ||
@@ -633,6 +715,14 @@ int
 				data->posy -= data->planeY * moveSpeed;
 		}
 	}
+	else
+	{
+		if (data->r == 1)
+		{
+			ft_setplayer(1.5, 1.5, data);
+			data->health = 100;
+		}
+	}
 
    // ft_setimg(data);
     ft_raycast(data);
@@ -650,18 +740,30 @@ int
 		data->health = 0;
         youdied = 1;
     }
+	//printf("planex = %f planey = %f\n", data->planeX, data->planeY);
     square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
     square = ft_set_square(108, 18, data->sort->resw - (data->sort->resh * 0.25) - 4, 16);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(180, 0, 0), data);
     square = ft_set_square(100, 10, data->sort->resw - data->sort->resh * 0.25, 20);
-    ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 255, 255), data);
+    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
     square = ft_set_square(data->health, 10, data->sort->resw - data->sort->resh * 0.25, 20);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
+	//stamina bar
+    square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14 + 24);
+    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
+    square = ft_set_square(108, 18, data->sort->resw - (data->sort->resh * 0.25) - 4, 16 + 24);
+    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 180), data);
+    square = ft_set_square(100, 10, data->sort->resw - data->sort->resh * 0.25, 20 + 24);
+    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
+    square = ft_set_square(data->stamina, 10, data->sort->resw - data->sort->resh * 0.25, 20 + 24);
+    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 255), data);
 	//
 	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
 	if (youdied)
-		mlx_string_put(data->data->mlx_ptr, data->data->mlx_win, data->sort->resw * 0.5 - 40,  data->sort->resh * 0.5, rgb_int(0, 0 , 0), "YOU DIED");
+		mlx_string_put(data->data->mlx_ptr, data->data->mlx_win,
+		data->sort->resw * 0.5 - 40,  data->sort->resh * 0.5,
+		rgb_int(0, 0 , 0), "YOU DIED");
     return (1);
 }
 
@@ -702,7 +804,8 @@ int
 	int			wallresX;
 	int			wallresY;
 
-	compressedmap = ft_compressmap(fd);
+	compressedmap = ft_compressmap(fd, sort);
+	ft_debug_sort(sort);
 	map = ft_split(compressedmap, '~');
 	free(compressedmap);
     mlx_data = ft_set_mlx_data(map, &data, sort, &player);
@@ -770,7 +873,6 @@ int main(int argc, const char *argv[])
 			write(1, "Error\nBad Argument\n", 19);
 			return (0);
 		}
-		ft_debug_sort(&sort);
 		ft_sort_and_rend(fd, &sort);
 	}
 	return (0);

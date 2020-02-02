@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/01 12:04:23 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/02 07:54:04 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,19 @@ typedef struct  mlx_data_s
     int         right;
 	int			key_left;
 	int			key_right;
+	int			key_up;
+	int			key_down;
     int         esc;
+    int         r;
+    int         shift;
     int         mkey;
     double      posx;
     double      posy;
     double      dirx;
     double      diry;
     int         health;
+	int			stamina;
+	int			hasstamina;
     double      time;
     double      oldtime;
     double      planeX;
