@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/03 19:06:09 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/03 19:10:03 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -573,7 +573,6 @@ void
 		int y = drawstart;
 		while (y < drawend)
 		{
-			int texy = (int)texpos & (data->texheight - 1);
 			texpos = texpos + step;
 			int color = 0;
 			if (what == '1')
@@ -581,27 +580,27 @@ void
 				if (side == 1)
 				{
 					if (rayDirY < 0)
-						color = data->s_wallfour.data[texy * data->s_wallfour.height + texx]; //TEX_NORTH
+						color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx]; //TEX_NORTH
 					else
-						color = data->s_wallfour.data[texy * data->s_wallfour.height + texx]; //TEX_SOUTH
+						color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx]; //TEX_SOUTH
 				}
 				else
 				{
 					if (rayDirX < 0)
-						color = data->s_wallfour.data[texy * data->s_wallfour.height + texx]; //TEX_WEST
+						color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx]; //TEX_WEST
 					else
-						color = data->s_wallfour.data[texy * data->s_wallfour.height + texx]; //TEX_EAST
+						color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx]; //TEX_EAST
 				}
 			}
 			else if (what == '3')
 			{
-				color = data->s_wallfour.data[texy * data->s_wallfour.height + texx];
+				color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx];
 			}
 			else if (what == '7')
-				color = data->s_fl.data[texy * data->s_fl.height + texx];
+				color = data->s_arrowtex.data[((int)texpos & (data->s_arrowtex.height - 1)) * data->s_arrowtex.height + texx];
 			else
 			{
-				color = data->s_wallfour.data[texy * data->s_wallfour.height + texx];
+				color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx];
 			}
 			data->img.data[y * data->sort->resw + x] = color;
 			y++;
