@@ -6,7 +6,7 @@
 #    By: lejulien <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/01 15:52:54 by lejulien          #+#    #+#              #
-#    Updated: 2020/01/31 00:24:41 by lejulien         ###   ########.fr        #
+#    Updated: 2020/02/02 23:01:13 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ GCC		= gcc
 
 FLAGS	= -Wall -Wextra -Werror
 
-INCLUDEH	= -I /usr/X11/include -fsanitize=address -g3 -l mlx -framework OpenGL -framework AppKit
+INCLUDEH	= -O3 -I /usr/X11/include -fsanitize=address -g3 -l mlx -framework OpenGL -framework AppKit
 
 
 

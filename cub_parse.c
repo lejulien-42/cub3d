@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/02 08:14:57 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/03 06:34:33 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ void
 	ft_mlx_show_minimap(data_t *data, mlx_data_t *mlxdata, sort_t *sort, square_t square)
 {
 	int	pers = (mlxdata->sort->resw < mlxdata->sort->resh)?mlxdata->sort->resh:mlxdata->sort->resw;
-	int	resph = pers * 0.20 / sort->mapheight;
+	int	resph = pers * 0.20 / pers;
 	int	i;
 	int	j;
 	int playerx;
@@ -255,14 +255,6 @@ void
 	ft_mlx_drawfilled_square(&square, data, rgb_int(255, 127, 80), mlxdata);
     square = ft_set_square(3, 3, 9 + mlxdata->posy * resph + 2 * mlxdata->diry, 9 + mlxdata->posx * resph + 2 * mlxdata->dirx);
 	ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 0), mlxdata);
-	/*
-	** Set point in player view dir
-	**
-	**North	dirx = -1	&& 	diry = 0
-	**East 	dirx = 0	&&	diry = 1
-	**West	dirx = 0	&&	diry = -1
-	**South	dirx = 1	&&	diry = 0
-	*/
 }
 
 int
@@ -331,7 +323,7 @@ void
 int
     key_press(int key, mlx_data_t *data)
 {
-	printf("key=%d\n", key);
+	//printf("key=%d\n", key);
     if (key == 0)
         data->left = 1;
     if (key == 2)
@@ -461,7 +453,7 @@ void
 			floorX += floorStepX;
 			floorY += floorStepY;
 
-			int color =  data->s_floorfour.data[ty * data->texwidth + tx];
+			int color =  data->s_escalier.data[ty * data->texwidth + tx];
 
 //			if (data->map[cellX][cellY] == '2')
 //			    color = data->s_lava.data[ty * data->texwidth + tx];
@@ -600,7 +592,7 @@ void
 			}
 			else if (what == '3')
 			{
-				color = data->s_walltwo.data[texy * data->texheight + texx];
+				color = data->s_fl.data[texy * data->texheight + texx];
 			}
 			else
 			{
@@ -614,6 +606,45 @@ void
     }
 	//sprite casting
 	
+}
+
+void
+	ft_setplayerdir(mlx_data_t *data, int dir)
+{
+	if (dir == 0)   //Nord
+	{
+		data->dirx = -1;
+		data->diry = 0;
+		data->planeX = 0;
+		data->planeY = 0.66;
+	}
+	if (dir == 1) //Sud
+	{
+		data->dirx = 1;
+		data->diry = 0;
+		data->planeX = 0;
+		data->planeY = -0.66;
+	}
+	if (dir == 2)  //Est
+	{
+		data->dirx = 0;
+		data->diry = 1;
+		data->planeX = 0.66;
+		data->planeY = 0;
+	}
+	if (dir == 3) // Ouest
+	{
+		data->dirx = 0;
+		data->diry = -1;
+		data->planeX = -0.66;
+		data->planeY = 0;
+	}
+}
+
+void
+	ft_rotate()
+{
+	 /// iehfuweufhwfhuweuhfhhweiufewhfueiwfewiufhewiufhf you were here
 }
 
 int
@@ -652,6 +683,10 @@ int
 	//printf("%f|%f\n", data->dirx, data->diry);
 	if (data->health > 0)
 	{
+		if (data->r == 1)
+		{
+			ft_rotate();
+		}
 		if (data->key_right == 1)
 		{
 			double oldDirX = data->dirx;
@@ -719,7 +754,8 @@ int
 	{
 		if (data->r == 1)
 		{
-			ft_setplayer(1.5, 1.5, data);
+			ft_setplayer(2.5, 2.5, data);
+			ft_setplayerdir(data, 2);
 			data->health = 100;
 		}
 	}
@@ -730,9 +766,22 @@ int
     if (data->map[(int)data->posx][(int)data->posy] == '2')
 		data->health = data->health - 5;
     if (data->map[(int)data->posx][(int)data->posy] == '4')
+		data->posy = 21.5;
+	printf("x = %d, y = %d\n", (int)data->posx, (int)data->posy);
+	if ((int)data->posx == 18 && (int)data->posy == 8)
 	{
-		data->posx = 2.5;
-		data->posy = 1.5;
+		data->posx = data->posx = 20.0 + (data->posx - (int)data->posx);
+		data->posy = data->posy = 29.0 + (data->posy - (int)data->posy);
+	}
+	if ((int)data->posx == 26 && (int)data->posy == 28)
+	{
+		data->posx = data->posx = 2.0 + (data->posx - (int)data->posx);
+		data->posy = data->posy = 15.0 + (data->posy - (int)data->posy);
+	}
+	if ((int)data->posx == 18 && (int)data->posy == 16)
+	{
+		data->posx = data->posx = 20.0 + (data->posx - (int)data->posx);
+		data->posy = data->posy = 29.0 + (data->posy - (int)data->posy);
 	}
 	//health
     if (data->health <= 0)
@@ -767,31 +816,6 @@ int
     return (1);
 }
 
-void
-	ft_setplayerdir(mlx_data_t *data, int dir)
-{
-	if (dir == 0)
-	{
-		data->dirx = -1;
-		data->diry = 0;
-	}
-	if (dir == 1)
-	{
-		data->dirx = 1;
-		data->diry = 0;
-	}
-	if (dir == 2)
-	{
-		data->dirx = 0;
-		data->diry = 1;
-	}
-	if (dir == 3)
-	{
-		data->dirx = 0;
-		data->diry = -1;
-	}
-}
-
 int
 	ft_sort_and_rend(int fd, sort_t *sort)
 {
@@ -809,17 +833,20 @@ int
 	map = ft_split(compressedmap, '~');
 	free(compressedmap);
     mlx_data = ft_set_mlx_data(map, &data, sort, &player);
-	ft_setplayerdir(&mlx_data, 0);
+	ft_setplayer(3.5, 2.5, &mlx_data);
+	ft_setplayerdir(&mlx_data, 3);
     ft_debugmap(map);
 	if (!(data.mlx_ptr = mlx_init()))
 		return (EXIT_FAILURE);
 	if (!(data.mlx_win = mlx_new_window(data.mlx_ptr, sort->resw, sort->resh, "cub3d")))
 		return (EXIT_FAILURE);
 	mlx_data.img.img_ptr = mlx_new_image(data.mlx_win, mlx_data.sort->resw, mlx_data.sort->resh);
-	mlx_data.s_wall.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_01.xpm", &mlx_data.texwidth, &mlx_data.texheight);
-	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_02.xpm", &mlx_data.texwidth, &mlx_data.texheight);
-	mlx_data.s_wallthree.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_03.xpm", &mlx_data.texwidth, &mlx_data.texheight);
-	mlx_data.s_wallfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_04.xpm", &mlx_data.texwidth, &mlx_data.texheight);
+	mlx_data.s_wall.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_01.xpm", &mlx_data.s_wall.width, &mlx_data.s_wall.height);
+	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_02.xpm", &mlx_data.s_walltwo.width, &mlx_data.s_walltwo.height);
+	mlx_data.s_wallthree.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_03.xpm", &mlx_data.s_walltwo.width, &mlx_data.s_walltwo.height);
+	mlx_data.s_wallfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_04.xpm", &mlx_data.s_wallthree.width, &mlx_data.s_wallthree.height);
+	mlx_data.s_escalier.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/escalier.xpm", &mlx_data.s_escalier.width, &mlx_data.s_escalier.height);
+	mlx_data.s_fl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/fl.xpm", &mlx_data.s_fl.width, &mlx_data.s_fl.height);
 	mlx_data.s_lava.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/lava.XPM", &mlx_data.texwidth, &mlx_data.texheight);
 	mlx_data.s_floorfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/FLOOR_04.xpm", &mlx_data.texwidth, &mlx_data.texheight);
 	mlx_data.s_roofeleven.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/ROOF_11.xpm", &mlx_data.texwidth, &mlx_data.texheight);
@@ -839,6 +866,10 @@ int
 	        &mlx_data.s_floorfour.endian);
 	mlx_data.s_roofeleven.data = (int *)mlx_get_data_addr(mlx_data.s_roofeleven.img_ptr, &mlx_data.s_roofeleven.bpp, &mlx_data.s_roofeleven.size_l,
 	        &mlx_data.s_roofeleven.endian);
+	mlx_data.s_escalier.data = (int *)mlx_get_data_addr(mlx_data.s_escalier.img_ptr, &mlx_data.s_escalier.bpp, &mlx_data.s_escalier.size_l,
+	        &mlx_data.s_escalier.endian);
+	mlx_data.s_fl.data = (int *)mlx_get_data_addr(mlx_data.s_fl.img_ptr, &mlx_data.s_fl.bpp, &mlx_data.s_fl.size_l,
+	        &mlx_data.s_fl.endian);
 	ft_setimg(&mlx_data);
 	int game = 1;
 	while (game)

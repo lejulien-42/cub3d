@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/02 07:54:04 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/03 05:09:06 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,16 @@ typedef struct			s_img
 	int		size_l;
 	int		bpp;
 	int		endian;
+	int		width;
+	int		height;
 }						t_img;
+
+typedef struct			s_sprite
+{
+	double	x;
+	double	y;
+	int		texture;
+}						t_sprite;
 
 typedef struct          data_s
 {
@@ -107,6 +116,8 @@ typedef struct  mlx_data_s
 	t_img		s_floorfour;
 	t_img		s_lava;
 	t_img		s_roofeleven;
+	t_img		s_escalier;
+	t_img		s_fl;
 	int			texwidth;
 	int			texheight;
 }               mlx_data_t;
