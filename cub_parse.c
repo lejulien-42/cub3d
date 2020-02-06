@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/03 19:10:03 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/06 15:13:18 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static sort_t
 	sort.sprite = NULL;
 	sort.rgbf = 0;
 	sort.rgbc = 0;
-	sort.mapwidth = 100;
-	sort.mapheight = 100;
+	sort.mapwidth = 33;
+	sort.mapheight = 33;
 	return (sort);
 }
 
@@ -212,40 +212,43 @@ void
 }
 
 void
-	ft_mlx_show_minimap(data_t *data, mlx_data_t *mlxdata, sort_t *sort, square_t square)
+	ft_mlx_show_minimap(data_t *data, mlx_data_t *mlxdata, sort_t *sort)
 {
-	int	pers = (mlxdata->sort->resw < mlxdata->sort->resh)?mlxdata->sort->resh:mlxdata->sort->resw;
-	int	resph = pers * 0.20 / pers;
-	int	i;
-	int	j;
-	int playerx;
-	int playery;
-
-	i = 0;
-	j = 0;
-	playerx = mlxdata->posx;
-	playery = mlxdata->posy;
-	square = ft_set_square(resph - 2, resph - 2, 10, 10 );
-	ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 0), mlxdata);
-	if (playerx > 20)
-	    playerx = 20;
-	if (playery > 20)
-	    playerx = 20;
+	int		resph = sort->resh * 0.20 / sort->mapheight;
+	//int	pers = (mlxdata->sort->resw < mlxdata->sort->resh)?mlxdata->sort->resh:mlxdata->sort->resw;
+	int	i = 0;
+	int	j = 0;
+    square_t square;
 	while (mlxdata->map[i][j])
 	{
 		while (mlxdata->map[i][j])
 		{
 			square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
 			if (mlxdata->map[i][j] == '1')
+			{
+				square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
 				ft_mlx_drawfilled_square(&square, data, rgb_int(0, 204, 153), mlxdata);
+			}
 			else if (mlxdata->map[i][j] == '2')
-                ft_mlx_drawfilled_square(&square, data, rgb_int(255, 0, 0), mlxdata);
+            {
+                square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
+                ft_mlx_drawfilled_square(&square, data, rgb_int(0, 200, 0), mlxdata);
+            }
 			else if (mlxdata->map[i][j] == '3')
+            {
+                square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
                 ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 200), mlxdata);
-			else if (mlxdata->map[i][j] == '5')
-                ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 0), mlxdata);
-			else
+            }
+			else if (mlxdata->map[i][j] == '0')
+			{
+                square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
                 ft_mlx_drawfilled_square(&square, data, rgb_int(255, 255, 255), mlxdata);
+			}
+			else
+            {
+			    square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
+                ft_mlx_drawfilled_square(&square, data, rgb_int(255, 0, 0), mlxdata);
+            }
 		    j++;
 		}
 		j = 0;
@@ -526,7 +529,7 @@ void
                 mapY = mapY + stepY;
                 side = 1;
             }
-            if (data->map[mapX][mapY] != '0' && data->map[mapX][mapY] != '2')
+            if (data->map[mapX][mapY] != '0')
 			{
 				what = data->map[mapX][mapY];
                 hit = 1;
@@ -552,7 +555,6 @@ void
         if (drawend >= data->sort->resh)
             drawend = data->sort->resh - 1;
 
-		char textNum = data->map[mapX][mapY];
 		double wallx;
 		if (side == 0)
 			wallx = data->posy + perpWalldist * rayDirY;
@@ -560,47 +562,84 @@ void
 			wallx = data->posx + perpWalldist * rayDirX;
 		wallx = wallx - floor((wallx));
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//x of the texture
-		int texx = (int)(wallx * (double)(data->texwidth));
+		int texxs_wallfour = (int)(wallx * (double)(data->s_wall.width));
+		int texxs_arrowtex = (int)(wallx * (double)(data->s_arrowtex.width));
+		int texxs_arrowtexl = (int)(wallx * (double)(data->s_arrowtexl.width));
+		int texxs_lifeframe = (int)(wallx * (double)(data->s_lifeframe.width));
+		int texxs_fl = (int)(wallx * (double)(data->s_fl.width));
 		if (side == 0 && rayDirX > 0)
-			texx = data->texwidth - texx - 1;
+		{
+			texxs_wallfour = data->s_wallfour.width - texxs_wallfour - 1;
+			texxs_wallfour = data->s_lifeframe.width - texxs_lifeframe - 1;
+			texxs_arrowtex = data->s_arrowtex.width - texxs_arrowtex - 1;
+			texxs_arrowtexl = data->s_arrowtexl.width - texxs_arrowtexl - 1;
+			texxs_fl = data->s_fl.width - texxs_fl - 1;
+		}
 		if (side == 1 && rayDirY < 0)
-			texx = data->texwidth - texx - 1;
+		{
+			texxs_wallfour = data->s_wallfour.width - texxs_wallfour - 1;
+			texxs_arrowtex = data->s_arrowtex.width - texxs_arrowtex - 1;
+			texxs_lifeframe = data->s_lifeframe.width - texxs_lifeframe - 1;
+			texxs_arrowtexl = data->s_arrowtexl.width - texxs_arrowtexl - 1;
+			texxs_fl = data->s_fl.width - texxs_fl - 1;
+		}
 
-		double step = 1.0 * data->texheight / lineheight;
+		double steps_wallfour = 1.0 * data->s_wallfour.height / lineheight;
+		double steps_arrowtex = 1.0 * data->s_arrowtex.height / lineheight;
+		double steps_lifeframe = 1.0 * data->s_lifeframe.height / lineheight;
+		double steps_arrowtexl = 1.0 * data->s_arrowtexl.height / lineheight;
+		double steps_fl = 1.0 * data->s_fl.height / lineheight;
 
-		double texpos = (drawstart - data->sort->resh / 2 + lineheight / 2) * step;
+
+		double texposs_wallfour = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_wallfour;
+		double texposs_arrowtex = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_arrowtex;
+		double texposs_lifeframe = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_lifeframe;
+		double texposs_arrowtexl = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_arrowtexl;
+		double texposs_fl = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_fl;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 		int y = drawstart;
 		while (y < drawend)
 		{
-			texpos = texpos + step;
+			texposs_wallfour = texposs_wallfour + steps_wallfour;
+			texposs_arrowtex = texposs_arrowtex + steps_arrowtex;
+			texposs_arrowtexl = texposs_arrowtexl + steps_arrowtexl;
+			texposs_lifeframe = texposs_lifeframe + steps_lifeframe;
+			texposs_fl = texposs_fl + steps_fl;
 			int color = 0;
 			if (what == '1')
 			{
 				if (side == 1)
 				{
 					if (rayDirY < 0)
-						color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx]; //TEX_NORTH
+						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_NORTH
 					else
-						color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx]; //TEX_SOUTH
+						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_SOUTH
 				}
 				else
 				{
 					if (rayDirX < 0)
-						color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx]; //TEX_WEST
+						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_WEST
 					else
-						color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx]; //TEX_EAST
+						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_EAST
 				}
 			}
 			else if (what == '3')
 			{
-				color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx];
+				color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour];
 			}
+			else if (what == '2')
+				color = data->s_fl.data[((int)texposs_fl & (data->s_fl.height - 1)) * data->s_fl.height + texxs_fl];
 			else if (what == '7')
-				color = data->s_arrowtex.data[((int)texpos & (data->s_arrowtex.height - 1)) * data->s_arrowtex.height + texx];
+				color = data->s_arrowtex.data[((int)texposs_arrowtex & (data->s_arrowtex.height - 1)) * data->s_arrowtex.height + texxs_arrowtex];
+			else if (what == '8')
+				color = data->s_arrowtexl.data[((int)texposs_arrowtexl & (data->s_arrowtexl.height - 1)) * data->s_arrowtexl.height + texxs_arrowtexl];
+			else if (what == '9')
+				color = data->s_lifeframe.data[((int)texposs_lifeframe & (data->s_lifeframe.height - 1)) * data->s_lifeframe.height + texxs_lifeframe];
 			else
 			{
-				color = data->s_wallfour.data[((int)texpos & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texx];
+				color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour];
 			}
 			data->img.data[y * data->sort->resw + x] = color;
 			y++;
@@ -656,9 +695,9 @@ int
 {
     square_t    square;
     double moveSpeed = 0.05;
-    double playerspeed = 0.1;
     double rotSpeed = 0.05;
 	int youdied = 0;
+
 
     if (data->esc == 1)
         closeit(NULL);
@@ -713,44 +752,52 @@ int
 		{
 			if (data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '0' ||
 				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '2' ||
-				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '4')
+				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '4' ||
+				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '7')
 				data->posx += data->dirx * moveSpeed;
 			if (data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '0' ||
 				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '2' ||
-				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '4')
+				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '4' ||
+				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '7')
 				data->posy += data->diry * moveSpeed;
 		}
 		if (data->down == 1 || data->key_down == 1)
 		{
 			if (data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '0' ||
 				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '2' ||
-				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '4')
+				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '4' ||
+				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '7')
 				data->posx -= data->dirx * moveSpeed;
 			if (data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '0' ||
 				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '2' ||
-				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '4')
+				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '4' ||
+				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '7')
 				data->posy -= data->diry * moveSpeed;
 		}
 		if (data->right == 1)
 		{
 			if (data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '0' ||
 				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '2' ||
-				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '4')
+				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '4' ||
+				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '7')
 				data->posx += data->planeX * moveSpeed;
 			if (data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '0' ||
 				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '2' ||
-				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '4')
+				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '4' ||
+				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '7')
 				data->posy += data->planeY * moveSpeed;
 		}
 		if (data->left == 1)
 		{
 			if (data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '0' ||
 				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '2' ||
-				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '4')
+				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '4' ||
+				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '7')
 				data->posx -= data->planeX * moveSpeed;
 			if (data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '0' ||
 				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '2' ||
-				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '4')
+				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '4' ||
+				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '7')
 				data->posy -= data->planeY * moveSpeed;
 		}
 	}
@@ -766,26 +813,28 @@ int
 
    // ft_setimg(data);
     ft_raycast(data);
-    ft_mlx_show_minimap(data->data, data, data->sort, square);
+    ft_mlx_show_minimap(data->data, data, data->sort);
     if (data->map[(int)data->posx][(int)data->posy] == '2')
 		data->health = data->health - 5;
+    if (data->map[(int)data->posx][(int)data->posy] == '7')
+		data->health = data->health + 5;
     if (data->map[(int)data->posx][(int)data->posy] == '4')
 		data->posy = 21.5;
 	//printf("x = %d, y = %d\n", (int)data->posx, (int)data->posy);
 	if ((int)data->posx == 18 && (int)data->posy == 8)
 	{
 		data->posx = data->posx = 20.0 + (data->posx - (int)data->posx);
-		data->posy = data->posy = 29.0 + (data->posy - (int)data->posy);
+		data->posy = data->posy = 20.0 + (data->posy - (int)data->posy);
 	}
-	if ((int)data->posx == 26 && (int)data->posy == 28)
+	if ((int)data->posx == 20 && (int)data->posy == 24)
 	{
-		data->posx = data->posx = 2.0 + (data->posx - (int)data->posx);
-		data->posy = data->posy = 12.0 + (data->posy - (int)data->posy);
+		data->posx = data->posx = 4.0 + (data->posx - (int)data->posx);
+		data->posy = data->posy = 13.0 + (data->posy - (int)data->posy);
 	}
 	if ((int)data->posx == 18 && (int)data->posy == 16)
 	{
 		data->posx = data->posx = 20.0 + (data->posx - (int)data->posx);
-		data->posy = data->posy = 29.0 + (data->posy - (int)data->posy);
+		data->posy = data->posy = 20.0 + (data->posy - (int)data->posy);
 	}
 	//health
     if (data->health <= 0)
@@ -793,6 +842,8 @@ int
 		data->health = 0;
         youdied = 1;
     }
+	if (data->health > 100)
+		data->health = 100;
 	//printf("planex = %f planey = %f\n", data->planeX, data->planeY);
     square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
@@ -802,6 +853,7 @@ int
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
     square = ft_set_square(data->health, 10, data->sort->resw - data->sort->resh * 0.25, 20);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
+
 	//stamina bar
     square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14 + 24);
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
@@ -813,6 +865,7 @@ int
     ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 255), data);
 	//
 	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
+//	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->s_lifeframe.img_ptr, data->sort->resw - (data->sort->resh * 0.25) - 20, 10);
 	if (youdied)
 		mlx_string_put(data->data->mlx_ptr, data->data->mlx_win,
 		data->sort->resw * 0.5 - 40,  data->sort->resh * 0.5,
@@ -829,8 +882,6 @@ int
 	mlx_data_t  mlx_data;
 	player_t    player;
 	char        **map;
-	int			wallresX;
-	int			wallresY;
 
 	compressedmap = ft_compressmap(fd, sort);
 	ft_debug_sort(sort);
@@ -838,25 +889,25 @@ int
 	free(compressedmap);
     mlx_data = ft_set_mlx_data(map, &data, sort, &player);
 	ft_setplayer(3.5, 22.5, &mlx_data);
-	ft_setplayerdir(&mlx_data, 1);
+	ft_setplayerdir(&mlx_data, 3);
     ft_debugmap(map);
 	if (!(data.mlx_ptr = mlx_init()))
 		return (EXIT_FAILURE);
 	if (!(data.mlx_win = mlx_new_window(data.mlx_ptr, sort->resw, sort->resh, "cub3d")))
 		return (EXIT_FAILURE);
-	mlx_data.texwidth = 512;
-	mlx_data.texheight = 512;
 	mlx_data.img.img_ptr = mlx_new_image(data.mlx_win, mlx_data.sort->resw, mlx_data.sort->resh);
 	mlx_data.s_wall.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_01.xpm", &mlx_data.s_wall.width, &mlx_data.s_wall.height);
 	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_02.xpm", &mlx_data.s_walltwo.width, &mlx_data.s_walltwo.height);
 	mlx_data.s_wallthree.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_03.xpm", &mlx_data.s_wallthree.width, &mlx_data.s_wallthree.height);
 	mlx_data.s_wallfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_04.xpm", &mlx_data.s_wallfour.width, &mlx_data.s_wallfour.height);
 	mlx_data.s_escalier.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/escalier.xpm", &mlx_data.s_escalier.width, &mlx_data.s_escalier.height);
-	mlx_data.s_fl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/fl.xpm", &mlx_data.s_fl.width, &mlx_data.s_fl.height);
+	mlx_data.s_fl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/spritecute.xpm", &mlx_data.s_fl.width, &mlx_data.s_fl.height);
 	mlx_data.s_lava.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/lava.XPM", &mlx_data.s_lava.width, &mlx_data.s_lava.height);
 	mlx_data.s_floorfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/FLOOR_04.xpm", &mlx_data.s_floorfour.width, &mlx_data.s_floorfour.height);
 	mlx_data.s_roofeleven.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/ROOF_11.xpm", &mlx_data.s_roofeleven.width, &mlx_data.s_roofeleven.height);
-	mlx_data.s_arrowtex.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/spritecute.xpm", &mlx_data.s_arrowtex.width, &mlx_data.s_arrowtex.height);
+	mlx_data.s_arrowtex.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/arrowtes.xpm", &mlx_data.s_arrowtex.width, &mlx_data.s_arrowtex.height);
+	mlx_data.s_arrowtexl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/Webp.net-resizeimage.xpm", &mlx_data.s_arrowtexl.width, &mlx_data.s_arrowtexl.height);
+	mlx_data.s_lifeframe.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/frame.xpm", &mlx_data.s_lifeframe.width, &mlx_data.s_lifeframe.height);
 	
 	
 	mlx_data.img.data = (int *)mlx_get_data_addr(mlx_data.img.img_ptr, &mlx_data.img.bpp, &mlx_data.img.size_l,
@@ -879,8 +930,12 @@ int
 	        &mlx_data.s_escalier.endian);
 	mlx_data.s_fl.data = (int *)mlx_get_data_addr(mlx_data.s_fl.img_ptr, &mlx_data.s_fl.bpp, &mlx_data.s_fl.size_l,
 	        &mlx_data.s_fl.endian);
+	mlx_data.s_arrowtexl.data = (int *)mlx_get_data_addr(mlx_data.s_arrowtexl.img_ptr, &mlx_data.s_arrowtexl.bpp, &mlx_data.s_arrowtexl.size_l,
+	        &mlx_data.s_arrowtexl.endian);
 	mlx_data.s_arrowtex.data = (int *)mlx_get_data_addr(mlx_data.s_arrowtex.img_ptr, &mlx_data.s_arrowtex.bpp, &mlx_data.s_arrowtex.size_l,
 	        &mlx_data.s_arrowtex.endian);
+	mlx_data.s_lifeframe.data = (int *)mlx_get_data_addr(mlx_data.s_lifeframe.img_ptr, &mlx_data.s_lifeframe.bpp, &mlx_data.s_lifeframe.size_l,
+	        &mlx_data.s_lifeframe.endian);
 	ft_setimg(&mlx_data);
 	//int game = 1;
 	//while (game)
