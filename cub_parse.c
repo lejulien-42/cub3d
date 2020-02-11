@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/06 15:13:18 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/11 05:39:14 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,6 +280,10 @@ mlx_data_t
     ft_set_mlx_data(char **map, data_t *data, sort_t *sort, player_t *player)
 {
     mlx_data_t  mlx_data;
+    mlx_data.numsprite = 2;
+    double      zBuffer[sort->resw];
+    int         spriteOrder[mlx_data.numsprite];
+    double      spriteDistance[mlx_data.numsprite];
 
     mlx_data.map = map;
     mlx_data.data = data;
@@ -314,6 +318,9 @@ mlx_data_t
 	mlx_data.s_wallfour.img_ptr = NULL;
 	mlx_data.s_lava.img_ptr = NULL;
 	mlx_data.s_arrowtex.img_ptr = NULL;
+    mlx_data.zBuffer = zBuffer;
+    mlx_data.spriteOrder = spriteOrder;
+    mlx_data.spriteDistance = spriteDistance;
     return (mlx_data);
 }
 void
@@ -685,9 +692,9 @@ void
 }
 
 void
-	ft_rotate()
+    screenshot(mlx_data_t *data)
 {
-	 /// iehfuweufhwfhuweuhfhhweiufewhfueiwfewiufhewiufhf you were here
+   (void)data; 
 }
 
 int
@@ -728,7 +735,7 @@ int
 	{
 		if (data->r == 1)
 		{
-			ft_rotate();
+			printf("RRRRrrrrrrr!!!!!!!\n");
 		}
 		if (data->key_right == 1)
 		{
@@ -870,6 +877,11 @@ int
 		mlx_string_put(data->data->mlx_ptr, data->data->mlx_win,
 		data->sort->resw * 0.5 - 40,  data->sort->resh * 0.5,
 		rgb_int(0, 0 , 0), "YOU DIED");
+    if (data->sort->issave == 1)
+    {
+        screenshot(data);
+        data->sort->issave = 2;
+    }
     return (1);
 }
 
@@ -900,14 +912,15 @@ int
 	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_02.xpm", &mlx_data.s_walltwo.width, &mlx_data.s_walltwo.height);
 	mlx_data.s_wallthree.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_03.xpm", &mlx_data.s_wallthree.width, &mlx_data.s_wallthree.height);
 	mlx_data.s_wallfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_04.xpm", &mlx_data.s_wallfour.width, &mlx_data.s_wallfour.height);
-	mlx_data.s_escalier.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/escalier.xpm", &mlx_data.s_escalier.width, &mlx_data.s_escalier.height);
+	mlx_data.s_escalier.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/hadhio.xpm", &mlx_data.s_escalier.width, &mlx_data.s_escalier.height);
 	mlx_data.s_fl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/spritecute.xpm", &mlx_data.s_fl.width, &mlx_data.s_fl.height);
 	mlx_data.s_lava.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/lava.XPM", &mlx_data.s_lava.width, &mlx_data.s_lava.height);
 	mlx_data.s_floorfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/FLOOR_04.xpm", &mlx_data.s_floorfour.width, &mlx_data.s_floorfour.height);
 	mlx_data.s_roofeleven.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/ROOF_11.xpm", &mlx_data.s_roofeleven.width, &mlx_data.s_roofeleven.height);
-	mlx_data.s_arrowtex.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/arrowtes.xpm", &mlx_data.s_arrowtex.width, &mlx_data.s_arrowtex.height);
-	mlx_data.s_arrowtexl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/Webp.net-resizeimage.xpm", &mlx_data.s_arrowtexl.width, &mlx_data.s_arrowtexl.height);
+	mlx_data.s_arrowtex.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/right.xpm", &mlx_data.s_arrowtex.width, &mlx_data.s_arrowtex.height);
+	mlx_data.s_arrowtexl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/left.xpm", &mlx_data.s_arrowtexl.width, &mlx_data.s_arrowtexl.height);
 	mlx_data.s_lifeframe.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/frame.xpm", &mlx_data.s_lifeframe.width, &mlx_data.s_lifeframe.height);
+    mlx_data.s_arrow.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/arrowleft.xpm", &mlx_data.s_arrow.width, &mlx_data.s_arrow.height);
 	
 	
 	mlx_data.img.data = (int *)mlx_get_data_addr(mlx_data.img.img_ptr, &mlx_data.img.bpp, &mlx_data.img.size_l,
@@ -936,12 +949,14 @@ int
 	        &mlx_data.s_arrowtex.endian);
 	mlx_data.s_lifeframe.data = (int *)mlx_get_data_addr(mlx_data.s_lifeframe.img_ptr, &mlx_data.s_lifeframe.bpp, &mlx_data.s_lifeframe.size_l,
 	        &mlx_data.s_lifeframe.endian);
+	mlx_data.s_arrow.data = (int *)mlx_get_data_addr(mlx_data.s_arrow.img_ptr, &mlx_data.s_arrow.bpp, &mlx_data.s_arrow.size_l,
+	        &mlx_data.s_arrow.endian);
 	ft_setimg(&mlx_data);
 	//int game = 1;
 	//while (game)
 	//{
 		mlx_hook(data.mlx_win, 17, 0L, closeit, NULL);
-		mlx_hook(data.mlx_win, 2, 1L, key_press, &mlx_data);
+		mlx_hook(data.mlx_win, 2, 1L<<0, key_press, &mlx_data);
 		mlx_key_hook(data.mlx_win, key_release, &mlx_data);
 		mlx_loop_hook(data.mlx_ptr, draw, &mlx_data);
 		mlx_loop(data.mlx_ptr);

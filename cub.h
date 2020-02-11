@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/05 06:06:31 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/10 05:20:38 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,13 @@ typedef struct  mlx_data_s
 	t_img		s_arrowtex;
 	t_img		s_arrowtexl;
 	t_img		s_lifeframe;
+	t_img		s_arrow;
+    int         numSprite;
+    t_sprite    *sprite;
+    double      *zBuffer;
+    int         *spriteOrder;
+    double      *spriteDistance;
+    int         numsprite;
 }               mlx_data_t;
 
 void		ft_mlx_draw_square(square_t *square, data_t *data, int color);
