@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/11 05:39:14 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/11 06:19:50 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,6 +321,7 @@ mlx_data_t
     mlx_data.zBuffer = zBuffer;
     mlx_data.spriteOrder = spriteOrder;
     mlx_data.spriteDistance = spriteDistance;
+    mlx_data.showbonus = 0;
     return (mlx_data);
 }
 void
@@ -434,49 +435,56 @@ void
 	int		y = 0;
 	char	zbuffer[data->sort->resw];
 
-	while (y < data->sort->resh)
-	{
-		float	rayDirX0 = data->dirx - data->planeX;
-		float	rayDirY0 = data->diry - data->planeY;
-		float	rayDirX1 = data->dirx + data->planeX;
-		float	rayDirY1 = data->diry + data->planeY;
+    if (data->showbonus == 1)
+    {
+	    while (y < data->sort->resh)
+	    {
+	    	float	rayDirX0 = data->dirx - data->planeX;
+	    	float	rayDirY0 = data->diry - data->planeY;
+	    	float	rayDirX1 = data->dirx + data->planeX;
+	    	float	rayDirY1 = data->diry + data->planeY;
+    
+    		int p = y - data->sort->resh / 2;
+    
+    		float posZ = 0.5 * data->sort->resh;
+    
+    		float rowDistance = posZ / p;
+    
+    		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / data->sort->resw;
+    		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / data->sort->resw;
 
-		int p = y - data->sort->resh / 2;
+	    	float floorX = data->posx + rowDistance * rayDirX0;
+	    	float floorY = data->posy + rowDistance * rayDirY0;
+	    	x = 0;
+	    	while (++x < data->sort->resw)
+	    	{
+	    		int cellX = (int)(floorX);
+	    		int cellY = (int)(floorY);
+    
+    			int txf = (int)(data->s_escalier.width * (floorX - cellX)) & (data->s_escalier.width - 1);
+    			int tyf = (int)(data->s_escalier.height * (floorY - cellY)) & (data->s_escalier.height - 1);
+    			int txr = (int)(data->s_roofeleven.width * (floorX - cellX)) & (data->s_roofeleven.width - 1);
+    			int tyr = (int)(data->s_roofeleven.height * (floorY - cellY)) & (data->s_roofeleven.height - 1);
 
-		float posZ = 0.5 * data->sort->resh;
+    			floorX += floorStepX;
+    			floorY += floorStepY;
 
-		float rowDistance = posZ / p;
-
-		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / data->sort->resw;
-		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / data->sort->resw;
-
-		float floorX = data->posx + rowDistance * rayDirX0;
-		float floorY = data->posy + rowDistance * rayDirY0;
-		x = 0;
-		while (++x < data->sort->resw)
-		{
-			int cellX = (int)(floorX);
-			int cellY = (int)(floorY);
-
-			int txf = (int)(data->s_escalier.width * (floorX - cellX)) & (data->s_escalier.width - 1);
-			int tyf = (int)(data->s_escalier.height * (floorY - cellY)) & (data->s_escalier.height - 1);
-			int txr = (int)(data->s_roofeleven.width * (floorX - cellX)) & (data->s_roofeleven.width - 1);
-			int tyr = (int)(data->s_roofeleven.height * (floorY - cellY)) & (data->s_roofeleven.height - 1);
-
-			floorX += floorStepX;
-			floorY += floorStepY;
-
-			int color =  data->s_escalier.data[tyf * data->s_escalier.width + txf];
+    			int color =  data->s_escalier.data[tyf * data->s_escalier.width + txf];
 
 //			if (data->map[cellX][cellY] == '2')
 //			    color = data->s_lava.data[ty * data->texwidth + tx];
 
-			data->img.data[y * data->sort->resw + x] = color;
-			data->img.data[(data->sort->resh - y - 1) * data->sort->resw + x] = data->s_roofeleven.data[data->s_roofeleven.width * tyr + txr];
+    			data->img.data[y * data->sort->resw + x] = color;
+    			data->img.data[(data->sort->resh - y - 1) * data->sort->resw + x] = data->s_roofeleven.data[data->s_roofeleven.width * tyr + txr];
 			//x++;)
-		}
-		y++;
-	}
+    		}
+    		y++;
+    	}
+    }
+    else
+    {
+        ft_setimg(data);
+    }
 	y = 0;
 	x = 0;
     while (x < data->sort->resw)
@@ -735,7 +743,7 @@ int
 	{
 		if (data->r == 1)
 		{
-			printf("RRRRrrrrrrr!!!!!!!\n");
+			data->showbonus = 1;
 		}
 		if (data->key_right == 1)
 		{
@@ -820,7 +828,8 @@ int
 
    // ft_setimg(data);
     ft_raycast(data);
-    ft_mlx_show_minimap(data->data, data, data->sort);
+    if (data->showbonus == 1)
+        ft_mlx_show_minimap(data->data, data, data->sort);
     if (data->map[(int)data->posx][(int)data->posy] == '2')
 		data->health = data->health - 5;
     if (data->map[(int)data->posx][(int)data->posy] == '7')
@@ -851,26 +860,29 @@ int
     }
 	if (data->health > 100)
 		data->health = 100;
-	//printf("planex = %f planey = %f\n", data->planeX, data->planeY);
-    square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14);
-    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
-    square = ft_set_square(108, 18, data->sort->resw - (data->sort->resh * 0.25) - 4, 16);
-    ft_mlx_drawfilled_square(&square, data->data, rgb_int(180, 0, 0), data);
-    square = ft_set_square(100, 10, data->sort->resw - data->sort->resh * 0.25, 20);
-    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
-    square = ft_set_square(data->health, 10, data->sort->resw - data->sort->resh * 0.25, 20);
-    ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
+    if (data->showbonus == 1)
+    {
+	    //printf("planex = %f planey = %f\n", data->planeX, data->planeY);
+        square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14);
+        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
+        square = ft_set_square(108, 18, data->sort->resw - (data->sort->resh * 0.25) - 4, 16);
+        ft_mlx_drawfilled_square(&square, data->data, rgb_int(180, 0, 0), data);
+        square = ft_set_square(100, 10, data->sort->resw - data->sort->resh * 0.25, 20);
+        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
+        square = ft_set_square(data->health, 10, data->sort->resw - data->sort->resh * 0.25, 20);
+        ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
 
 	//stamina bar
-    square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14 + 24);
-    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
-    square = ft_set_square(108, 18, data->sort->resw - (data->sort->resh * 0.25) - 4, 16 + 24);
-    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 180), data);
-    square = ft_set_square(100, 10, data->sort->resw - data->sort->resh * 0.25, 20 + 24);
-    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
-    square = ft_set_square(data->stamina, 10, data->sort->resw - data->sort->resh * 0.25, 20 + 24);
-    ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 255), data);
+        square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14 + 24);
+        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
+        square = ft_set_square(108, 18, data->sort->resw - (data->sort->resh * 0.25) - 4, 16 + 24);
+        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 180), data);
+        square = ft_set_square(100, 10, data->sort->resw - data->sort->resh * 0.25, 20 + 24);
+        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
+        square = ft_set_square(data->stamina, 10, data->sort->resw - data->sort->resh * 0.25, 20 + 24);
+        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 255), data);
 	//
+    }
 	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
 //	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->s_lifeframe.img_ptr, data->sort->resw - (data->sort->resh * 0.25) - 20, 10);
 	if (youdied)

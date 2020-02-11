@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/10 05:20:38 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/11 06:10:42 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct  mlx_data_s
     int         health;
 	int			stamina;
 	int			hasstamina;
+    int         showbonus;
     double      time;
     double      oldtime;
     double      planeX;
