@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/12 16:26:08 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/12 20:48:39 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "cub.h"
 #include "get_next_line.h"
 #include "./libft-42/libft.h"
+#define texWidth 512
+#define texHeight 512
 
 static sort_t
 	ft_initialaze_sort(void)
@@ -378,7 +380,6 @@ void
 int
     key_press(int key, mlx_data_t *data)
 {
-	//printf("key=%d\n", key);
     if (key == 0)
         data->left = 1;
     if (key == 2)
@@ -466,6 +467,15 @@ ft_setimg(mlx_data_t *data)
                 data->img.data[count_h * data->sort->resw + count_w] = rgb_int(205,133,63);
         }
     }
+}
+
+
+void
+    sortSprite(int *spriteOrder, double *spriteDistance, int numSprite)
+{
+    (void)spriteOrder;
+    (void)spriteDistance;
+    (void)numSprite;
 }
 
 void
@@ -710,11 +720,79 @@ void
     int numSprite = 4;
     int spriteOrder[numSprite];
     t_sprite  *sprite = malloc(numSprite * sizeof(t_sprite));
+
+    int nbr = 0;
+    while (nbr < 4)
+    {
+        sprite[nbr].x = 12.5 + (double)nbr;
+        sprite[nbr].y = 12.5;
+        if (nbr == 1)
+            sprite[nbr].texture = 1;
+        else
+            sprite[nbr].texture = 0;
+        nbr++;
+    }
     double  spriteDistance[numSprite];
     while (i < numSprite)
     {
         spriteOrder[i] = i;
         spriteDistance[i] = ((data->posx - sprite[i].x) * (data->posx - sprite[i].x) + (data->posy - sprite[i].y) * (data->posy - sprite[i].y));
+        i++;
+    }
+    sortSprite(spriteOrder, spriteDistance, numSprite);
+    i = 0;
+    while (i < numSprite)
+    {
+        double  spriteX = sprite[spriteOrder[i]].x - data->posx;
+        double  spriteY = sprite[spriteOrder[i]].y - data->posy;
+
+        double  invDet = 1.0 / (data->planeX * data->diry - data->dirx * data->planeY);
+
+        double  transformX = invDet * (data->diry * spriteX - data->dirx * spriteY);
+        double  transformY = invDet * (-data->planeY * spriteX + data->planeX * spriteY);
+
+        int     spriteScreenX = (int)((data->sort->resw / 2) * (1 + transformX / transformY));
+
+        int     spriteHeight = abs((int)(data->sort->resh / (transformY)));
+        int     drawStartY = -spriteHeight / 2 + data->sort->resh / 2;
+        if (drawStartY < 0)
+            drawStartY = 0;
+        int     drawEndY = spriteHeight / 2 + data->sort->resh / 2;
+        if (drawEndY >= data->sort->resh)
+            drawEndY = data->sort->resh - 1;
+        
+        int     spriteWidth = abs((int)(data->sort->resh / (transformY)));
+        int     drawStartX = -spriteWidth / 2 + spriteScreenX;
+        if (drawStartX < 0)
+            drawStartX = 0;
+        int     drawEndX = spriteWidth / 2 + spriteScreenX;
+        if (drawEndX >= data->sort->resw)
+            drawEndX = data->sort->resw - 1;
+
+        int stripe = drawStartX;
+        while (stripe < drawEndX)
+        {
+            int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
+
+            if (transformY > 0 && stripe > 0 && stripe < data->sort->resw && transformY < zbuffer[stripe])
+            {
+                int y = drawStartY;
+                while (y < drawEndY)
+                {
+                    int d = (y) * 256 - data->sort->resh * 128 + spriteHeight * 128;
+                    int texY = ((d * texHeight) / spriteHeight) / 256;
+                    int color;
+                    if (sprite[spriteOrder[i]].texture == 0)
+                        color = data->s_health.data[texWidth * texY + texX];
+                    else
+                        color = data->s_monster.data[texWidth * texY + texX];
+                    if (color != -16777216)
+                        data->img.data[y * data->sort->resw + stripe] = color;
+                    y++;
+                }
+            }
+            stripe++;
+        }
         i++;
     }
     //sortSprites(spriteOrder, spriteDistance, numSprite, data);
@@ -988,7 +1066,8 @@ int
 	mlx_data.s_arrowtex.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/right.xpm", &mlx_data.s_arrowtex.width, &mlx_data.s_arrowtex.height);
 	mlx_data.s_arrowtexl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/left.xpm", &mlx_data.s_arrowtexl.width, &mlx_data.s_arrowtexl.height);
 	mlx_data.s_lifeframe.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/frame.xpm", &mlx_data.s_lifeframe.width, &mlx_data.s_lifeframe.height);
-    mlx_data.s_arrow.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/arrowleft.xpm", &mlx_data.s_arrow.width, &mlx_data.s_arrow.height);
+    mlx_data.s_health.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/New-Piskel.xpm", &mlx_data.s_health.width, &mlx_data.s_health.height);
+    mlx_data.s_monster.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/monster.xpm", &mlx_data.s_monster.width, &mlx_data.s_monster.height);
 	
 	
 	mlx_data.img.data = (int *)mlx_get_data_addr(mlx_data.img.img_ptr, &mlx_data.img.bpp, &mlx_data.img.size_l,
@@ -1017,8 +1096,10 @@ int
 	        &mlx_data.s_arrowtex.endian);
 	mlx_data.s_lifeframe.data = (int *)mlx_get_data_addr(mlx_data.s_lifeframe.img_ptr, &mlx_data.s_lifeframe.bpp, &mlx_data.s_lifeframe.size_l,
 	        &mlx_data.s_lifeframe.endian);
-	mlx_data.s_arrow.data = (int *)mlx_get_data_addr(mlx_data.s_arrow.img_ptr, &mlx_data.s_arrow.bpp, &mlx_data.s_arrow.size_l,
-	        &mlx_data.s_arrow.endian);
+	mlx_data.s_health.data = (int *)mlx_get_data_addr(mlx_data.s_health.img_ptr, &mlx_data.s_health.bpp, &mlx_data.s_health.size_l,
+	        &mlx_data.s_health.endian);
+	mlx_data.s_monster.data = (int *)mlx_get_data_addr(mlx_data.s_monster.img_ptr, &mlx_data.s_monster.bpp, &mlx_data.s_monster.size_l,
+	        &mlx_data.s_monster.endian);
 	ft_setimg(&mlx_data);
 	//int game = 1;
 	//while (game)

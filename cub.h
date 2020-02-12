@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/12 13:55:37 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/12 20:17:18 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,8 @@ typedef struct  mlx_data_s
 	t_img		s_arrowtex;
 	t_img		s_arrowtexl;
 	t_img		s_lifeframe;
-	t_img		s_arrow;
+	t_img		s_health;
+	t_img		s_monster;
     int         numSprite;
     t_sprite    *sprite;
     double      *zBuffer;

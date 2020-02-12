@@ -6,7 +6,7 @@
 #    By: lejulien <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/01 15:52:54 by lejulien          #+#    #+#              #
-#    Updated: 2020/02/11 11:26:49 by lejulien         ###   ########.fr        #
+#    Updated: 2020/02/12 18:32:41 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ cubheader:
 	@echo ""
 
 $(NAME): cubheader $(OBJS)
-	@gcc $(INCLUDEH) -o $(NAME) $(OBJS)
+	gcc $(INCLUDEH) -o $(NAME) $(OBJS)
 
 test:
 	@gcc -D BUFFER_SIZE=1024 $(INCLUDEH) -c $(SRCSTEST)
