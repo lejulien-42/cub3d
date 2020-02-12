@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/11 06:19:50 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/12 16:26:08 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,42 @@ int     rgba_int(int red, int green, int blue, int alpha)
 	rgb = (rgb << 8) + alpha;
     return (rgb);
 }
-																				#include <stdio.h>
+
+void
+    ft_putvalues(char *desc, int value)
+{
+    ft_putstr_fd("\e[95m", 1);
+    ft_putstr_fd(desc, 1);
+    ft_putstr_fd("\e[34m", 1);
+    ft_putnbr_fd(value, 1);
+    ft_putstr_fd("\n", 1);
+}
+
+void
+    ft_putchardesc(char *desc, char *str)
+{
+    ft_putstr_fd("\e[95m", 1);
+    ft_putstr_fd(desc, 1);
+    ft_putstr_fd("\e[34m", 1);
+    ft_putstr_fd(str, 1);
+    ft_putstr_fd("\n", 1);   
+}
 
 static void
 	ft_debug_sort(sort_t *sort)
 {
-	printf("is_save = %d\n", sort->issave);
-	printf("northpath = %s\n", sort->northpath);
-	printf("southpath = %s\n", sort->southpath);
-	printf("eastpath = %s\n", sort->eastpath);
-	printf("westpath = %s\n", sort->westpath);
-	printf("resw = %d\n", sort->resw);
-	printf("resh = %d\n", sort->resh);
-	printf("sprite = %s\n", sort->sprite);
-	printf("rgbf = %d\n", sort->rgbf);
-	printf("rgbc = %d\n",  sort->rgbc);
-	printf("mapwidth = %d\n",  sort->mapwidth);
-	printf("mapheight = %d\n",  sort->mapheight);
+	ft_putvalues("is_save = ", sort->issave);
+	ft_putchardesc("northpath = ", sort->northpath);
+	ft_putchardesc("southpath = ", sort->southpath);
+	ft_putchardesc("eastpath = ", sort->eastpath);
+	ft_putchardesc("westpath = ", sort->westpath);
+	ft_putvalues("resw = ", sort->resw);
+	ft_putvalues("resh = ", sort->resh);
+	ft_putchardesc("sprite = ", sort->sprite);
+	ft_putvalues("rgbf = ", sort->rgbf);
+	ft_putvalues("rgbc = ",  sort->rgbc);
+	ft_putvalues("mapwidth = ",  sort->mapwidth);
+	ft_putvalues("mapheight = ",  sort->mapheight);
 	write(1, "map = \\/\n", 9);
 }
 
@@ -162,7 +181,7 @@ char
 		{
 			if (ret == 0)
 			{
-				printf("Error no map\n");
+				ft_putstr_fd("Error no map\n", 1);
 				exit(0);
 			}
 			if (currentline[0] == 'R')
@@ -170,7 +189,7 @@ char
 				int i = 1;
 				if (currentline[i] != ' ')
 				{
-					printf("res error\n");
+					ft_putstr_fd("res error\n", 1);
 					exit(0);
 				}
 				sort->resw = ft_atoi(&currentline[i]);
@@ -180,7 +199,7 @@ char
 					i++;
 				if (currentline[i] != ' ')
 				{
-					printf("res error\n");
+					ft_putstr_fd("res error\n", 1);
 					exit(0);
 				}
 				sort->resh = ft_atoi(&currentline[i]);
@@ -202,11 +221,35 @@ void
 	{
 		while (map[i][j])
 		{
-			write(1, &map[i][j], 1);
-			j++;
+			if (map[i][j] == '1')
+            {
+                ft_putstr_fd("\e[41m ", 1);
+                ft_putstr_fd("\e[41m ", 1);
+            }
+            else if (map[i][j] == '2')
+            {
+                ft_putstr_fd("\e[45m ", 1);
+                ft_putstr_fd("\e[45m ", 1);
+            }
+			else if (map[i][j] == '3')
+            {
+                ft_putstr_fd("\e[102m ", 1);
+                ft_putstr_fd("\e[102m ", 1);
+            }
+			else if (map[i][j] == '0')
+            {
+                ft_putstr_fd("\e[107m ", 1);
+                ft_putstr_fd("\e[107m ", 1);
+            }
+            else
+            {
+                ft_putstr_fd("\e[46m ", 1);
+                ft_putstr_fd("\e[46m ", 1);
+            }
+            j++;
 		}
 		j = 0;
-		write(1, "\n", 1);
+		ft_putstr_fd("\e[49m \n", 1);
 		i++;
 	}
 }
@@ -663,7 +706,18 @@ void
         x++;
     }
 	//sprite casting
-	
+    int	i = 0;
+    int numSprite = 4;
+    int spriteOrder[numSprite];
+    t_sprite  *sprite = malloc(numSprite * sizeof(t_sprite));
+    double  spriteDistance[numSprite];
+    while (i < numSprite)
+    {
+        spriteOrder[i] = i;
+        spriteDistance[i] = ((data->posx - sprite[i].x) * (data->posx - sprite[i].x) + (data->posy - sprite[i].y) * (data->posy - sprite[i].y));
+        i++;
+    }
+    //sortSprites(spriteOrder, spriteDistance, numSprite, data);
 }
 
 void
@@ -702,7 +756,13 @@ void
 void
     screenshot(mlx_data_t *data)
 {
-   (void)data; 
+   if (data->sort->issave == 1)
+   {
+        ft_putstr_fd("\e[31mProcessing screenshot ...\n", 1);
+        
+        ft_putstr_fd("\e[32mScreenshot : done :)\n", 1);
+   }
+   data->sort->issave = 2;
 }
 
 int
@@ -872,7 +932,7 @@ int
         square = ft_set_square(data->health, 10, data->sort->resw - data->sort->resh * 0.25, 20);
         ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
 
-	//stamina bar
+    	//stamina bar
         square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14 + 24);
         ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
         square = ft_set_square(108, 18, data->sort->resw - (data->sort->resh * 0.25) - 4, 16 + 24);
@@ -881,19 +941,15 @@ int
         ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
         square = ft_set_square(data->stamina, 10, data->sort->resw - data->sort->resh * 0.25, 20 + 24);
         ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 255), data);
-	//
     }
+//  Updating actual image
 	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
-//	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->s_lifeframe.img_ptr, data->sort->resw - (data->sort->resh * 0.25) - 20, 10);
-	if (youdied)
+    screenshot(data);	
+//  text HUD
+    if (youdied)
 		mlx_string_put(data->data->mlx_ptr, data->data->mlx_win,
 		data->sort->resw * 0.5 - 40,  data->sort->resh * 0.5,
 		rgb_int(0, 0 , 0), "YOU DIED");
-    if (data->sort->issave == 1)
-    {
-        screenshot(data);
-        data->sort->issave = 2;
-    }
     return (1);
 }
 

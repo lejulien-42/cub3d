@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/11 06:10:42 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/12 13:55:37 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <stddef.h>
 # include <unistd.h>
 # include <mlx.h>
+# define uDiv 1
+# define vDiv 1
+# define vMove 0.0
 
 typedef struct			s_img
 {
