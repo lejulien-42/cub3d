@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 15:35:23 by lejulien          #+#    #+#             */
-/*   Updated: 2020/01/05 02:13:58 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/13 14:05:49 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ void	ft_mlx_vertline(mlx_data_t *data, int color, pos_t *pos, int len)
 }
 
 void
-	ft_mlx_drawfilled_square(square_t *square, data_t *data, int color, mlx_data_t *datamlx)
+	ft_mlx_drawfilled_square(square_t *square, int color, mlx_data_t *datamlx)
 {
 	int		i;
-
+    
 	i = 0;
 	while (i < square->w)
 	{

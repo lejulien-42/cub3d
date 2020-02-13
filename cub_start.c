@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/12 20:48:39 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/13 17:24:17 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,7 @@ void
 }
 
 void
-	ft_mlx_show_minimap(data_t *data, mlx_data_t *mlxdata, sort_t *sort)
+	ft_mlx_show_minimap(mlx_data_t *mlxdata, sort_t *sort)
 {
 	int		resph = sort->resh * 0.20 / sort->mapheight;
 	//int	pers = (mlxdata->sort->resw < mlxdata->sort->resh)?mlxdata->sort->resh:mlxdata->sort->resw;
@@ -272,27 +272,27 @@ void
 			if (mlxdata->map[i][j] == '1')
 			{
 				square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-				ft_mlx_drawfilled_square(&square, data, rgb_int(0, 204, 153), mlxdata);
+				ft_mlx_drawfilled_square(&square, rgb_int(0, 204, 153), mlxdata);
 			}
 			else if (mlxdata->map[i][j] == '2')
             {
                 square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-                ft_mlx_drawfilled_square(&square, data, rgb_int(0, 200, 0), mlxdata);
+                ft_mlx_drawfilled_square(&square, rgb_int(0, 200, 0), mlxdata);
             }
 			else if (mlxdata->map[i][j] == '3')
             {
                 square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-                ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 200), mlxdata);
+                ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 200), mlxdata);
             }
 			else if (mlxdata->map[i][j] == '0')
 			{
                 square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-                ft_mlx_drawfilled_square(&square, data, rgb_int(255, 255, 255), mlxdata);
+                ft_mlx_drawfilled_square(&square, rgb_int(255, 255, 255), mlxdata);
 			}
 			else
             {
 			    square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-                ft_mlx_drawfilled_square(&square, data, rgb_int(255, 0, 0), mlxdata);
+                ft_mlx_drawfilled_square(&square, rgb_int(255, 0, 0), mlxdata);
             }
 		    j++;
 		}
@@ -300,9 +300,9 @@ void
 		i++;
 	}
     square = ft_set_square(5, 5, 8 + mlxdata->posy * resph, 8 + mlxdata->posx * resph);
-	ft_mlx_drawfilled_square(&square, data, rgb_int(255, 127, 80), mlxdata);
+	ft_mlx_drawfilled_square(&square, rgb_int(255, 127, 80), mlxdata);
     square = ft_set_square(3, 3, 9 + mlxdata->posy * resph + 2 * mlxdata->diry, 9 + mlxdata->posx * resph + 2 * mlxdata->dirx);
-	ft_mlx_drawfilled_square(&square, data, rgb_int(0, 0, 0), mlxdata);
+	ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), mlxdata);
 }
 
 int
@@ -469,13 +469,31 @@ ft_setimg(mlx_data_t *data)
     }
 }
 
+void
+    ft_swap(int *a, int *b)
+{
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
 
 void
     sortSprite(int *spriteOrder, double *spriteDistance, int numSprite)
 {
-    (void)spriteOrder;
-    (void)spriteDistance;
-    (void)numSprite;
+    int temp = numSprite;
+    int i;
+    while (temp > 0)
+    {
+        i = 0;
+        while (i < temp - 1)
+        {
+            if (spriteDistance[spriteOrder[i]] < spriteDistance[spriteOrder[i + 1]])
+                ft_swap(&spriteOrder[i], &spriteOrder[i + 1]);
+            i++;
+        }
+        temp--;
+    }
 }
 
 void
@@ -942,7 +960,8 @@ int
 		}
 		if (data->left == 1)
 		{
-			if (data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '0' ||
+
+            if (data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '0' ||
 				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '2' ||
 				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '4' ||
 				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '7')
@@ -967,7 +986,7 @@ int
    // ft_setimg(data);
     ft_raycast(data);
     if (data->showbonus == 1)
-        ft_mlx_show_minimap(data->data, data, data->sort);
+        ft_mlx_show_minimap(data, data->sort);
     if (data->map[(int)data->posx][(int)data->posy] == '2')
 		data->health = data->health - 5;
     if (data->map[(int)data->posx][(int)data->posy] == '7')
@@ -1002,23 +1021,23 @@ int
     {
 	    //printf("planex = %f planey = %f\n", data->planeX, data->planeY);
         square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14);
-        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
+        ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
         square = ft_set_square(108, 18, data->sort->resw - (data->sort->resh * 0.25) - 4, 16);
-        ft_mlx_drawfilled_square(&square, data->data, rgb_int(180, 0, 0), data);
+        ft_mlx_drawfilled_square(&square, rgb_int(180, 0, 0), data);
         square = ft_set_square(100, 10, data->sort->resw - data->sort->resh * 0.25, 20);
-        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
+        ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
         square = ft_set_square(data->health, 10, data->sort->resw - data->sort->resh * 0.25, 20);
-        ft_mlx_drawfilled_square(&square, data->data, rgb_int(255, 0, 0), data);
+        ft_mlx_drawfilled_square(&square, rgb_int(255, 0, 0), data);
 
     	//stamina bar
         square = ft_set_square(112, 22, data->sort->resw - (data->sort->resh * 0.25) - 6, 14 + 24);
-        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
+        ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
         square = ft_set_square(108, 18, data->sort->resw - (data->sort->resh * 0.25) - 4, 16 + 24);
-        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 180), data);
+        ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 180), data);
         square = ft_set_square(100, 10, data->sort->resw - data->sort->resh * 0.25, 20 + 24);
-        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 0), data);
+        ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
         square = ft_set_square(data->stamina, 10, data->sort->resw - data->sort->resh * 0.25, 20 + 24);
-        ft_mlx_drawfilled_square(&square, data->data, rgb_int(0, 0, 255), data);
+        ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 255), data);
     }
 //  Updating actual image
 	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
@@ -1067,7 +1086,7 @@ int
 	mlx_data.s_arrowtexl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/left.xpm", &mlx_data.s_arrowtexl.width, &mlx_data.s_arrowtexl.height);
 	mlx_data.s_lifeframe.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/frame.xpm", &mlx_data.s_lifeframe.width, &mlx_data.s_lifeframe.height);
     mlx_data.s_health.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/New-Piskel.xpm", &mlx_data.s_health.width, &mlx_data.s_health.height);
-    mlx_data.s_monster.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/monster.xpm", &mlx_data.s_monster.width, &mlx_data.s_monster.height);
+    mlx_data.s_monster.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/loli.xpm", &mlx_data.s_monster.width, &mlx_data.s_monster.height);
 	
 	
 	mlx_data.img.data = (int *)mlx_get_data_addr(mlx_data.img.img_ptr, &mlx_data.img.bpp, &mlx_data.img.size_l,

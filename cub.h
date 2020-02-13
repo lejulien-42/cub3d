@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/12 20:17:18 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/13 14:06:05 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ typedef struct  mlx_data_s
 }               mlx_data_t;
 
 void		ft_mlx_draw_square(square_t *square, data_t *data, int color);
-void		ft_mlx_drawfilled_square(square_t *square, data_t *data, int color, mlx_data_t *mlxData);
+void		ft_mlx_drawfilled_square(square_t *square, int color, mlx_data_t *mlxData);
 square_t	ft_set_square(int w, int h, int x, int y);
 int			rgb_int(int red, int green, int blue);
 void	    ft_vertline(mlx_data_t *data, int color, pos_t *pos, pos_t *postwo);
