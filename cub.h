@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/13 14:06:05 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/14 20:02:03 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,17 @@ typedef struct			s_img
 	int		width;
 	int		height;
 }						t_img;
+
+typedef struct          s_bmp
+{
+    int     file_size;
+    int     pixels_address;
+    int     header_size;
+    int     clear_planes;
+    int     bpp;
+    int     raw_size;
+    int     res;
+}                       t_bmp;
 
 typedef struct			s_sprite
 {
@@ -140,4 +151,5 @@ void		ft_mlx_drawfilled_square(square_t *square, int color, mlx_data_t *mlxData)
 square_t	ft_set_square(int w, int h, int x, int y);
 int			rgb_int(int red, int green, int blue);
 void	    ft_vertline(mlx_data_t *data, int color, pos_t *pos, pos_t *postwo);
+int         img_to_bmp(mlx_data_t * data);
 #endif

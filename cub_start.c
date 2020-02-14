@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/13 17:24:17 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/14 20:57:20 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -799,13 +799,16 @@ void
                 {
                     int d = (y) * 256 - data->sort->resh * 128 + spriteHeight * 128;
                     int texY = ((d * texHeight) / spriteHeight) / 256;
-                    int color;
-                    if (sprite[spriteOrder[i]].texture == 0)
-                        color = data->s_health.data[texWidth * texY + texX];
-                    else
-                        color = data->s_monster.data[texWidth * texY + texX];
-                    if (color != -16777216)
-                        data->img.data[y * data->sort->resw + stripe] = color;
+                    int color = 0;
+                    if (texWidth * texY + texX > 0)
+                    {
+                        if (sprite[spriteOrder[i]].texture == 0)
+                            color = data->s_health.data[texWidth * texY + texX];
+                        else
+                            color = data->s_monster.data[texWidth * texY + texX];
+                        if (color != -16777216)
+                            data->img.data[y * data->sort->resw + stripe] = color;
+                    }
                     y++;
                 }
             }
@@ -855,8 +858,9 @@ void
    if (data->sort->issave == 1)
    {
         ft_putstr_fd("\e[31mProcessing screenshot ...\n", 1);
-        
+        img_to_bmp(data);
         ft_putstr_fd("\e[32mScreenshot : done :)\n", 1);
+        exit (0);
    }
    data->sort->issave = 2;
 }
@@ -901,6 +905,7 @@ int
 		{
 			data->showbonus = 1;
 		}
+			data->showbonus = 1;
 		if (data->key_right == 1)
 		{
 			double oldDirX = data->dirx;
@@ -1085,7 +1090,7 @@ int
 	mlx_data.s_arrowtex.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/right.xpm", &mlx_data.s_arrowtex.width, &mlx_data.s_arrowtex.height);
 	mlx_data.s_arrowtexl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/left.xpm", &mlx_data.s_arrowtexl.width, &mlx_data.s_arrowtexl.height);
 	mlx_data.s_lifeframe.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/frame.xpm", &mlx_data.s_lifeframe.width, &mlx_data.s_lifeframe.height);
-    mlx_data.s_health.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/New-Piskel.xpm", &mlx_data.s_health.width, &mlx_data.s_health.height);
+    mlx_data.s_health.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/monster.xpm", &mlx_data.s_health.width, &mlx_data.s_health.height);
     mlx_data.s_monster.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/loli.xpm", &mlx_data.s_monster.width, &mlx_data.s_monster.height);
 	
 	
