@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/14 20:02:03 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/14 23:59:54 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct  mlx_data_s
     int         r;
     int         shift;
     int         mkey;
+    int         spritenumber;
     double      posx;
     double      posy;
     double      dirx;

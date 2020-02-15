@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:06:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/14 20:57:20 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/15 16:38:18 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,68 @@ static sort_t
 	sort.mapwidth = 33;
 	sort.mapheight = 33;
 	return (sort);
+}
+
+int
+    ft_attrib_sprite(mlx_data_t *data)
+{
+    int   s;
+    int   x;
+    int   y;
+    char  type;
+
+    s = 0;
+    x = 0;
+    y = 0;
+    while (x < data->sort->mapwidth)
+    {
+        y = 0;
+        while (y < data->sort->mapheight)
+        {
+            type = data->map[x][y];
+            if (type == 'A' || type == 'B')
+            {
+                data->sprite[s].x = x + 0.5;
+                data->sprite[s].y = y + 0.5;
+                if (type == 'A')
+                    data->sprite[s].texture = 0;
+                else
+                    data->sprite[s].texture = 1;
+                s++;
+            }
+            y++;
+        }
+        x++;
+    }
+    return (1);
+}
+
+int
+    ft_count_sprite(mlx_data_t *data)
+{
+    int i;
+    int j;
+    int count;
+    char texture;
+
+    i = 0;
+    count = 0;
+    while (i < data->sort->mapwidth)
+    {
+        j = 0;
+        while (j < data->sort->mapheight)
+        {
+            texture = data->map[i][j];
+            if (texture == 'A' || texture == 'B')
+                count++;
+            j++;
+        }
+        i++;
+    }
+    if (!(data->sprite = malloc(count * sizeof(t_sprite))))
+        return (-1);
+    data->spritenumber = count;
+    return (1);
 }
 
 int     rgb_int(int red, int green, int blue)
@@ -346,6 +408,7 @@ mlx_data_t
 	mlx_data.key_up = 0;
 	mlx_data.key_down = 0;
 	mlx_data.shift = 0;
+	mlx_data.spritenumber = 0;
     mlx_data.posx = 1.5;
     mlx_data.posy = 1.5;
     mlx_data.dirx = -1;
@@ -615,7 +678,8 @@ void
                 mapY = mapY + stepY;
                 side = 1;
             }
-            if (data->map[mapX][mapY] != '0')
+            char this = data->map[mapX][mapY];
+            if (this != '0' && this != 'A' && this != 'B')
 			{
 				what = data->map[mapX][mapY];
                 hit = 1;
@@ -735,34 +799,21 @@ void
     }
 	//sprite casting
     int	i = 0;
-    int numSprite = 4;
+    int numSprite = data->spritenumber;
     int spriteOrder[numSprite];
-    t_sprite  *sprite = malloc(numSprite * sizeof(t_sprite));
-
-    int nbr = 0;
-    while (nbr < 4)
-    {
-        sprite[nbr].x = 12.5 + (double)nbr;
-        sprite[nbr].y = 12.5;
-        if (nbr == 1)
-            sprite[nbr].texture = 1;
-        else
-            sprite[nbr].texture = 0;
-        nbr++;
-    }
     double  spriteDistance[numSprite];
     while (i < numSprite)
     {
         spriteOrder[i] = i;
-        spriteDistance[i] = ((data->posx - sprite[i].x) * (data->posx - sprite[i].x) + (data->posy - sprite[i].y) * (data->posy - sprite[i].y));
+        spriteDistance[i] = ((data->posx - data->sprite[i].x) * (data->posx - data->sprite[i].x) + (data->posy - data->sprite[i].y) * (data->posy - data->sprite[i].y));
         i++;
     }
     sortSprite(spriteOrder, spriteDistance, numSprite);
     i = 0;
     while (i < numSprite)
     {
-        double  spriteX = sprite[spriteOrder[i]].x - data->posx;
-        double  spriteY = sprite[spriteOrder[i]].y - data->posy;
+        double  spriteX = data->sprite[spriteOrder[i]].x - data->posx;
+        double  spriteY = data->sprite[spriteOrder[i]].y - data->posy;
 
         double  invDet = 1.0 / (data->planeX * data->diry - data->dirx * data->planeY);
 
@@ -802,7 +853,7 @@ void
                     int color = 0;
                     if (texWidth * texY + texX > 0)
                     {
-                        if (sprite[spriteOrder[i]].texture == 0)
+                        if (data->sprite[spriteOrder[i]].texture == 0)
                             color = data->s_health.data[texWidth * texY + texX];
                         else
                             color = data->s_monster.data[texWidth * texY + texX];
@@ -898,7 +949,6 @@ int
     {
         data->promton = 1;
     }
-	//printf("%f|%f\n", data->dirx, data->diry);
 	if (data->health > 0)
 	{
 		if (data->r == 1)
@@ -929,25 +979,33 @@ int
 			if (data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '0' ||
 				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '2' ||
 				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '4' ||
-				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '7')
+				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == '7' ||
+				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == 'A' ||
+				data->map[(int)(data->posx + data->dirx * moveSpeed)][(int)(data->posy)] == 'B')
 				data->posx += data->dirx * moveSpeed;
 			if (data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '0' ||
-				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '2' ||
+				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '2'  ||
 				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '4' ||
-				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '7')
+				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == '7'||
+				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == 'A' ||
+				data->map[(int)(data->posx)][(int)(data->posy + data->diry * moveSpeed)] == 'B')
 				data->posy += data->diry * moveSpeed;
 		}
 		if (data->down == 1 || data->key_down == 1)
 		{
 			if (data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '0' ||
-				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '2' ||
+				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '2'  ||
 				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '4' ||
-				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '7')
+				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == '7'||
+				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == 'A' ||
+				data->map[(int)(data->posx - data->dirx * moveSpeed)][(int)(data->posy)] == 'B')
 				data->posx -= data->dirx * moveSpeed;
 			if (data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '0' ||
-				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '2' ||
+				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '2'  ||
 				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '4' ||
-				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '7')
+				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == '7'||
+				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == 'A' ||
+				data->map[(int)(data->posx)][(int)(data->posy - data->diry * moveSpeed)] == 'B')
 				data->posy -= data->diry * moveSpeed;
 		}
 		if (data->right == 1)
@@ -955,26 +1013,34 @@ int
 			if (data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '0' ||
 				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '2' ||
 				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '4' ||
-				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '7')
+				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == '7' ||
+				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == 'A' ||
+				data->map[(int)(data->posx + data->planeX * moveSpeed)][(int)(data->posy)] == 'B')
 				data->posx += data->planeX * moveSpeed;
 			if (data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '0' ||
-				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '2' ||
+				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '2'  ||
 				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '4' ||
-				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '7')
+				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == '7'||
+				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == 'A' ||
+				data->map[(int)(data->posx)][(int)(data->posy + data->planeY * moveSpeed)] == 'B')
 				data->posy += data->planeY * moveSpeed;
 		}
 		if (data->left == 1)
 		{
 
             if (data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '0' ||
-				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '2' ||
+				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '2'  ||
 				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '4' ||
-				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '7')
+				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == '7'||
+				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == 'A' ||
+				data->map[(int)(data->posx - data->planeX * moveSpeed)][(int)(data->posy)] == 'B')
 				data->posx -= data->planeX * moveSpeed;
 			if (data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '0' ||
-				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '2' ||
+				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '2'  ||
 				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '4' ||
-				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '7')
+				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == '7'||
+				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == 'A' ||
+				data->map[(int)(data->posx)][(int)(data->posy - data->planeY * moveSpeed)] == 'B')
 				data->posy -= data->planeY * moveSpeed;
 		}
 	}
@@ -1015,6 +1081,22 @@ int
 		data->posy = data->posy = 20.0 + (data->posy - (int)data->posy);
 	}
 	//health
+        int ord = 0;
+        while (ord < data->spritenumber)
+        {
+            if (data->sprite[ord].texture == 0)
+            {
+                if (data->sprite[ord].x < data->posx)
+                    data->sprite[ord].x = data->sprite[ord].x + moveSpeed / 2;
+                if (data->sprite[ord].x > data->posx)
+                    data->sprite[ord].x = data->sprite[ord].x - moveSpeed / 2;
+                if (data->sprite[ord].y < data->posy)
+                    data->sprite[ord].y = data->sprite[ord].y + moveSpeed / 2;
+                if (data->sprite[ord].y > data->posy)
+                    data->sprite[ord].y = data->sprite[ord].y - moveSpeed / 2;
+            }
+            ord++;
+        }
     if (data->health <= 0)
     {
 		data->health = 0;
@@ -1072,6 +1154,10 @@ int
     mlx_data = ft_set_mlx_data(map, &data, sort, &player);
 	ft_setplayer(3.5, 22.5, &mlx_data);
 	ft_setplayerdir(&mlx_data, 3);
+    if (!(ft_count_sprite(&mlx_data)))
+        return (EXIT_FAILURE);
+    if (!(ft_attrib_sprite(&mlx_data)))
+        return (EXIT_FAILURE);
     ft_debugmap(map);
 	if (!(data.mlx_ptr = mlx_init()))
 		return (EXIT_FAILURE);
