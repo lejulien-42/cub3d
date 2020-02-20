@@ -38,50 +38,11 @@
 
 
 
-int
-	strlennspace(char *str)
-{
-	int	i;
 
-	i = 0;
-	while (*str)
-	{
-		if (*str != ' ')
-			i++;
-		str++;
-	}
-	return (i);
-}
 
-char
-	*ft_subspace(char *str)
-{
-	char	*temp;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
-	temp = malloc((strlennspace(str) + 1) * sizeof(char));
-	while (str[i] != '\0')
-	{
-		while (str[i] == ' ')
-			i++;
-		temp[j] = str[i];
-		j++;
-		i++;
-	}
-	temp[j] = '\0';
-	return (temp);
-}
 
-int
-	ft_whitespace(char c)
-{
-	if (c == ' ' || c == '\f' || c == '\t' || c == '\n' || c == '\r' || c == '\v')
-		return (1);
-	return (0);
-}
+
 
 char
 	*ft_compressmap(int fd, t_sort *sort)
@@ -286,21 +247,9 @@ void
 	ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), mlxdata);
 }
 
-int
-	closeit(void *param) {
-	(void) *param;
-	exit(0);
-	return (0);
-}
 
-t_pos   ft_setpoint(x, y)
-{
-	t_pos point;
 
-	point.x = x;
-	point.y = y;
-	return (point);
-}
+
 
 t_mlx_data
 	ft_set_mlx_data(char **map, t_data *data, t_sort *sort, t_player *player)
@@ -351,13 +300,7 @@ t_mlx_data
 	mlx_data.showbonus = 0;
 	return (mlx_data);
 }
-void
-	ft_setplayer(double x, double y, t_mlx_data *data)
-{
 
-	data->posx = x;
-	data->posy = y;
-}
 
 int
 	key_press(int key, t_mlx_data *data)

@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 03:07:42 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/20 05:46:03 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/20 05:50:14 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,19 @@ void
 	ft_putvalues("mapwidth = ", sort->mapwidth);
 	ft_putvalues("mapheight = ", sort->mapheight);
 	write(1, "map = \\/\n", 9);
+}
+
+int
+	strlennspace(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (*str)
+	{
+		if (*str != ' ')
+			i++;
+		str++;
+	}
+	return (i);
 }
