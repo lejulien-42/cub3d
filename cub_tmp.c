@@ -30,54 +30,13 @@
 
 
 
-int	 rgba_int(int red, int green, int blue, int alpha)
-{
-	int	 rgb;
 
-	rgb = red;
-	rgb = (rgb << 8) + green;
-	rgb = (rgb << 8) + blue;
-	rgb = (rgb << 8) + alpha;
-	return (rgb);
-}
 
-void
-	ft_putvalues(char *desc, int value)
-{
-	ft_putstr_fd("\e[95m", 1);
-	ft_putstr_fd(desc, 1);
-	ft_putstr_fd("\e[34m", 1);
-	ft_putnbr_fd(value, 1);
-	ft_putstr_fd("\n", 1);
-}
 
-void
-	ft_putchardesc(char *desc, char *str)
-{
-	ft_putstr_fd("\e[95m", 1);
-	ft_putstr_fd(desc, 1);
-	ft_putstr_fd("\e[34m", 1);
-	ft_putstr_fd(str, 1);
-	ft_putstr_fd("\n", 1);
-}
 
-static void
-	ft_debug_sort(t_sort *sort)
-{
-	ft_putvalues("is_save = ", sort->issave);
-	ft_putchardesc("northpath = ", sort->northpath);
-	ft_putchardesc("southpath = ", sort->southpath);
-	ft_putchardesc("eastpath = ", sort->eastpath);
-	ft_putchardesc("westpath = ", sort->westpath);
-	ft_putvalues("resw = ", sort->resw);
-	ft_putvalues("resh = ", sort->resh);
-	ft_putchardesc("sprite = ", sort->sprite);
-	ft_putvalues("rgbf = ", sort->rgbf);
-	ft_putvalues("rgbc = ",  sort->rgbc);
-	ft_putvalues("mapwidth = ",  sort->mapwidth);
-	ft_putvalues("mapheight = ",  sort->mapheight);
-	write(1, "map = \\/\n", 9);
-}
+
+
+
 
 int
 	strlennspace(char *str)

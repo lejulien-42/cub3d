@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/20 03:08:39 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/20 05:43:28 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,5 +161,7 @@ t_sort			ft_initialaze_sort(void);
 int				ft_attrib_sprite(t_mlx_data *data);
 int				rgb_int(int red, int green, int blue);
 int				ft_count_sprite(t_mlx_data *date);
+void			ft_putchardesc(char *desc, char *str);
+
 //char			*ft_compressmap(int fd, t_sort *sort);
 #endif
