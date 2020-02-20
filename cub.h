@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/20 06:06:00 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/20 07:54:20 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,9 @@ void			ft_putchardesc(char *desc, char *str);
 char			*ft_subspace(char *str);
 int				closeit(void *param);
 t_pos			ft_setpoint(int x, int y);
+int				key_press(int key, t_mlx_data *data);
+int				key_release(int key, t_mlx_data *data);
+void			screenshot(t_mlx_data *data);
+int				draw(t_mlx_data *data);
 //char			*ft_compressmap(int fd, t_sort *sort);
 #endif

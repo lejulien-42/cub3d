@@ -302,123 +302,18 @@ t_mlx_data
 }
 
 
-int
-	key_press(int key, t_mlx_data *data)
-{
-	if (key == 0)
-		data->left = 1;
-	if (key == 2)
-		data->right = 1;
-	if (key == 13)
-		data->up = 1;
-	if (key == 1)
-		data->down = 1;
-	if (key == 53)
-		data->esc = 1;
-	if (key == 46)
-		data->mkey = 1;
-	if (key == 123)
-		data->key_left = 1;
-	if (key == 124)
-		data->key_right = 1;
-	if (key == 257)
-		data->shift = 1;
-	if (key == 15)
-		data->r = 1;
-	if (key == 126)
-		data->key_up = 1;
-	if (key == 125)
-		data->key_down = 1;
-	return (1);
-}
-
-int
-key_release(int key, t_mlx_data *data)
-{
-	if (key == 0)
-		data->left = 0;
-	if (key == 2)
-		data->right = 0;
-	if (key == 13)
-		data->up = 0;
-	if (key == 1)
-		data->down = 0;
-	if (key == 53)
-		data->esc = 0;
-	if (key == 46)
-		data->mkey = 0;
-	if (key == 123)
-		data->key_left = 0;
-	if (key == 124)
-		data->key_right = 0;
-	if (key == 257)
-		data->shift = 0;
-	if (key == 15)
-		data->r = 0;
-	if (key == 126)
-		data->key_up = 0;
-	if (key == 125)
-		data->key_down = 0;
-	return (1);
-}
-
-int
-	get_click(int button, int x, int y, t_mlx_data *data)
-{
-	if (button == 1)
-	{
-		data->posx = x * 0.20 / data->sort->mapheight;
-		data->posy = y * 0.20 / data->sort->mapheight;
-	}
-	return (1);
-}
 
 
-void
-ft_setimg(t_mlx_data *data)
-{
-	int count_h = -1;
-	int count_w = -1;
 
-	while (++count_h < data->sort->resh)
-	{
-		count_w = -1;
-		while (++count_w < data->sort->resw)
-		{
-			if (count_h < (data->sort->resh / 2))
-				data->img.data[count_h * data->sort->resw + count_w] = rgb_int(0, 0, 255);
-			else
-				data->img.data[count_h * data->sort->resw + count_w] = rgb_int(205,133,63);
-		}
-	}
-}
 
-void
-	ft_swap(int *a, int *b)
-{
-	int temp;
-	temp = *a;
-	*a = *b;
-	*b = temp;
-}
 
-void
-	sortSprite(int *spriteOrder, double *spriteDistance, int numSprite)
-{
-	int temp = numSprite;
-	int i;
-	while (temp > 0)
-	{
-		i = 0;
-		while (i < temp - 1)
-		{
-			if (spriteDistance[spriteOrder[i]] < spriteDistance[spriteOrder[i + 1]])
-				ft_swap(&spriteOrder[i], &spriteOrder[i + 1]);
-			i++;
-		}
-		temp--;
-	}
-}
+
+
+
+
+
+
+
 
 void
 	ft_raycast(t_mlx_data *data)
@@ -661,7 +556,7 @@ void
 		spriteDistance[i] = ((data->posx - data->sprite[i].x) * (data->posx - data->sprite[i].x) + (data->posy - data->sprite[i].y) * (data->posy - data->sprite[i].y));
 		i++;
 	}
-	sortSprite(spriteOrder, spriteDistance, numSprite);
+	sortsprite(spriteOrder, spriteDistance, numSprite);
 	i = 0;
 	while (i < numSprite)
 	{
@@ -755,18 +650,7 @@ void
 	}
 }
 
-void
-	screenshot(t_mlx_data *data)
-{
-   if (data->sort->issave == 1)
-   {
-		ft_putstr_fd("\e[31mProcessing screenshot ...\n", 1);
-		img_to_bmp(data);
-		ft_putstr_fd("\e[32mScreenshot : done :)\n", 1);
-		exit (0);
-   }
-   data->sort->issave = 2;
-}
+
 
 int
 	draw(t_mlx_data *data)
@@ -1074,14 +958,15 @@ int
 	mlx_data.s_monster.data = (int *)mlx_get_data_addr(mlx_data.s_monster.img_ptr, &mlx_data.s_monster.bpp, &mlx_data.s_monster.size_l,
 			&mlx_data.s_monster.endian);
 	ft_setimg(&mlx_data);
+	ft_do_mlx(&mlx_data);
 	//int game = 1;
 	//while (game)
 	//{
-		mlx_hook(data.mlx_win, 17, 0L, closeit, NULL);
-		mlx_hook(data.mlx_win, 2, 1L<<0, key_press, &mlx_data);
-		mlx_key_hook(data.mlx_win, key_release, &mlx_data);
-		mlx_loop_hook(data.mlx_ptr, draw, &mlx_data);
-		mlx_loop(data.mlx_ptr);
+		// mlx_hook(data.mlx_win, 17, 0L, closeit, NULL);
+		// mlx_hook(data.mlx_win, 2, 1L<<0, key_press, &mlx_data);
+		// mlx_key_hook(data.mlx_win, key_release, &mlx_data);
+		// mlx_loop_hook(data.mlx_ptr, draw, &mlx_data);
+		// mlx_loop(data.mlx_ptr);
 	//}
 	return (1);
 }
