@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub_mlx_test.c                                     :+:      :+:    :+:   */
+/*   cub_draw_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,18 +12,20 @@
 
 #include "cub.h"
 
-pos_t	ft_set_pos(int x, int y)
+t_pos
+	ft_set_pos(int x, int y)
 {
-	pos_t	pos;
+	t_pos	pos;
 
 	pos.x = x;
 	pos.y = y;
 	return (pos);
 }
 
-square_t	ft_set_square(int w, int h, int x, int y)
+t_square
+	ft_set_square(int w, int h, int x, int y)
 {
-	square_t	square;
+	t_square	square;
 
 	square.pos = ft_set_pos(x, y);
 	square.w = w;
@@ -31,7 +33,8 @@ square_t	ft_set_square(int w, int h, int x, int y)
 	return (square);
 }
 
-void	ft_mlx_horizline(data_t *data, int color, pos_t *pos, int len)
+void
+	ft_mlx_horizline(t_data *data, int color, t_pos *pos, int len)
 {
 	int i;
 
@@ -43,28 +46,33 @@ void	ft_mlx_horizline(data_t *data, int color, pos_t *pos, int len)
 	}
 }
 
-
-void	ft_vertline(mlx_data_t *data, int color, pos_t *pos, pos_t *postwo)
+void
+	ft_vertline(t_mlx_data *data, int color, t_pos *pos, t_pos *postwo)
 {
-    int i;
+	int i;
 
-    i = 0;
-    if (pos->y < postwo->y) {
-        while (i < (postwo->y - pos->y)) {
-            data->img.data[(pos->y + i) * data->sort->resw + pos->x] = color;
-            i++;
-        }
-    }
-    else
-    {
-        while (i < (pos->y - postwo->y)) {
-            data->img.data[(postwo->y + i) * data->sort->resw + postwo->x] = color;
-            i++;
-        }
-    }
+	i = 0;
+	if (pos->y < postwo->y)
+	{
+		while (i < (postwo->y - pos->y))
+		{
+			data->img.data[(pos->y + i) * data->sort->resw + pos->x] = color;
+			i++;
+		}
+	}
+	else
+	{
+		while (i < (pos->y - postwo->y))
+		{
+			data->img.data[(postwo->y + i) * data->sort->resw
+											+ postwo->x] = color;
+			i++;
+		}
+	}
 }
 
-void	ft_mlx_vertline(mlx_data_t *data, int color, pos_t *pos, int len)
+void
+	ft_mlx_vertline(t_mlx_data *data, int color, t_pos *pos, int len)
 {
 	int i;
 
@@ -75,38 +83,3 @@ void	ft_mlx_vertline(mlx_data_t *data, int color, pos_t *pos, int len)
 		i++;
 	}
 }
-
-void
-	ft_mlx_drawfilled_square(square_t *square, int color, mlx_data_t *datamlx)
-{
-	int		i;
-    
-	i = 0;
-	while (i < square->w)
-	{
-		ft_mlx_vertline(datamlx, color, &square->pos, square->h);
-		square->pos.x++;
-		i++;
-	}
-}
-/*
-int	main(void)
-{
-	data_t		data;
-	player_t	player;
-	square_t	square;
-
-	square = ft_set_square(599, 599, 0, 0);
-	if (!(data.mlx_ptr = mlx_init()))
-		return (EXIT_FAILURE);
-	if (!(data.mlx_win = mlx_new_window(data.mlx_ptr, 600, 600, "cub3d")))
-		return (EXIT_FAILURE);
-	ft_mlx_draw_square(&square, &data, rgb_int(255, 0, 0));
-	square = ft_set_square(64, 64, 50, 50);
-	ft_mlx_draw_square(&square, &data, rgb_int(0, 255, 255));
-	square = ft_set_square(300, 300, 100, 50);
-	ft_mlx_draw_square(&square, &data, rgb_int(0, 255, 0));
-	mlx_loop(data.mlx_ptr);
-	return (EXIT_SUCCESS);
-}
-*/

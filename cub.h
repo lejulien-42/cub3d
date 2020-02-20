@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/14 23:59:54 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/20 03:08:39 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,113 +17,115 @@
 # include <stddef.h>
 # include <unistd.h>
 # include <mlx.h>
-# define uDiv 1
-# define vDiv 1
-# define vMove 0.0
+# define UDIV 1
+# define VDUV 1
+# define VMOVE 0.0
 
-typedef struct			s_img
+typedef struct	s_img
 {
-	void	*img_ptr;
-	int		*data;
-	int		size_l;
-	int		bpp;
-	int		endian;
-	int		width;
-	int		height;
-}						t_img;
+	void		*img_ptr;
+	int			*data;
+	int			size_l;
+	int			bpp;
+	int			endian;
+	int			width;
+	int			height;
+}				t_img;
 
-typedef struct          s_bmp
+typedef struct	s_bmp
 {
-    int     file_size;
-    int     pixels_address;
-    int     header_size;
-    int     clear_planes;
-    int     bpp;
-    int     raw_size;
-    int     res;
-}                       t_bmp;
+	int			file_size;
+	int			pixels_address;
+	int			header_size;
+	int			clear_planes;
+	int			bpp;
+	int			raw_size;
+	int			res;
+}				t_bmp;
 
-typedef struct			s_sprite
+typedef struct	s_sprite
 {
-	double	x;
-	double	y;
-	int		texture;
-}						t_sprite;
+	double		x;
+	double		y;
+	int			texture;
+}				t_sprite;
 
-typedef struct          data_s
+typedef struct	s_data
 {
-        void                    *mlx_ptr;
-        void                    *mlx_win;
-}                                       data_t;
+	void		*mlx_ptr;
+	void		*mlx_win;
+}				t_data;
 
-typedef struct          player_s
+typedef struct	s_player
 {
-        int                             x;
-        int                             y;
-        int                             o;
-}                                       player_t;
+	int			x;
+	int			y;
+	int			o;
+}				t_player;
 
-typedef struct          pos_s
+typedef struct	s_pos
 {
-        int                             x;
-        int                             y;
-}                                       pos_t;
+	int			x;
+	int			y;
+}				t_pos;
 
-typedef struct          square_s
+typedef struct	s_square
 {
-        pos_t                   pos;
-        int                             w;
-        int                             h;
-}                                       square_t;
+	t_pos		pos;
+	int			w;
+	int			h;
+}				t_square;
 
-typedef struct	sort_s
+typedef struct	s_sort
 {
-	int		issave;
-	char	*northpath;
-	char	*southpath;
-	char	*eastpath;
-	char	*westpath;
-	int		resw;
-	int		resh;
-	char	*sprite;
-	int		rgbf;
-	int		rgbc;
-	int		mapwidth;
-	int		mapheight;
-}				sort_t;
+	int			issave;
+	char		*northpath;
+	char		*southpath;
+	char		*eastpath;
+	char		*westpath;
+	int			resw;
+	int			resh;
+	char		*sprite;
+	int			rgbf;
+	int			rgbc;
+	int			mapwidth;
+	int			mapheight;
+	int			isbonus;
+}				t_sort;
 
-typedef struct  mlx_data_s
+typedef struct	s_mlx_data
 {
-    char        **map;
-    data_t      *data;
-    sort_t      *sort;
-    player_t    *player;
-    int         up;
-    int         down;
-    int         left;
-    int         right;
+	char		**map;
+	t_data		*data;
+	t_sort		*sort;
+	t_player	*player;
+	int			up;
+	int			down;
+	int			left;
+	int			right;
+	int			s;
 	int			key_left;
 	int			key_right;
 	int			key_up;
 	int			key_down;
-    int         esc;
-    int         r;
-    int         shift;
-    int         mkey;
-    int         spritenumber;
-    double      posx;
-    double      posy;
-    double      dirx;
-    double      diry;
-    int         health;
+	int			esc;
+	int			r;
+	int			shift;
+	int			mkey;
+	int			spritenumber;
+	double		posx;
+	double		posy;
+	double		dirx;
+	double		diry;
+	int			health;
 	int			stamina;
 	int			hasstamina;
-    int         showbonus;
-    double      time;
-    double      oldtime;
-    double      planeX;
-    double      planeY;
-    int         promton;
+	int			showbonus;
+	double		time;
+	double		oldtime;
+	double		planex;
+	double		planey;
+	int			promton;
 	t_img		img;
 	t_img		s_wall;
 	t_img		s_walltwo;
@@ -139,18 +141,25 @@ typedef struct  mlx_data_s
 	t_img		s_lifeframe;
 	t_img		s_health;
 	t_img		s_monster;
-    int         numSprite;
-    t_sprite    *sprite;
-    double      *zBuffer;
-    int         *spriteOrder;
-    double      *spriteDistance;
-    int         numsprite;
-}               mlx_data_t;
+	t_sprite	*sprite;
+	double		*zbuffer;
+	int			*spriteorder;
+	double		*spritedistance;
+	int			numesprite;
+}				t_mlx_data;
 
-void		ft_mlx_draw_square(square_t *square, data_t *data, int color);
-void		ft_mlx_drawfilled_square(square_t *square, int color, mlx_data_t *mlxData);
-square_t	ft_set_square(int w, int h, int x, int y);
-int			rgb_int(int red, int green, int blue);
-void	    ft_vertline(mlx_data_t *data, int color, pos_t *pos, pos_t *postwo);
-int         img_to_bmp(mlx_data_t * data);
+void			ft_mlx_draw_square(t_square *square, t_data *data, int color);
+void			ft_mlx_drawfilled_square(t_square *square, int color,
+											t_mlx_data *mlxdata);
+t_square		ft_set_square(int w, int h, int x, int y);
+int				rgb_int(int red, int green, int blue);
+void			ft_vertline(t_mlx_data *data, int color, t_pos *pos,
+											t_pos *postwo);
+int				img_to_bmp(t_mlx_data *data);
+void			ft_puterror(char *text);
+t_sort			ft_initialaze_sort(void);
+int				ft_attrib_sprite(t_mlx_data *data);
+int				rgb_int(int red, int green, int blue);
+int				ft_count_sprite(t_mlx_data *date);
+//char			*ft_compressmap(int fd, t_sort *sort);
 #endif
