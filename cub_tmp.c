@@ -628,65 +628,7 @@ int
 	data->movespeed = 0.05;
 	double rotSpeed = 0.05;
 
-	ft_key_event(data);
-	if (data->health > 0)
-	{
-		ft_keyr(data);
-		ft_keyl(data);
-		if (data->up == 1 || data->key_up == 1)
-		{
-			if (data->map[(int)(data->posx + data->dirx * data->movespeed)][(int)(data->posy)] == '0' ||
-				data->map[(int)(data->posx + data->dirx * data->movespeed)][(int)(data->posy)] == '2' ||
-				data->map[(int)(data->posx + data->dirx * data->movespeed)][(int)(data->posy)] == '4' ||
-				data->map[(int)(data->posx + data->dirx * data->movespeed)][(int)(data->posy)] == '7' ||
-				data->map[(int)(data->posx + data->dirx * data->movespeed)][(int)(data->posy)] == 'A' ||
-				data->map[(int)(data->posx + data->dirx * data->movespeed)][(int)(data->posy)] == 'B')
-				data->posx += data->dirx * data->movespeed;
-			if (data->map[(int)(data->posx)][(int)(data->posy + data->diry * data->movespeed)] == '0' ||
-				data->map[(int)(data->posx)][(int)(data->posy + data->diry * data->movespeed)] == '2'  ||
-				data->map[(int)(data->posx)][(int)(data->posy + data->diry * data->movespeed)] == '4' ||
-				data->map[(int)(data->posx)][(int)(data->posy + data->diry * data->movespeed)] == '7'||
-				data->map[(int)(data->posx)][(int)(data->posy + data->diry * data->movespeed)] == 'A' ||
-				data->map[(int)(data->posx)][(int)(data->posy + data->diry * data->movespeed)] == 'B')
-				data->posy += data->diry * data->movespeed;
-		}
-		if (data->down == 1 || data->key_down == 1)
-		{
-			if (data->map[(int)(data->posx - data->dirx * data->movespeed)][(int)(data->posy)] == '0' ||
-				data->map[(int)(data->posx - data->dirx * data->movespeed)][(int)(data->posy)] == '2'  ||
-				data->map[(int)(data->posx - data->dirx * data->movespeed)][(int)(data->posy)] == '4' ||
-				data->map[(int)(data->posx - data->dirx * data->movespeed)][(int)(data->posy)] == '7'||
-				data->map[(int)(data->posx - data->dirx * data->movespeed)][(int)(data->posy)] == 'A' ||
-				data->map[(int)(data->posx - data->dirx * data->movespeed)][(int)(data->posy)] == 'B')
-				data->posx -= data->dirx * data->movespeed;
-			if (data->map[(int)(data->posx)][(int)(data->posy - data->diry * data->movespeed)] == '0' ||
-				data->map[(int)(data->posx)][(int)(data->posy - data->diry * data->movespeed)] == '2'  ||
-				data->map[(int)(data->posx)][(int)(data->posy - data->diry * data->movespeed)] == '4' ||
-				data->map[(int)(data->posx)][(int)(data->posy - data->diry * data->movespeed)] == '7'||
-				data->map[(int)(data->posx)][(int)(data->posy - data->diry * data->movespeed)] == 'A' ||
-				data->map[(int)(data->posx)][(int)(data->posy - data->diry * data->movespeed)] == 'B')
-				data->posy -= data->diry * data->movespeed;
-		}
-		if (data->right == 1)
-		{
-			ft_moverightx(data);
-			ft_moverighty(data);
-		}
-		if (data->left == 1)
-		{
-			ft_moveleftx(data);
-			ft_movelefty(data);
-		}
-	}
-	else
-	{
-		if (data->r == 1)
-		{
-			ft_setplayer(12.5, 12.5, data);
-			ft_setplayerdir(data, 1);
-			data->health = 100;
-		}
-	}
+	ft_keybr_event(data);
 
    // ft_setimg(data);
 	ft_raycast(data);
