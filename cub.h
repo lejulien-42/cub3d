@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 01:20:53 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/21 04:52:33 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,5 +172,6 @@ int				key_press(int key, t_mlx_data *data);
 int				key_release(int key, t_mlx_data *data);
 void			screenshot(t_mlx_data *data);
 int				draw(t_mlx_data *data);
+t_mlx_data		ft_set_mlx_data(char **map, t_data *data, t_sort *sort, t_player *player);
 //char			*ft_compressmap(int fd, t_sort *sort);
 #endif
