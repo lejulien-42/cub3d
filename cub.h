@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 04:52:33 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/21 05:26:15 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ typedef struct	s_mlx_data
 	t_img		s_lifeframe;
 	t_img		s_health;
 	t_img		s_monster;
+	t_square	square;
+	int			resph;
 	t_sprite	*sprite;
 	double		*zbuffer;
 	int			*spriteorder;

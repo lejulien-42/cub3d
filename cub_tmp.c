@@ -20,30 +20,6 @@
 #define texWidth 512
 #define texHeight 512
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 char
 	*ft_compressmap(int fd, t_sort *sort)
 {
@@ -135,137 +111,53 @@ char
 	return (NULL);
 }
 
-void
-	ft_debugmap(char **map)
-{
-	int	i;
-	int	j;
 
-	i = 0;
-	j = 0;
-	while (map[i][j])
-	{
-		while (map[i][j])
-		{
-			if (map[i][j] == '1')
-			{
-				ft_putstr_fd("\e[41m ", 1);
-				ft_putstr_fd("\e[41m ", 1);
-			}
-			else if (map[i][j] == '2')
-			{
-				ft_putstr_fd("\e[45m ", 1);
-				ft_putstr_fd("\e[45m ", 1);
-			}
-			else if (map[i][j] == '3')
-			{
-				ft_putstr_fd("\e[102m ", 1);
-				ft_putstr_fd("\e[102m ", 1);
-			}
-			else if (map[i][j] == '0')
-			{
-				ft_putstr_fd("\e[107m ", 1);
-				ft_putstr_fd("\e[107m ", 1);
-			}
-			else
-			{
-				ft_putstr_fd("\e[46m ", 1);
-				ft_putstr_fd("\e[46m ", 1);
-			}
-			j++;
-		}
-		j = 0;
-		ft_putstr_fd("\e[49m \n", 1);
-		i++;
-	}
-}
 
-void
-	ft_show_enemypos(t_mlx_data *data, int resph)
-{
-	int i;
-	t_square  square;
-
-	i = 0;
-	while (i < data->spritenumber)
-	{
-		if (data->sprite[i].texture == 0)
-		{
-			square = ft_set_square(5, 5, 8 + data->sprite[i].y * resph, 8 + data->sprite[i].x * resph);
-			ft_mlx_drawfilled_square(&square, rgb_int(255, 0, 0), data);
-		}
-		i++;
-	}
-}
 
 void
 	ft_mlx_show_minimap(t_mlx_data *mlxdata, t_sort *sort)
 {
-	int		resph = sort->resh * 0.20 / sort->mapheight;
 	int	i = 0;
 	int	j = 0;
-	t_square square;
+
+	mlxdata->resph = sort->resh * 0.20 / sort->mapheight;
 	while (mlxdata->map[i][j])
 	{
 		while (mlxdata->map[i][j])
 		{
-			square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
+			mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
 			if (mlxdata->map[i][j] == '1')
 			{
-				square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-				ft_mlx_drawfilled_square(&square, rgb_int(0, 204, 153), mlxdata);
+				mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
+				ft_mlx_drawfilled_square(&mlxdata->square, rgb_int(0, 204, 153), mlxdata);
 			}
 			else if (mlxdata->map[i][j] == '2')
 			{
-				square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-				ft_mlx_drawfilled_square(&square, rgb_int(0, 200, 0), mlxdata);
+				mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
+				ft_mlx_drawfilled_square(&mlxdata->square, rgb_int(0, 200, 0), mlxdata);
 			}
 			else if (mlxdata->map[i][j] == '3')
 			{
-				square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-				ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 200), mlxdata);
+				mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
+				ft_mlx_drawfilled_square(&mlxdata->square, rgb_int(0, 0, 200), mlxdata);
 			}
 			else if (mlxdata->map[i][j] == '0' || mlxdata->map[i][j] == 'A' || mlxdata->map[i][j] == 'B')
 			{
-				square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-				ft_mlx_drawfilled_square(&square, rgb_int(255, 255, 255), mlxdata);
+				mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
+				ft_mlx_drawfilled_square(&mlxdata->square, rgb_int(255, 255, 255), mlxdata);
 			}
 			else
 			{
-				square = ft_set_square(resph, resph, 10 + j * resph, 10 + i * resph);
-				ft_mlx_drawfilled_square(&square, rgb_int(255, 0, 0), mlxdata);
+				mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
+				ft_mlx_drawfilled_square(&mlxdata->square, rgb_int(255, 0, 0), mlxdata);
 			}
 			j++;
 		}
 		j = 0;
 		i++;
 	}
-	ft_show_enemypos(mlxdata, resph);
-	square = ft_set_square(5, 5, 8 + mlxdata->posy * resph, 8 + mlxdata->posx * resph);
-	ft_mlx_drawfilled_square(&square, rgb_int(255, 127, 80), mlxdata);
-	square = ft_set_square(3, 3, 9 + mlxdata->posy * resph + 2 * mlxdata->diry, 9 + mlxdata->posx * resph + 2 * mlxdata->dirx);
-	ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), mlxdata);
+	ft_showposes(mlxdata);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void
 	ft_raycast(t_mlx_data *data)
@@ -568,12 +460,6 @@ void
 	}
 }
 
-
-
-
-
-
-
 int
 	ft_sort_and_rend(int fd, t_sort *sort)
 {
@@ -651,15 +537,6 @@ int
 			&mlx_data.s_monster.endian);
 	ft_setimg(&mlx_data);
 	ft_do_mlx(&mlx_data);
-	//int game = 1;
-	//while (game)
-	//{
-		// mlx_hook(data.mlx_win, 17, 0L, closeit, NULL);
-		// mlx_hook(data.mlx_win, 2, 1L<<0, key_press, &mlx_data);
-		// mlx_key_hook(data.mlx_win, key_release, &mlx_data);
-		// mlx_loop_hook(data.mlx_ptr, draw, &mlx_data);
-		// mlx_loop(data.mlx_ptr);
-	//}
 	return (1);
 }
 
