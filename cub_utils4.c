@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 06:13:21 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/20 07:38:20 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/21 18:14:06 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int
 }
 
 void
-ft_setimg(t_mlx_data *data)
+	ft_setimg(t_mlx_data *data)
 {
 	int count_h = -1;
 	int count_w = -1;

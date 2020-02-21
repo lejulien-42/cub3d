@@ -6,13 +6,13 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 04:38:03 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 04:53:44 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/21 18:26:14 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub.h"
 
-void
+static void
 	ft_lifebar(t_square square, t_mlx_data *data)
 {
 	square = ft_set_square(112, 22, data->sort->resw
@@ -29,7 +29,7 @@ void
 	ft_mlx_drawfilled_square(&square, rgb_int(255, 0, 0), data);
 }
 
-void
+static void
 	ft_staminabar(t_square square, t_mlx_data *data)
 {
 	square = ft_set_square(112, 22, data->sort->resw

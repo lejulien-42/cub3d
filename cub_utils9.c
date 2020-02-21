@@ -6,13 +6,13 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 04:27:45 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 04:37:19 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/21 18:24:09 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub.h"
 
-void
+static void
 	ft_movedownx(t_mlx_data *data)
 {
 	if (data->map[(int)(data->posx - data->dirx * data->movespeed)]
@@ -30,7 +30,7 @@ void
 		data->posx -= data->dirx * data->movespeed;
 }
 
-void
+static void
 	ft_moveupx(t_mlx_data *data)
 {
 	if (data->map[(int)(data->posx + data->dirx * data->movespeed)]
@@ -48,7 +48,7 @@ void
 		data->posx += data->dirx * data->movespeed;
 }
 
-void
+static void
 	ft_moveupy(t_mlx_data *data)
 {
 	if (data->map[(int)(data->posx)]

@@ -6,7 +6,7 @@
 #    By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/01 15:52:54 by lejulien          #+#    #+#              #
-#    Updated: 2020/02/21 05:09:41 by lejulien         ###   ########.fr        #
+#    Updated: 2020/02/21 18:30:54 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,9 +76,11 @@ re: fclean all
 
 run: fclean $(NAME) clean
 	@echo "${_GREEN}Starting Cub3D :"
+	@rm -f $(OBJS)
 	@./cub3d.out conf.cub
 
 runsave: fclean $(NAME) clean
 	@echo "${_GREEN}Starting Cub3D :"
+	@rm -f $(OBJS)
 	@./cub3d.out conf.cub --save
 

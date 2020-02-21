@@ -6,13 +6,13 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 04:54:16 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 05:40:54 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/21 18:27:29 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub.h"
 
-void
+static void
 	ft_checkandputsquare(char **map, int i, int j)
 {
 	if (map[i][j] == '1')

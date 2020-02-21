@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 05:26:15 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/21 18:29:18 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,5 +175,35 @@ int				key_release(int key, t_mlx_data *data);
 void			screenshot(t_mlx_data *data);
 int				draw(t_mlx_data *data);
 t_mlx_data		ft_set_mlx_data(char **map, t_data *data, t_sort *sort, t_player *player);
-//char			*ft_compressmap(int fd, t_sort *sort);
+void			ft_putvalues(char *desc, int value);
+void			ft_debug_sort(t_sort *sort);
+int				strlennspace(char *str);
+int				ft_whitespace(char c);
+void			ft_setplayer(double x, double y, t_mlx_data *data);
+int				get_click(int buton, int x, int y, t_mlx_data *data);
+void			ft_setimg(t_mlx_data *data);
+void			ft_swap(int *a, int *b);
+void			sortsprite(int *spriteorder, double *spritedistance, int numsprite);
+void			ft_do_mlx(t_mlx_data *data);
+int				ft_die(t_mlx_data *data);
+int				ft_lifecheck(t_mlx_data *data);
+void			ft_spookia(t_mlx_data *data);
+void			ft_setplayerdir(t_mlx_data *data, int dir);
+void			ft_sprint(t_mlx_data *data);
+void			ft_key_event(t_mlx_data *data);
+void			ft_keyr(t_mlx_data *data);
+void			ft_keyl(t_mlx_data *data);
+void			ft_teleport(t_mlx_data *data);
+void			ft_moveleftx(t_mlx_data *data);
+void			ft_movelefty(t_mlx_data *data);
+void			ft_moverightx(t_mlx_data *data);
+void			ft_moverighty(t_mlx_data *data);
+void			ft_movedowny(t_mlx_data *data);
+void			ft_handlemove(t_mlx_data *data);
+void			ft_keybr_event(t_mlx_data *data);
+void			ft_debugmap(char **map);
+void			ft_show_enemypos(t_mlx_data *data, int resph);
+void			ft_putsquare(int i, int j, t_mlx_data *data);
+void			ft_showposes(t_mlx_data *data);
+
 #endif
