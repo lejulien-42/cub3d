@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/20 07:54:20 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/21 01:20:53 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct	s_mlx_data
 	int			key_down;
 	int			esc;
 	int			r;
+	int			isdead;
 	int			shift;
 	int			mkey;
 	int			spritenumber;
@@ -121,6 +122,8 @@ typedef struct	s_mlx_data
 	int			stamina;
 	int			hasstamina;
 	int			showbonus;
+	double		movespeed;
+	int			ord;
 	double		time;
 	double		oldtime;
 	double		planex;
