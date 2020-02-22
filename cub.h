@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/22 05:43:03 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/23 00:28:15 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,5 +210,7 @@ void			ft_checkb(char *currentline, t_sort *sort);
 void			ft_checkn(char *currentline, t_sort *sort);
 void			ft_checks(char *currentline, t_sort *sort);
 void			ft_checke(char *currentline, t_sort *sort);
+void			ft_checkc(char *currentline, t_sort *sort);
+void			ft_checkf(char *currentline, t_sort *sort);
 char			*ft_testsrc(char *src);
 #endif

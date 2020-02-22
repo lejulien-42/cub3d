@@ -1,11 +1,13 @@
 
 R 700 600
-B 1
+B 0
 NO ./textures/fl.xpm
 SO ./textures/WALL_04.xpm
 EA ./textures/lava.XPM
 WE ./textures/escalier.xpm
 S ./textures/healing.xpm
+F 0	, 0	, 0
+C 255,	 14	, 72
 
 111111111111111111111111111111111
 133333333333333333333333333333331

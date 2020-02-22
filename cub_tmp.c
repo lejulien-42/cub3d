@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/22 06:49:37 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/23 00:28:06 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ char
 				ft_checke(currentline, sort);
 			else if (currentline[0] == 'W')
 				ft_checkw(currentline, sort);
+			else if (currentline[0] == 'C')
+				ft_checkc(currentline, sort);
+			else if (currentline[0] == 'F')
+				ft_checkf(currentline, sort);
 		}
 	}
 	return (NULL);

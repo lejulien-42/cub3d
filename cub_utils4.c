@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 06:13:21 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 18:14:06 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/23 00:27:35 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,11 @@ void
 		while (++count_w < data->sort->resw)
 		{
 			if (count_h < (data->sort->resh / 2))
-				data->img.data[count_h * data->sort->resw + count_w] = rgb_int(0, 0, 255);
+				data->img.data[count_h * data->sort->resw
+				+ count_w] = data->sort->rgbc;
 			else
-				data->img.data[count_h * data->sort->resw + count_w] = rgb_int(205,133,63);
+				data->img.data[count_h * data->sort->resw
+				+ count_w] = data->sort->rgbf;
 		}
 	}
 }
