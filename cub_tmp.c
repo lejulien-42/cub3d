@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 23:11:41 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/22 04:18:17 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,47 +65,13 @@ char
 		{
 			previousline = currentline;
 			if (ret == 0)
-			{
-				ft_putstr_fd("Error no map\n", 1);
-				exit(0);
-			}
+				ft_puterror("\e[33mno map Error\n");
 			if (currentline[0] == 'R')
-			{
-				int i = 1;
-				if (ft_whitespace(currentline[i]) == 0)
-					ft_puterror("ERROR\nResolution");
-				while (ft_whitespace(currentline[i]) == 1)
-					i++;
-				if (ft_isdigit(currentline[i]) == 0)
-					ft_puterror("ERROR\nResolution");
-				sort->resw = ft_atoi(&currentline[i]);
-				while (ft_isdigit(currentline[i]) == 1)
-					i++;
-				if (ft_whitespace(currentline[i]) == 0)
-					ft_puterror("ERROR\nResolution");
-				while (ft_whitespace(currentline[i] == 1))
-					i++;
-				if (ft_isdigit(currentline[i]) == 0)
-					ft_puterror("ERROR\nResolution");
-				sort->resh = ft_atoi(&currentline[i]);
-				while (ft_isdigit(currentline[i]))
-					i++;
-				if (ft_whitespace(currentline[i]) == 0)
-					ft_puterror("ERROR\nResolution");
-			}
+				ft_checkr(currentline, sort);
 			else if (currentline[0] == 'B')
-			{
-				int i = 1;
-				if (ft_whitespace(currentline[i]) != 1)
-				{
-					ft_putstr_fd("Bonus Error\n", 1);
-					exit(0);
-				}
-				while (ft_whitespace(currentline[i]) == 1)
-					i++;
-				if (currentline[i] == '1')
-					sort->isbonus = 1;
-			}
+				ft_checkb(currentline, sort);
+			else if (currentline[0] == 'N')
+				ft_checkn(currentline, sort);
 		}
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 18:29:18 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/22 04:11:46 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,5 +205,7 @@ void			ft_debugmap(char **map);
 void			ft_show_enemypos(t_mlx_data *data, int resph);
 void			ft_putsquare(int i, int j, t_mlx_data *data);
 void			ft_showposes(t_mlx_data *data);
-
+void			ft_checkr(char *currentline, t_sort *sort);
+void			ft_checkb(char *currentline, t_sort *sort);
+void			ft_checkn(char *currentline, t_sort *sort);
 #endif
