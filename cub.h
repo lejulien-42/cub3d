@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/22 04:11:46 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/22 05:19:32 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,4 +208,6 @@ void			ft_showposes(t_mlx_data *data);
 void			ft_checkr(char *currentline, t_sort *sort);
 void			ft_checkb(char *currentline, t_sort *sort);
 void			ft_checkn(char *currentline, t_sort *sort);
+void			ft_checke(char *currentline, t_sort *sort);
+char			*ft_testsrc(char *src);
 #endif

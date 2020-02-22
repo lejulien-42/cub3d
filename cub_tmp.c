@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/22 04:18:17 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/22 05:27:25 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ char
 				ft_checkb(currentline, sort);
 			else if (currentline[0] == 'N')
 				ft_checkn(currentline, sort);
+			else if (currentline[0] == 'S')
+				ft_checke(currentline, sort);
 		}
 	}
 	return (NULL);
@@ -272,6 +274,7 @@ void
 
 
 		int texxs_wallfour = (int)(wallx * (double)(data->s_wall.width));
+		int texxs_walltwo = (int)(wallx * (double)(data->s_walltwo.width));
 		int texxs_arrowtex = (int)(wallx * (double)(data->s_arrowtex.width));
 		int texxs_arrowtexl = (int)(wallx * (double)(data->s_arrowtexl.width));
 		int texxs_lifeframe = (int)(wallx * (double)(data->s_lifeframe.width));
@@ -282,6 +285,7 @@ void
 			texxs_wallfour = data->s_lifeframe.width - texxs_lifeframe - 1;
 			texxs_arrowtex = data->s_arrowtex.width - texxs_arrowtex - 1;
 			texxs_arrowtexl = data->s_arrowtexl.width - texxs_arrowtexl - 1;
+			texxs_walltwo = data->s_walltwo.width - texxs_walltwo - 1;
 			texxs_fl = data->s_fl.width - texxs_fl - 1;
 		}
 		if (side == 1 && rayDirY < 0)
@@ -290,6 +294,7 @@ void
 			texxs_arrowtex = data->s_arrowtex.width - texxs_arrowtex - 1;
 			texxs_lifeframe = data->s_lifeframe.width - texxs_lifeframe - 1;
 			texxs_arrowtexl = data->s_arrowtexl.width - texxs_arrowtexl - 1;
+			texxs_walltwo = data->s_walltwo.width - texxs_walltwo - 1;
 			texxs_fl = data->s_fl.width - texxs_fl - 1;
 		}
 
@@ -297,6 +302,7 @@ void
 		double steps_arrowtex = 1.0 * data->s_arrowtex.height / lineheight;
 		double steps_lifeframe = 1.0 * data->s_lifeframe.height / lineheight;
 		double steps_arrowtexl = 1.0 * data->s_arrowtexl.height / lineheight;
+		double steps_walltwo = 1.0 * data->s_walltwo.height / lineheight;
 		double steps_fl = 1.0 * data->s_fl.height / lineheight;
 
 
@@ -304,6 +310,7 @@ void
 		double texposs_arrowtex = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_arrowtex;
 		double texposs_lifeframe = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_lifeframe;
 		double texposs_arrowtexl = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_arrowtexl;
+		double texposs_walltwo = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_walltwo;
 		double texposs_fl = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_fl;
 		
 		int y = drawstart;
@@ -313,6 +320,7 @@ void
 			texposs_arrowtex = texposs_arrowtex + steps_arrowtex;
 			texposs_arrowtexl = texposs_arrowtexl + steps_arrowtexl;
 			texposs_lifeframe = texposs_lifeframe + steps_lifeframe;
+			texposs_walltwo = texposs_walltwo + steps_walltwo;
 			texposs_fl = texposs_fl + steps_fl;
 			int color = 0;
 			if (what == '1')
@@ -320,16 +328,16 @@ void
 				if (side == 1)
 				{
 					if (rayDirY < 0)
-						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_NORTH
+						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_WEST
 					else
 						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_SOUTH
 				}
 				else
 				{
 					if (rayDirX < 0)
-						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_WEST
-					else
 						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_EAST
+					else
+						color = data->s_walltwo.data[((int)texposs_walltwo & (data->s_walltwo.height - 1)) * data->s_walltwo.height + texxs_walltwo]; //TEX_NORTH
 				}
 			}
 			else if (what == '3')
@@ -456,9 +464,9 @@ int
 		mlx_data.showbonus = 1;
 	mlx_data.img.img_ptr = mlx_new_image(data.mlx_win, mlx_data.sort->resw, mlx_data.sort->resh);
 	mlx_data.s_wall.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_01.xpm", &mlx_data.s_wall.width, &mlx_data.s_wall.height);
-	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_02.xpm", &mlx_data.s_walltwo.width, &mlx_data.s_walltwo.height);
+	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, sort->northpath, &mlx_data.s_walltwo.width, &mlx_data.s_walltwo.height);
 	mlx_data.s_wallthree.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_03.xpm", &mlx_data.s_wallthree.width, &mlx_data.s_wallthree.height);
-	mlx_data.s_wallfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_04.xpm", &mlx_data.s_wallfour.width, &mlx_data.s_wallfour.height);
+	mlx_data.s_wallfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, sort->southpath, &mlx_data.s_wallfour.width, &mlx_data.s_wallfour.height);
 	mlx_data.s_escalier.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/hadhio.xpm", &mlx_data.s_escalier.width, &mlx_data.s_escalier.height);
 	mlx_data.s_fl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/spritecute.xpm", &mlx_data.s_fl.width, &mlx_data.s_fl.height);
 	mlx_data.s_lava.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/lava.XPM", &mlx_data.s_lava.width, &mlx_data.s_lava.height);
