@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/22 05:27:25 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/22 06:28:51 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,11 @@ char
 			else if (currentline[0] == 'N')
 				ft_checkn(currentline, sort);
 			else if (currentline[0] == 'S')
+				ft_checks(currentline, sort);
+			else if (currentline[0] == 'E')
 				ft_checke(currentline, sort);
+			else if (currentline[0] == 'W')
+				ft_checkw(currentline, sort);
 		}
 	}
 	return (NULL);
@@ -278,6 +282,8 @@ void
 		int texxs_arrowtex = (int)(wallx * (double)(data->s_arrowtex.width));
 		int texxs_arrowtexl = (int)(wallx * (double)(data->s_arrowtexl.width));
 		int texxs_lifeframe = (int)(wallx * (double)(data->s_lifeframe.width));
+		int texxs_lava = (int)(wallx * (double)(data->s_lava.width));
+		int texxs_health = (int)(wallx * (double)(data->s_health.width));
 		int texxs_fl = (int)(wallx * (double)(data->s_fl.width));
 		if (side == 0 && rayDirX > 0)
 		{
@@ -286,6 +292,8 @@ void
 			texxs_arrowtex = data->s_arrowtex.width - texxs_arrowtex - 1;
 			texxs_arrowtexl = data->s_arrowtexl.width - texxs_arrowtexl - 1;
 			texxs_walltwo = data->s_walltwo.width - texxs_walltwo - 1;
+			texxs_lava = data->s_lava.width - texxs_lava - 1;
+			texxs_health = data->s_health.width - texxs_health - 1;
 			texxs_fl = data->s_fl.width - texxs_fl - 1;
 		}
 		if (side == 1 && rayDirY < 0)
@@ -295,6 +303,8 @@ void
 			texxs_lifeframe = data->s_lifeframe.width - texxs_lifeframe - 1;
 			texxs_arrowtexl = data->s_arrowtexl.width - texxs_arrowtexl - 1;
 			texxs_walltwo = data->s_walltwo.width - texxs_walltwo - 1;
+			texxs_lava = data->s_lava.width - texxs_lava - 1;
+			texxs_health = data->s_health.width - texxs_health - 1;
 			texxs_fl = data->s_fl.width - texxs_fl - 1;
 		}
 
@@ -303,6 +313,8 @@ void
 		double steps_lifeframe = 1.0 * data->s_lifeframe.height / lineheight;
 		double steps_arrowtexl = 1.0 * data->s_arrowtexl.height / lineheight;
 		double steps_walltwo = 1.0 * data->s_walltwo.height / lineheight;
+		double steps_lava = 1.0 * data->s_lava.height / lineheight;
+		double steps_health = 1.0 * data->s_health.height / lineheight;
 		double steps_fl = 1.0 * data->s_fl.height / lineheight;
 
 
@@ -311,7 +323,9 @@ void
 		double texposs_lifeframe = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_lifeframe;
 		double texposs_arrowtexl = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_arrowtexl;
 		double texposs_walltwo = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_walltwo;
+		double texposs_lava = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_lava;
 		double texposs_fl = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_fl;
+		double texposs_health = (drawstart - data->sort->resh / 2 + lineheight / 2) * steps_health;
 		
 		int y = drawstart;
 		while (y < drawend)
@@ -321,6 +335,8 @@ void
 			texposs_arrowtexl = texposs_arrowtexl + steps_arrowtexl;
 			texposs_lifeframe = texposs_lifeframe + steps_lifeframe;
 			texposs_walltwo = texposs_walltwo + steps_walltwo;
+			texposs_lava = texposs_lava + steps_lava;
+			texposs_health = texposs_health + steps_health;
 			texposs_fl = texposs_fl + steps_fl;
 			int color = 0;
 			if (what == '1')
@@ -328,9 +344,9 @@ void
 				if (side == 1)
 				{
 					if (rayDirY < 0)
-						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_WEST
+						color = data->s_lava.data[((int)texposs_lava & (data->s_lava.height - 1)) * data->s_lava.height + texxs_lava]; //TEX_WEST
 					else
-						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_SOUTH
+						color = data->s_health.data[((int)texposs_health & (data->s_health.height - 1)) * data->s_health.height + texxs_health]; //TEX_SOUTH
 				}
 				else
 				{
@@ -419,7 +435,7 @@ void
 					if (texWidth * texY + texX > 0)
 					{
 						if (data->sprite[spriteOrder[i]].texture == 0)
-							color = data->s_health.data[texWidth * texY + texX];
+							color = data->s_fl.data[texWidth * texY + texX];
 						else
 							color = data->s_monster.data[texWidth * texY + texX];
 						if (color != -16777216)
@@ -462,20 +478,21 @@ int
 		return (EXIT_FAILURE);
 	if (sort->isbonus == 1)
 		mlx_data.showbonus = 1;
+	//check if images are really load
 	mlx_data.img.img_ptr = mlx_new_image(data.mlx_win, mlx_data.sort->resw, mlx_data.sort->resh);
 	mlx_data.s_wall.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_01.xpm", &mlx_data.s_wall.width, &mlx_data.s_wall.height);
-	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, sort->northpath, &mlx_data.s_walltwo.width, &mlx_data.s_walltwo.height);
+	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->northpath), &mlx_data.s_walltwo.width, &mlx_data.s_walltwo.height);
 	mlx_data.s_wallthree.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_03.xpm", &mlx_data.s_wallthree.width, &mlx_data.s_wallthree.height);
-	mlx_data.s_wallfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, sort->southpath, &mlx_data.s_wallfour.width, &mlx_data.s_wallfour.height);
+	mlx_data.s_wallfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->southpath), &mlx_data.s_wallfour.width, &mlx_data.s_wallfour.height);
 	mlx_data.s_escalier.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/hadhio.xpm", &mlx_data.s_escalier.width, &mlx_data.s_escalier.height);
-	mlx_data.s_fl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/spritecute.xpm", &mlx_data.s_fl.width, &mlx_data.s_fl.height);
-	mlx_data.s_lava.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/lava.XPM", &mlx_data.s_lava.width, &mlx_data.s_lava.height);
+	mlx_data.s_fl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->sprite), &mlx_data.s_fl.width, &mlx_data.s_fl.height);
+	mlx_data.s_lava.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->eastpath), &mlx_data.s_lava.width, &mlx_data.s_lava.height);
 	mlx_data.s_floorfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/FLOOR_04.xpm", &mlx_data.s_floorfour.width, &mlx_data.s_floorfour.height);
 	mlx_data.s_roofeleven.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/ROOF_11.xpm", &mlx_data.s_roofeleven.width, &mlx_data.s_roofeleven.height);
 	mlx_data.s_arrowtex.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/right.xpm", &mlx_data.s_arrowtex.width, &mlx_data.s_arrowtex.height);
 	mlx_data.s_arrowtexl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/left.xpm", &mlx_data.s_arrowtexl.width, &mlx_data.s_arrowtexl.height);
 	mlx_data.s_lifeframe.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/frame.xpm", &mlx_data.s_lifeframe.width, &mlx_data.s_lifeframe.height);
-	mlx_data.s_health.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/spookias.xpm", &mlx_data.s_health.width, &mlx_data.s_health.height);
+	mlx_data.s_health.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->westpath), &mlx_data.s_health.width, &mlx_data.s_health.height);
 	mlx_data.s_monster.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/healing.xpm", &mlx_data.s_monster.width, &mlx_data.s_monster.height);
 
 

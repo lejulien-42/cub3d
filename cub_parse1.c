@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 02:43:48 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/22 05:21:17 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/22 06:32:40 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,12 @@ static void
 		sort->northpath = currentline;
 	else if (wich == 1)
 		sort->southpath = currentline;
-	printf("%s\n", sort->northpath);
+	else if (wich == 2)
+		sort->eastpath = currentline;
+	else if (wich == 3)
+		sort->westpath = currentline;
+	else if (wich == 4)
+		sort->sprite = currentline;
 }
 
 void
@@ -76,6 +81,10 @@ void
 	int i;
 
 	i = 1;
+	if (currentline[1] == 'O')
+		currentline++;
+	else
+		ft_puterror("Error north texture\n");
 	if (ft_whitespace(currentline[i]) != 1)
 		ft_puterror("\e[33bonus Error\n");
 	while (ft_whitespace(currentline[i]) == 1)
@@ -83,8 +92,8 @@ void
 	ft_getpath(currentline, sort, 0);
 }
 
-void
-	ft_checke(char *currentline, t_sort *sort)
+static void
+	ft_checksprite(char *currentline, t_sort *sort)
 {
 	int i;
 
@@ -93,7 +102,58 @@ void
 		ft_puterror("\e[33bonus Error\n");
 	while (ft_whitespace(currentline[i]) == 1)
 		i++;
+	ft_getpath(currentline, sort, 4);
+}
+
+void
+	ft_checks(char *currentline, t_sort *sort)
+{
+	int i;
+
+	i = 1;
+	if (currentline[1] == 'O')
+		currentline++;
+	else
+		ft_checksprite(currentline, sort);
+	if (ft_whitespace(currentline[i]) != 1)
+		ft_puterror("\e[33bonus Error\n");
+	while (ft_whitespace(currentline[i]) == 1)
+		i++;
 	ft_getpath(currentline, sort, 1);
+}
+
+void
+	ft_checke(char *currentline, t_sort *sort)
+{
+	int i;
+
+	i = 1;
+	if (currentline[1] == 'A')
+		currentline++;
+	else
+		ft_puterror("Error east texture\n");
+	if (ft_whitespace(currentline[i]) != 1)
+		ft_puterror("\e[33bonus Error\n");
+	while (ft_whitespace(currentline[i]) == 1)
+		i++;
+	ft_getpath(currentline, sort, 2);
+}
+
+void
+	ft_checkw(char *currentline, t_sort *sort)
+{
+	int i;
+
+	i = 1;
+	if (currentline[1] == 'E')
+		currentline++;
+	else
+		ft_puterror("Error west texture\n");
+	if (ft_whitespace(currentline[i]) != 1)
+		ft_puterror("\e[33bonus Error\n");
+	while (ft_whitespace(currentline[i]) == 1)
+		i++;
+	ft_getpath(currentline, sort, 3);
 }
 
 char
