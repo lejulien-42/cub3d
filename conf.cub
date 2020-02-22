@@ -5,7 +5,7 @@ NO ./textures/fl.xpm
 SO ./textures/WALL_04.xpm
 EA ./textures/lava.XPM
 WE ./textures/escalier.xpm
-S ./textures/spookias.xpm
+S ./textures/healing.xpm
 
 111111111111111111111111111111111
 133333333333333333333333333333331

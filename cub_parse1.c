@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 02:43:48 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/22 06:32:40 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/22 06:39:16 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void
 	if (currentline[1] == 'O')
 		currentline++;
 	else
-		ft_checksprite(currentline, sort);
+		return(ft_checksprite(currentline, sort));
 	if (ft_whitespace(currentline[i]) != 1)
 		ft_puterror("\e[33bonus Error\n");
 	while (ft_whitespace(currentline[i]) == 1)
