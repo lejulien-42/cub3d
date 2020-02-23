@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 04:38:03 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 18:26:14 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/23 06:47:49 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static void
 	mlx_data->health = 100;
 	mlx_data->stamina = 100;
 	mlx_data->hasstamina = 1;
+	mlx_data->biggest = 0;
 }
 
 t_mlx_data
