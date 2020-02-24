@@ -6,11 +6,20 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 02:28:33 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 02:29:05 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 05:14:04 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub.h"
+
+static int
+	ft_checkdcc(int i)
+{
+	if (i <= 255 && i >= 0)
+		return (i);
+	ft_puterror("\e[31mError rgb not between 0 and 255\n");
+	return (0);
+}
 
 static int
 	next_n_check_coma(char *currentline, int i)
@@ -47,11 +56,11 @@ void
 		i++;
 	if (!ft_isdigit(currentline[i]))
 		ft_puterror("\e[33mCeiling color Error\n");
-	r = ft_atoi(&currentline[i]);
+	r = ft_checkdcc(ft_atoi(&currentline[i]));
 	i = next_n_check_coma(&currentline[i], i);
-	g = ft_atoi(&currentline[i]);
+	g = ft_checkdcc(ft_atoi(&currentline[i]));
 	i = next_n_check_coma(&currentline[i], i);
-	b = ft_atoi(&currentline[i]);
+	b = ft_checkdcc(ft_atoi(&currentline[i]));
 	sort->rgbc = rgb_int(r, g, b);
 }
 
@@ -70,10 +79,10 @@ void
 		i++;
 	if (!ft_isdigit(currentline[i]))
 		ft_puterror("\e[33mCeiling color Error\n");
-	r = ft_atoi(&currentline[i]);
+	r = ft_checkdcc(ft_atoi(&currentline[i]));
 	i = next_n_check_coma(&currentline[i], i);
-	g = ft_atoi(&currentline[i]);
+	g = ft_checkdcc(ft_atoi(&currentline[i]));
 	i = next_n_check_coma(&currentline[i], i);
-	b = ft_atoi(&currentline[i]);
+	b = ft_checkdcc(ft_atoi(&currentline[i]));
 	sort->rgbf = rgb_int(r, g, b);
 }

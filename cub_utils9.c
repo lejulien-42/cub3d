@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 04:27:45 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 18:24:09 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 21:38:03 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,15 @@ static void
 		data->map[(int)(data->posx - data->dirx * data->movespeed)]
 		[(int)(data->posy)] == 'A' ||
 		data->map[(int)(data->posx - data->dirx * data->movespeed)]
-		[(int)(data->posy)] == 'B')
+		[(int)(data->posy)] == 'B' ||
+		data->map[(int)(data->posx - data->dirx * data->movespeed)]
+		[(int)(data->posy)] == 'N' ||
+		data->map[(int)(data->posx - data->dirx * data->movespeed)]
+		[(int)(data->posy)] == 'S' ||
+		data->map[(int)(data->posx - data->dirx * data->movespeed)]
+		[(int)(data->posy)] == 'E' ||
+		data->map[(int)(data->posx - data->dirx * data->movespeed)]
+		[(int)(data->posy)] == 'W')
 		data->posx -= data->dirx * data->movespeed;
 }
 
@@ -44,7 +52,15 @@ static void
 		data->map[(int)(data->posx + data->dirx * data->movespeed)]
 		[(int)(data->posy)] == 'A' ||
 		data->map[(int)(data->posx + data->dirx * data->movespeed)]
-		[(int)(data->posy)] == 'B')
+		[(int)(data->posy)] == 'B' ||
+		data->map[(int)(data->posx + data->dirx * data->movespeed)]
+		[(int)(data->posy)] == 'N' ||
+		data->map[(int)(data->posx + data->dirx * data->movespeed)]
+		[(int)(data->posy)] == 'S' ||
+		data->map[(int)(data->posx + data->dirx * data->movespeed)]
+		[(int)(data->posy)] == 'E' ||
+		data->map[(int)(data->posx + data->dirx * data->movespeed)]
+		[(int)(data->posy)] == 'W')
 		data->posx += data->dirx * data->movespeed;
 }
 
@@ -62,7 +78,15 @@ static void
 		data->map[(int)(data->posx)]
 		[(int)(data->posy + data->diry * data->movespeed)] == 'A' ||
 		data->map[(int)(data->posx)]
-		[(int)(data->posy + data->diry * data->movespeed)] == 'B')
+		[(int)(data->posy + data->diry * data->movespeed)] == 'B' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy + data->diry * data->movespeed)] == 'N' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy + data->diry * data->movespeed)] == 'S' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy + data->diry * data->movespeed)] == 'E' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy + data->diry * data->movespeed)] == 'W')
 		data->posy += data->diry * data->movespeed;
 }
 

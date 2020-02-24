@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 01:04:04 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 00:35:36 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 06:35:10 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static void
 	int s;
 
 	s = data->s;
-	data->sprite[s].x = x + 0.5;
-	data->sprite[s].y = y + 0.5;
+	data->sprite[s].y = x + 0.5;
+	data->sprite[s].x = y + 0.5;
 	if (type == 'A')
 		data->sprite[s].texture = 0;
 	else
@@ -59,28 +59,27 @@ int
 	ft_attrib_sprite(t_mlx_data *data)
 {
 	int		s;
-	int		x;
 	int		y;
+	int		x;
 	char	type;
 
 	s = 0;
-	x = 0;
 	y = 0;
-	while (x < data->sort->mapwidth)
+	while (ft_strlen(data->map[y]) != 0)
 	{
-		y = 0;
-		while (y < data->sort->mapheight)
+		x = 0;
+		while (x < ft_strlen(data->map[y]))
 		{
-			type = data->map[x][y];
+			type = data->map[y][x];
 			if (type == 'A' || type == 'B')
 			{
 				data->s = s;
 				ft_attrib2(x, y, type, data);
 				s++;
 			}
-			y++;
+			x++;
 		}
-		x++;
+		y++;
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 02:35:02 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 21:27:11 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ typedef struct	s_mlx_data
 	double		*spritedistance;
 	int			numesprite;
 	int			biggest;
+	int			playercount;
 }				t_mlx_data;
 
 void			ft_mlx_draw_square(t_square *square, t_data *data, int color);

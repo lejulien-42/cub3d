@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 01:15:57 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 22:15:19 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,7 @@ void
 		}
 	}
 	else
-	{
 		ft_setimg(data);
-	}
 	y = 0;
 	x = 0;
 	while (x < data->sort->resw)
@@ -248,7 +246,8 @@ void
 				side = 1;
 			}
 			char this = data->map[mapX][mapY];
-			if (this != '0' && this != 'A' && this != 'B')
+			if (this != '0' && this != 'A' && this != 'B'
+				&& this != 'N' && this != 'S' && this != 'E' && this != 'W')
 			{
 				what = data->map[mapX][mapY];
 				hit = 1;
@@ -470,8 +469,6 @@ int
 	free(compressedmap);
 	mlx_data = ft_set_mlx_data(map, &data, sort, &player);
 	ft_checkmap(&mlx_data);
-	ft_setplayer(3.5, 22.5, &mlx_data);
-	ft_setplayerdir(&mlx_data, 3);
 	if (!(ft_count_sprite(&mlx_data)))
 		return (EXIT_FAILURE);
 	if (!(ft_attrib_sprite(&mlx_data)))

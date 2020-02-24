@@ -6,32 +6,42 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 03:07:42 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/20 05:50:14 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 06:26:33 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub.h"
 
+static int
+	ft_time_in_str(char *str, char c)
+{
+	int count;
+	int i;
+
+	i = 0;
+	count = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == c)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 int
 	ft_count_sprite(t_mlx_data *data)
 {
 	int		i;
-	int		j;
 	int		count;
 	char	texture;
 
 	i = 0;
 	count = 0;
-	while (i < data->sort->mapwidth)
+	while (ft_strlen(data->map[i]) != 0)
 	{
-		j = 0;
-		while (j < data->sort->mapheight)
-		{
-			texture = data->map[i][j];
-			if (texture == 'A' || texture == 'B')
-				count++;
-			j++;
-		}
+		count = ft_time_in_str(data->map[i], 'A') + count;
+		count = ft_time_in_str(data->map[i], 'B') + count;
 		i++;
 	}
 	if (!(data->sprite = malloc(count * sizeof(t_sprite))))

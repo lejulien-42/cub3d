@@ -6,11 +6,27 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 02:43:48 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 02:35:53 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 06:15:09 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub.h"
+
+static int
+	ft_checkwidth(int i)
+{
+	if (i > 2560 || i < 500)
+		ft_puterror("\e[32mError res\n");
+	return (i);
+}
+
+static int
+	ft_checkheight(int i)
+{
+	if (i > 1440 || i < 500)
+		ft_puterror("\e[32mError res\n");
+	return (i);
+}
 
 void
 	ft_checkr(char *currentline, t_sort *sort)
@@ -22,14 +38,14 @@ void
 		ft_puterror("\e[33mres Error\n");
 	while (ft_whitespace(currentline[i]))
 		i++;
-	sort->resw = ft_atoi(&currentline[i]);
+	sort->resw = ft_checkwidth(ft_atoi(&currentline[i]));
 	if (!sort->resw)
 		ft_puterror("\e[33mres Error\n");
 	while (ft_isdigit(currentline[i]) == 1)
 		i++;
 	if (!ft_whitespace(currentline[i]))
 		ft_puterror("\e[33mres Error\n");
-	sort->resh = ft_atoi(&currentline[i]);
+	sort->resh = ft_checkheight(ft_atoi(&currentline[i]));
 	if (!sort->resh)
 		ft_puterror("\e[33mres Error\n");
 }

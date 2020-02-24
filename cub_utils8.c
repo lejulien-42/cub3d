@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 03:41:26 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 04:27:26 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 21:14:47 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,52 @@
 void
 	ft_moveleftx(t_mlx_data *data)
 {
-	if (data->map[(int)(data->posx - data->planex
-		* data->movespeed)][(int)(data->posy)] == '0'
-			|| data->map[(int)(data->posx - data->planex
-				* data->movespeed)][(int)(data->posy)] == '2'
-					|| data->map[(int)(data->posx - data->planex
-						* data->movespeed)][(int)(data->posy)] == '4'
-							|| data->map[(int)(data->posx - data->planex
-								* data->movespeed)][(int)(data->posy)] == '7'
-									|| data->map[(int)(data->posx - data->planex
-										* data->movespeed)][(int)(data->posy)]
-											== 'A' || data->map[(int)(data->posx
-												- data->planex
-													* data->movespeed)]
-														[(int)(data->posy)]
-															== 'B')
+	if (data->map[(int)(data->posx - data->planex * data->movespeed)]
+		[(int)(data->posy)] == '0' ||
+		data->map[(int)(data->posx - data->planex * data->movespeed)]
+		[(int)(data->posy)] == '2' ||
+		data->map[(int)(data->posx - data->planex * data->movespeed)]
+		[(int)(data->posy)] == '4' ||
+		data->map[(int)(data->posx - data->planex * data->movespeed)]
+		[(int)(data->posy)] == '7' ||
+		data->map[(int)(data->posx - data->planex * data->movespeed)]
+		[(int)(data->posy)] == 'A' ||
+		data->map[(int)(data->posx - data->planex * data->movespeed)]
+		[(int)(data->posy)] == 'B' ||
+		data->map[(int)(data->posx - data->planex * data->movespeed)]
+		[(int)(data->posy)] == 'N' ||
+		data->map[(int)(data->posx - data->planex * data->movespeed)]
+		[(int)(data->posy)] == 'S' ||
+		data->map[(int)(data->posx - data->planex * data->movespeed)]
+		[(int)(data->posy)] == 'E' ||
+		data->map[(int)(data->posx - data->planex * data->movespeed)]
+		[(int)(data->posy)] == 'W')
 		data->posx -= data->planex * data->movespeed;
 }
 
 void
 	ft_movelefty(t_mlx_data *data)
 {
-	if (data->map[(int)(data->posx)][(int)(data->posy
-		- data->planey * data->movespeed)] == '0'
-			|| data->map[(int)(data->posx)][(int)(data->posy
-				- data->planey * data->movespeed)] == '2'
-					|| data->map[(int)(data->posx)][(int)(data->posy
-						- data->planey * data->movespeed)] == '4'
-							|| data->map[(int)(data->posx)][(int)(data->posy
-								- data->planey * data->movespeed)] == '7'
-									|| data->map[(int)(data->posx)]
-										[(int)(data->posy
-										- data->planey * data->movespeed)]
-											== 'A'
-											|| data->map[(int)(data->posx)]
-												[(int)(data->posy - data->planey
-													* data->movespeed)] == 'B')
+	if (data->map[(int)(data->posx)]
+		[(int)(data->posy - data->planey * data->movespeed)] == '0' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->planey * data->movespeed)] == '2' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->planey * data->movespeed)] == '4' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->planey * data->movespeed)] == '7' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->planey * data->movespeed)] == 'A' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->planey * data->movespeed)] == 'B' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->planey * data->movespeed)] == 'N' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->planey * data->movespeed)] == 'S' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->planey * data->movespeed)] == 'E' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->planey * data->movespeed)] == 'W')
 		data->posy -= data->planey * data->movespeed;
 }
 
@@ -68,7 +78,15 @@ void
 		data->map[(int)(data->posx + data->planex * data->movespeed)]
 		[(int)(data->posy)] == 'A' ||
 		data->map[(int)(data->posx + data->planex * data->movespeed)]
-		[(int)(data->posy)] == 'B')
+		[(int)(data->posy)] == 'B' ||
+		data->map[(int)(data->posx + data->planex * data->movespeed)]
+		[(int)(data->posy)] == 'N' ||
+		data->map[(int)(data->posx + data->planex * data->movespeed)]
+		[(int)(data->posy)] == 'S' ||
+		data->map[(int)(data->posx + data->planex * data->movespeed)]
+		[(int)(data->posy)] == 'E' ||
+		data->map[(int)(data->posx + data->planex * data->movespeed)]
+		[(int)(data->posy)] == 'W')
 		data->posx += data->planex * data->movespeed;
 }
 
@@ -86,7 +104,15 @@ void
 		data->map[(int)(data->posx)]
 		[(int)(data->posy + data->planey * data->movespeed)] == 'A' ||
 		data->map[(int)(data->posx)]
-		[(int)(data->posy + data->planey * data->movespeed)] == 'B')
+		[(int)(data->posy + data->planey * data->movespeed)] == 'B' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy + data->planey * data->movespeed)] == 'N' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy + data->planey * data->movespeed)] == 'S' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy + data->planey * data->movespeed)] == 'E' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy + data->planey * data->movespeed)] == 'W')
 		data->posy += data->planey * data->movespeed;
 }
 
@@ -104,6 +130,14 @@ void
 		data->map[(int)(data->posx)]
 		[(int)(data->posy - data->diry * data->movespeed)] == 'A' ||
 		data->map[(int)(data->posx)]
-		[(int)(data->posy - data->diry * data->movespeed)] == 'B')
+		[(int)(data->posy - data->diry * data->movespeed)] == 'B' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->diry * data->movespeed)] == 'N' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->diry * data->movespeed)] == 'S' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->diry * data->movespeed)] == 'E' ||
+		data->map[(int)(data->posx)]
+		[(int)(data->posy - data->diry * data->movespeed)] == 'W')
 		data->posy -= data->diry * data->movespeed;
 }
