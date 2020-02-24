@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/23 06:11:39 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 01:15:57 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -484,15 +484,40 @@ int
 	if (sort->isbonus == 1)
 		mlx_data.showbonus = 1;
 	if (!sort->sprite)
-		sort->sprite = "./textures/Error.xpm";
+	{
+		if (ft_askloading("Would you load the game without the sprite texture ? [y|n]\n") == 1)
+			sort->sprite = "./textures/Error.xpm";
+		else
+			ft_puterror("Error met les textures poto\n");
+	}
 	if (!sort->northpath)
-		sort->northpath = "./textures/Error.xpm";
+	{
+		if (ft_askloading("Would you load the game without the north texture ? [y|n]\n") == 1)
+			sort->northpath = "./textures/Error.xpm";
+		else
+			ft_puterror("Error met les textures poto\n");
+	}
 	if (!sort->southpath)
-		sort->southpath = "./textures/Error.xpm";
+	{
+		if (ft_askloading("Would you load the game without the south texture ? [y|n]\n") == 1)
+			sort->southpath = "./textures/Error.xpm";
+		else
+			ft_puterror("Error met les textures poto\n");
+	}
 	if (!sort->eastpath)
-		sort->eastpath = "./textures/Error.xpm";
+	{
+		if (ft_askloading("Would you load the game without the east texture ? [y|n]\n") == 1)
+			sort->eastpath = "./textures/Error.xpm";
+		else
+			ft_puterror("Error met les textures poto\n");
+	}
 	if (!sort->westpath)
-		sort->westpath = "./textures/Error.xpm";
+	{
+		if (ft_askloading("Would you load the game without the west texture ? [y|n]\n") == 1)
+			sort->westpath = "./textures/Error.xpm";
+		else
+			ft_puterror("Error met les textures poto\n");
+	}
 	mlx_data.img.img_ptr = mlx_new_image(data.mlx_win, mlx_data.sort->resw, mlx_data.sort->resh);
 	mlx_data.s_wall.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_01.xpm", &mlx_data.s_wall.width, &mlx_data.s_wall.height);
 	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->northpath), &mlx_data.s_walltwo.width, &mlx_data.s_walltwo.height);

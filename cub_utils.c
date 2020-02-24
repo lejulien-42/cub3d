@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 01:04:04 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/20 03:07:35 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 00:35:36 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void
 	ft_puterror(char *text)
 {
-	ft_putstr_fd("\e[34m", 1);
-	ft_putstr_fd(text, 1);
+	ft_putstr_fd("\e[34m", 2);
+	ft_putstr_fd(text, 2);
 	exit(0);
 }
 

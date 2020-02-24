@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/23 06:46:26 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/23 23:22:48 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,4 +215,5 @@ void			ft_checkc(char *currentline, t_sort *sort);
 void			ft_checkf(char *currentline, t_sort *sort);
 char			*ft_testsrc(char *src);
 void			ft_checkmap(t_mlx_data *data);
+int				ft_askloading(char *txt);
 #endif
