@@ -5,9 +5,9 @@ NO ./textures/fl.xpm
 SO ./textures/WALL_04.xpm
 EA ./textures/lava.XPM
 WE ./textures/escalier.xpm
-#S ./textures/healing.xpm
+S ./textures/healing.xpm
 F 0	, 0	, 0
-C 12,	 12	, 12
+C 21312,	 3212	, 132312312
 
 111111111111111111111111111111111
 133333333333333333333333333333331

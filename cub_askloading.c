@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 23:00:43 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 01:32:14 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 02:24:51 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ int
 			free(line);
 			return (0);
 		}
+		ft_putstr_fd("\e[91mPlease answer y or n :", 1);
 		free(line);
-		ft_putstr_fd("\e[33mcub\e[36m3D \e[96m>> \e[95m", 1);
+		ft_putstr_fd("\n\e[33mcub\e[36m3D \e[96m>> \e[95m", 1);
 	}
-	ft_puterror("Error texture file missing");
+	ft_puterror("\nError texture file missing");
 	return (0);
 }
