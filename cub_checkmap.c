@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 06:08:25 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 21:38:51 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/24 22:28:46 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,5 @@ void
 {
 	ft_count_mapsize(data);
 	ft_count_player(data);
+	ft_checkmapborder(data);
 }
