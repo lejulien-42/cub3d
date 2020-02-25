@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 03:49:21 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 05:58:44 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,4 +224,7 @@ void			ft_getpath(char *currentline, t_sort *sort, int wich);
 void			ft_check_types(char *currentline, t_sort *sort, int ret);
 void			check_line_start(char **currentline, int ret);
 void			ft_joinmap(t_sort *sort);
+void			ft_load_normalsprite(t_mlx_data *data);
+void			ft_askloading2(t_sort *sort);
+void			ft_cub_getdata_img(t_mlx_data *data);
 #endif

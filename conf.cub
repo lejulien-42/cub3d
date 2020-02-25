@@ -1,7 +1,7 @@
 
 R 700 	600
 B 1
-NO ./textures/WALL_01.XPM
+#NO ./textures/WALL_01.XPM
 SO ./textures/WALL_04.XPM
 EA ./textures/fl.XPM
 WE ./textures/escalier.xpm

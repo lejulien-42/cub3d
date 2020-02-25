@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 04:50:06 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 05:57:07 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,88 +409,10 @@ int
 		return (EXIT_FAILURE);
 	if (sort->isbonus == 1)
 		mlx_data.showbonus = 1;
-	if (!sort->sprite)
-	{
-		if (ft_askloading("Would you load the game without the sprite texture ? [y|n]\n") == 1)
-			sort->sprite = "./textures/Error.xpm";
-		else
-			ft_puterror("Error met les textures poto\n");
-	}
-	if (!sort->northpath)
-	{
-		if (ft_askloading("Would you load the game without the north texture ? [y|n]\n") == 1)
-			sort->northpath = "./textures/Error.xpm";
-		else
-			ft_puterror("Error met les textures poto\n");
-	}
-	if (!sort->southpath)
-	{
-		if (ft_askloading("Would you load the game without the south texture ? [y|n]\n") == 1)
-			sort->southpath = "./textures/Error.xpm";
-		else
-			ft_puterror("Error met les textures poto\n");
-	}
-	if (!sort->eastpath)
-	{
-		if (ft_askloading("Would you load the game without the east texture ? [y|n]\n") == 1)
-			sort->eastpath = "./textures/Error.xpm";
-		else
-			ft_puterror("Error met les textures poto\n");
-	}
-	if (!sort->westpath)
-	{
-		if (ft_askloading("Would you load the game without the west texture ? [y|n]\n") == 1)
-			sort->westpath = "./textures/Error.xpm";
-		else
-			ft_puterror("Error met les textures poto\n");
-	}
-	mlx_data.img.img_ptr = mlx_new_image(data.mlx_win, mlx_data.sort->resw, mlx_data.sort->resh);
-	mlx_data.s_wall.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_01.xpm", &mlx_data.s_wall.width, &mlx_data.s_wall.height);
-	mlx_data.s_walltwo.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->northpath), &mlx_data.s_walltwo.width, &mlx_data.s_walltwo.height);
-	mlx_data.s_wallthree.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/WALL_03.xpm", &mlx_data.s_wallthree.width, &mlx_data.s_wallthree.height);
-	mlx_data.s_wallfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->southpath), &mlx_data.s_wallfour.width, &mlx_data.s_wallfour.height);
-	mlx_data.s_escalier.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/hadhio.xpm", &mlx_data.s_escalier.width, &mlx_data.s_escalier.height);
-	mlx_data.s_fl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/spookyfl.xpm", &mlx_data.s_fl.width, &mlx_data.s_fl.height);
-	mlx_data.s_lava.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->eastpath), &mlx_data.s_lava.width, &mlx_data.s_lava.height);
-	mlx_data.s_floorfour.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/FLOOR_04.xpm", &mlx_data.s_floorfour.width, &mlx_data.s_floorfour.height);
-	mlx_data.s_roofeleven.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/ROOF_11.xpm", &mlx_data.s_roofeleven.width, &mlx_data.s_roofeleven.height);
-	mlx_data.s_arrowtex.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/right.xpm", &mlx_data.s_arrowtex.width, &mlx_data.s_arrowtex.height);
-	mlx_data.s_arrowtexl.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/left.xpm", &mlx_data.s_arrowtexl.width, &mlx_data.s_arrowtexl.height);
-	mlx_data.s_lifeframe.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, "./textures/frame.xpm", &mlx_data.s_lifeframe.width, &mlx_data.s_lifeframe.height);
-	mlx_data.s_health.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->westpath), &mlx_data.s_health.width, &mlx_data.s_health.height);
-	mlx_data.s_monster.img_ptr = mlx_xpm_file_to_image(mlx_data.data->mlx_ptr, ft_testsrc(sort->sprite), &mlx_data.s_monster.width, &mlx_data.s_monster.height);
-
-
-	mlx_data.img.data = (int *)mlx_get_data_addr(mlx_data.img.img_ptr, &mlx_data.img.bpp, &mlx_data.img.size_l,
-			&mlx_data.img.endian);
-	mlx_data.s_wall.data = (int *)mlx_get_data_addr(mlx_data.s_wall.img_ptr, &mlx_data.s_wall.bpp, &mlx_data.s_wall.size_l,
-			&mlx_data.s_wall.endian);
-	mlx_data.s_walltwo.data = (int *)mlx_get_data_addr(mlx_data.s_walltwo.img_ptr, &mlx_data.s_walltwo.bpp, &mlx_data.s_walltwo.size_l,
-			&mlx_data.s_walltwo.endian);
-	mlx_data.s_wallthree.data = (int *)mlx_get_data_addr(mlx_data.s_wallthree.img_ptr, &mlx_data.s_wallthree.bpp, &mlx_data.s_wallthree.size_l,
-			&mlx_data.s_wallthree.endian);
-	mlx_data.s_wallfour.data = (int *)mlx_get_data_addr(mlx_data.s_wallfour.img_ptr, &mlx_data.s_wallfour.bpp, &mlx_data.s_wallfour.size_l,
-			&mlx_data.s_wallfour.endian);
-	mlx_data.s_lava.data = (int *)mlx_get_data_addr(mlx_data.s_lava.img_ptr, &mlx_data.s_lava.bpp, &mlx_data.s_lava.size_l,
-			&mlx_data.s_lava.endian);
-	mlx_data.s_floorfour.data = (int *)mlx_get_data_addr(mlx_data.s_floorfour.img_ptr, &mlx_data.s_floorfour.bpp, &mlx_data.s_floorfour.size_l,
-			&mlx_data.s_floorfour.endian);
-	mlx_data.s_roofeleven.data = (int *)mlx_get_data_addr(mlx_data.s_roofeleven.img_ptr, &mlx_data.s_roofeleven.bpp, &mlx_data.s_roofeleven.size_l,
-			&mlx_data.s_roofeleven.endian);
-	mlx_data.s_escalier.data = (int *)mlx_get_data_addr(mlx_data.s_escalier.img_ptr, &mlx_data.s_escalier.bpp, &mlx_data.s_escalier.size_l,
-			&mlx_data.s_escalier.endian);
-	mlx_data.s_fl.data = (int *)mlx_get_data_addr(mlx_data.s_fl.img_ptr, &mlx_data.s_fl.bpp, &mlx_data.s_fl.size_l,
-			&mlx_data.s_fl.endian);
-	mlx_data.s_arrowtexl.data = (int *)mlx_get_data_addr(mlx_data.s_arrowtexl.img_ptr, &mlx_data.s_arrowtexl.bpp, &mlx_data.s_arrowtexl.size_l,
-			&mlx_data.s_arrowtexl.endian);
-	mlx_data.s_arrowtex.data = (int *)mlx_get_data_addr(mlx_data.s_arrowtex.img_ptr, &mlx_data.s_arrowtex.bpp, &mlx_data.s_arrowtex.size_l,
-			&mlx_data.s_arrowtex.endian);
-	mlx_data.s_lifeframe.data = (int *)mlx_get_data_addr(mlx_data.s_lifeframe.img_ptr, &mlx_data.s_lifeframe.bpp, &mlx_data.s_lifeframe.size_l,
-			&mlx_data.s_lifeframe.endian);
-	mlx_data.s_health.data = (int *)mlx_get_data_addr(mlx_data.s_health.img_ptr, &mlx_data.s_health.bpp, &mlx_data.s_health.size_l,
-			&mlx_data.s_health.endian);
-	mlx_data.s_monster.data = (int *)mlx_get_data_addr(mlx_data.s_monster.img_ptr, &mlx_data.s_monster.bpp, &mlx_data.s_monster.size_l,
-			&mlx_data.s_monster.endian);
+	ft_askloading2(sort);
+	ft_load_normalsprite(&mlx_data);
+	ft_cub_getdata_img(&mlx_data);
+	
 	ft_setimg(&mlx_data);
 	ft_do_mlx(&mlx_data);
 	return (1);
