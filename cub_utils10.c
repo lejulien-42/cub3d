@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 04:38:03 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 21:27:34 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 02:42:04 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,41 @@
 static void
 	ft_lifebar(t_square square, t_mlx_data *data)
 {
-	square = ft_set_square(112, 22, data->sort->resw
-	- (data->sort->resh * 0.25) - 6, 14);
-	ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
-	square = ft_set_square(108, 18, data->sort->resw
-	- (data->sort->resh * 0.25) - 4, 16);
-	ft_mlx_drawfilled_square(&square, rgb_int(180, 0, 0), data);
-	square = ft_set_square(100, 10, data->sort->resw
-	- data->sort->resh * 0.25, 20);
-	ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
-	square = ft_set_square(data->health, 10, data->sort->resw
-	- data->sort->resh * 0.25, 20);
-	ft_mlx_drawfilled_square(&square, rgb_int(255, 0, 0), data);
+	if (data->sort->resw >= 500 && data->sort->resw >= 500)
+	{
+		square = ft_set_square(112, 22, data->sort->resw
+		- (data->sort->resh * 0.25) - 6, 14);
+		ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
+		square = ft_set_square(108, 18, data->sort->resw
+		- (data->sort->resh * 0.25) - 4, 16);
+		ft_mlx_drawfilled_square(&square, rgb_int(180, 0, 0), data);
+		square = ft_set_square(100, 10, data->sort->resw
+		- data->sort->resh * 0.25, 20);
+		ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
+		square = ft_set_square(data->health, 10, data->sort->resw
+		- data->sort->resh * 0.25, 20);
+		ft_mlx_drawfilled_square(&square, rgb_int(255, 0, 0), data);
+	}
 }
 
 static void
 	ft_staminabar(t_square square, t_mlx_data *data)
 {
-	square = ft_set_square(112, 22, data->sort->resw
-	- (data->sort->resh * 0.25) - 6, 14 + 24);
-	ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
-	square = ft_set_square(108, 18, data->sort->resw
-	- (data->sort->resh * 0.25) - 4, 16 + 24);
-	ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 180), data);
-	square = ft_set_square(100, 10, data->sort->resw
-	- data->sort->resh * 0.25, 20 + 24);
-	ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
-	square = ft_set_square(data->stamina, 10, data->sort->resw
-	- data->sort->resh * 0.25, 20 + 24);
-	ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 255), data);
+	if (data->sort->resw >= 500 && data->sort->resw >= 500)
+	{
+		square = ft_set_square(112, 22, data->sort->resw
+		- (data->sort->resh * 0.25) - 6, 14 + 24);
+		ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
+		square = ft_set_square(108, 18, data->sort->resw
+		- (data->sort->resh * 0.25) - 4, 16 + 24);
+		ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 180), data);
+		square = ft_set_square(100, 10, data->sort->resw
+		- data->sort->resh * 0.25, 20 + 24);
+		ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 0), data);
+		square = ft_set_square(data->stamina, 10, data->sort->resw
+		- data->sort->resh * 0.25, 20 + 24);
+		ft_mlx_drawfilled_square(&square, rgb_int(0, 0, 255), data);
+	}
 }
 
 int

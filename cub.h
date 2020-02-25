@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 21:27:11 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 03:49:21 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ typedef struct	s_sort
 	int			mapwidth;
 	int			mapheight;
 	int			isbonus;
+	char		*previousline;
+	char		*currentline;
 }				t_sort;
 
 typedef struct	s_mlx_data
@@ -219,4 +221,7 @@ void			ft_checkmap(t_mlx_data *data);
 int				ft_askloading(char *txt);
 void			ft_checksprite(char *currentline, t_sort *sort);
 void			ft_getpath(char *currentline, t_sort *sort, int wich);
+void			ft_check_types(char *currentline, t_sort *sort, int ret);
+void			check_line_start(char **currentline, int ret);
+void			ft_joinmap(t_sort *sort);
 #endif

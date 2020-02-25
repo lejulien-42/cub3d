@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 06:03:35 by lejulien          #+#    #+#             */
-/*   Updated: 2019/11/08 06:20:53 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 04:17:38 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char
+	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*s3;
 	int		allocplace;

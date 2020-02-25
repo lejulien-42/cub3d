@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 02:43:48 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 06:15:09 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 02:38:00 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int
 	ft_checkwidth(int i)
 {
-	if (i > 2560 || i < 500)
+	if (i > 2560 || i < 100)
 		ft_puterror("\e[32mError res\n");
 	return (i);
 }
@@ -23,7 +23,7 @@ static int
 static int
 	ft_checkheight(int i)
 {
-	if (i > 1440 || i < 500)
+	if (i > 1440 || i < 100)
 		ft_puterror("\e[32mError res\n");
 	return (i);
 }

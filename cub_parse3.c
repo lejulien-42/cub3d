@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 02:31:15 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 02:33:52 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 04:53:26 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,15 @@ char
 		i++;
 	i--;
 	if (src[i] != 'm' && src[i] != 'M')
-		ft_puterror("east res src Error\n");
+		ft_puterror("Error file incorrect\n");
 	i--;
 	if (src[i] != 'p' && src[i] != 'P')
-		ft_puterror("east res src Error\n");
+		ft_puterror("Error file incorrect\n");
 	i--;
 	if (src[i] != 'x' && src[i] != 'X')
-		ft_puterror("east res src Error\n");
+		ft_puterror("Error file incorrect\n");
 	i--;
 	if (src[i] != '.')
-		ft_puterror("east res src Error\n");
+		ft_puterror("Error file incorrect\n");
 	return (src);
 }

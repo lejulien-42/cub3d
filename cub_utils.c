@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 01:04:04 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 06:35:10 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 03:45:40 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ t_sort
 	sort.rgbc = 0;
 	sort.mapwidth = 33;
 	sort.mapheight = 33;
+	sort.currentline = NULL;
+	sort.previousline = NULL;
 	return (sort);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 22:15:19 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 04:50:06 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,115 +24,44 @@ char
 	*ft_compressmap(int fd, t_sort *sort)
 {
 	int		ret;
-	char	*currentline;
-	char	*previousline;
-	char	*tofree;
-	char	*temp;
-	static int		isatmap = 0;
-
+	int	isatmap;
+	char *tofree;
+	char *temp;
 
 	ret = 1;
-	previousline = NULL;
+	isatmap = 0;
 	while (ret == 1)
 	{
-		ret = get_next_line(fd, &currentline);
-		if (currentline[0] == '1')
+		ret = get_next_line(fd, &sort->currentline);
+		if (sort->currentline[0] == '1')
 			isatmap = 1;
 		if (isatmap)
 		{
 			if (ret == 0)
 			{
-				free(currentline);
-				return (previousline);
+				free(sort->currentline);
+				return (sort->previousline);
 			}
-			if (currentline[0] != '1' && ret == 1)
+			check_line_start(&sort->currentline, ret);
+			if (sort->previousline)
 			{
-				write(1, "error map\n", 10);
-			}
-			if (previousline)
-			{
-				tofree = ft_strjoin(previousline, "~");
-				temp = ft_strjoin(tofree, currentline);
+				tofree = ft_strjoin(sort->previousline, "~");
+				temp = ft_strjoin(tofree, sort->currentline);
 				ft_subspace(temp);
 				free(tofree);
-				free(previousline);
-				previousline = ft_subspace(temp);
+				free(sort->previousline);
+				sort->previousline = ft_subspace(temp);
 				free(temp);
-				free(currentline);
+				free(sort->currentline);
 			}
 		}
 		else
 		{
-			previousline = currentline;
-			if (ret == 0)
-				ft_puterror("\e[33mno map Error\n");
-			if (currentline[0] == 'R')
-				ft_checkr(currentline, sort);
-			else if (currentline[0] == 'B')
-				ft_checkb(currentline, sort);
-			else if (currentline[0] == 'N')
-				ft_checkn(currentline, sort);
-			else if (currentline[0] == 'S')
-				ft_checks(currentline, sort);
-			else if (currentline[0] == 'E')
-				ft_checke(currentline, sort);
-			else if (currentline[0] == 'W')
-				ft_checkw(currentline, sort);
-			else if (currentline[0] == 'C')
-				ft_checkc(currentline, sort);
-			else if (currentline[0] == 'F')
-				ft_checkf(currentline, sort);
+			sort->previousline = sort->currentline;
+			ft_check_types(sort->currentline, sort, ret);
 		}
 	}
 	return (NULL);
-}
-
-
-
-
-void
-	ft_mlx_show_minimap(t_mlx_data *mlxdata, t_sort *sort)
-{
-	int	i = 0;
-	int	j = 0;
-
-	mlxdata->resph = sort->resh * 0.20 / sort->mapheight;
-	while (mlxdata->map[i][j])
-	{
-		while (mlxdata->map[i][j])
-		{
-			mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
-			if (mlxdata->map[i][j] == '1')
-			{
-				mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
-				ft_mlx_drawfilled_square(&mlxdata->square, rgb_int(0, 204, 153), mlxdata);
-			}
-			else if (mlxdata->map[i][j] == '2')
-			{
-				mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
-				ft_mlx_drawfilled_square(&mlxdata->square, rgb_int(0, 200, 0), mlxdata);
-			}
-			else if (mlxdata->map[i][j] == '3')
-			{
-				mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
-				ft_mlx_drawfilled_square(&mlxdata->square, rgb_int(0, 0, 200), mlxdata);
-			}
-			else if (mlxdata->map[i][j] == '0' || mlxdata->map[i][j] == 'A' || mlxdata->map[i][j] == 'B')
-			{
-				mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
-				ft_mlx_drawfilled_square(&mlxdata->square, rgb_int(255, 255, 255), mlxdata);
-			}
-			else
-			{
-				mlxdata->square = ft_set_square(mlxdata->resph, mlxdata->resph, 10 + j * mlxdata->resph, 10 + i * mlxdata->resph);
-				ft_mlx_drawfilled_square(&mlxdata->square, rgb_int(255, 0, 0), mlxdata);
-			}
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	ft_showposes(mlxdata);
 }
 
 void
