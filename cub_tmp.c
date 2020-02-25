@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 07:10:21 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 07:49:48 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -382,31 +382,6 @@ void
 	}
 }
 
-int
-	ft_sort_and_rend(int fd, t_sort *sort)
-{
-	char		*compressedmap;
-	t_data		data;
-	t_mlx_data	mlx_data;
-	t_player	player;
-	char		**map;
-
-	compressedmap = ft_compressmap(fd, sort);
-	if (sort->isbonus)
-		ft_debug_sort(sort);
-	map = ft_split(compressedmap, '~');
-	free(compressedmap);
-	mlx_data = ft_set_mlx_data(map, &data, sort, &player);
-	ft_checkmap(&mlx_data);
-	if (!(ft_count_sprite(&mlx_data)))
-		return (EXIT_FAILURE);
-	if (!(ft_attrib_sprite(&mlx_data)))
-		return (EXIT_FAILURE);
-	if (sort->isbonus)
-		ft_debugmap(map);
-	ft_loadmlx(&mlx_data);
-	return (1);
-}
 
 int main(int argc, const char *argv[])
 {
