@@ -6,11 +6,12 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 22:27:21 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 00:19:53 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 07:15:24 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub.h"
+#include "./libft-42/libft.h"
 
 static int
 	ft_checkfullone(char *str)

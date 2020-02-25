@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 05:58:44 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 07:23:02 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stddef.h>
 # include <unistd.h>
 # include <mlx.h>
+#include "./libft-42/libft.h"
 # define UDIV 1
 # define VDUV 1
 # define VMOVE 0.0
@@ -216,6 +217,7 @@ void			ft_checks(char *currentline, t_sort *sort);
 void			ft_checke(char *currentline, t_sort *sort);
 void			ft_checkc(char *currentline, t_sort *sort);
 void			ft_checkf(char *currentline, t_sort *sort);
+void			ft_checkw(char *currentline, t_sort *sort);
 char			*ft_testsrc(char *src);
 void			ft_checkmap(t_mlx_data *data);
 int				ft_askloading(char *txt);
@@ -227,4 +229,11 @@ void			ft_joinmap(t_sort *sort);
 void			ft_load_normalsprite(t_mlx_data *data);
 void			ft_askloading2(t_sort *sort);
 void			ft_cub_getdata_img(t_mlx_data *data);
+int				ft_loadmlx(t_mlx_data *data);
+int				ft_sort_and_rend(int fd, t_sort *sort);
+char			*ft_compressmap(int fd, t_sort *sort);
+void			ft_checkmapborder(t_mlx_data *data);
+void			ft_mlx_vertline(t_mlx_data *data, int color, t_pos *pos, int len);
+void			ft_raycast(t_mlx_data *data);
+void			ft_mlx_show_minimap(t_mlx_data *mlxdata, t_sort *sort);
 #endif

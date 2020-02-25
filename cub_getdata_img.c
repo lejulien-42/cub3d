@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 05:55:34 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 06:04:49 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 07:16:12 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,22 @@ void
 		&data->s_escalier.bpp, &data->s_escalier.size_l,
 		&data->s_escalier.endian);
 	ft_get_data_img(data);
+}
+
+int
+	ft_loadmlx(t_mlx_data *data)
+{
+	if (!(data->data->mlx_ptr = mlx_init()))
+		return (EXIT_FAILURE);
+	if (!(data->data->mlx_win = mlx_new_window(data->data->mlx_ptr,
+		data->sort->resw, data->sort->resh, "cub3d")))
+		return (EXIT_FAILURE);
+	if (data->sort->isbonus == 1)
+		data->showbonus = 1;
+	ft_askloading2(data->sort);
+	ft_load_normalsprite(data);
+	ft_cub_getdata_img(data);
+	ft_setimg(data);
+	ft_do_mlx(data);
+	return (1);
 }

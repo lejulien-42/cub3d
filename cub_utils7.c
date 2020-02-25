@@ -6,11 +6,12 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 03:06:42 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 03:40:09 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 07:24:38 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub.h"
+#include <math.h>
 
 void
 	ft_key_event(t_mlx_data *data)

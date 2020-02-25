@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 04:38:03 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 02:42:04 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 07:45:26 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,15 @@ t_mlx_data
 	mlx_data.s_wallthree.img_ptr = NULL;
 	mlx_data.s_wallfour.img_ptr = NULL;
 	mlx_data.s_lava.img_ptr = NULL;
+	mlx_data.s_floorfour.img_ptr = NULL;
 	mlx_data.s_arrowtex.img_ptr = NULL;
+	mlx_data.s_arrowtexl.img_ptr = NULL;
+	mlx_data.s_roofeleven.img_ptr = NULL;
+	mlx_data.s_escalier.img_ptr = NULL;
+	mlx_data.s_monster.img_ptr = NULL;
+	mlx_data.s_lifeframe.img_ptr = NULL;
+	mlx_data.s_health.img_ptr = NULL;
+	mlx_data.s_fl.img_ptr = NULL;
 	mlx_data.zbuffer = zbuffer;
 	mlx_data.spriteorder = spriteorder;
 	mlx_data.spritedistance = spritedistance;

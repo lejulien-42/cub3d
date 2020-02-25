@@ -6,11 +6,12 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 06:08:25 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 22:28:46 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 07:15:16 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub.h"
+#include "./libft-42/libft.h"
 
 static void
 	ft_get_bigger(int i, t_mlx_data *data)

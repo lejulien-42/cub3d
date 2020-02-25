@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 07:39:14 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 00:33:33 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 07:23:49 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int
 		mlx_string_put(data->data->mlx_ptr, data->data->mlx_win,
 		data->sort->resw * 0.5 - 40, data->sort->resh * 0.5,
 		rgb_int(0, 0, 0), "YOU DIED");
+	return (1);
 }
 
 int
@@ -77,4 +78,5 @@ int
 		data->isdead = 0;
 	if (data->health > 100)
 		data->health = 100;
+	return (1);
 }
