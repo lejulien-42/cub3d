@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 07:49:48 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 20:53:32 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,50 +20,6 @@
 #define texWidth 512
 #define texHeight 512
 
-char
-	*ft_compressmap(int fd, t_sort *sort)
-{
-	int		ret;
-	int	isatmap;
-	char *tofree;
-	char *temp;
-
-	ret = 1;
-	isatmap = 0;
-	while (ret == 1)
-	{
-		ret = get_next_line(fd, &sort->currentline);
-		if (sort->currentline[0] == '1')
-			isatmap = 1;
-		if (isatmap)
-		{
-			if (ret == 0)
-			{
-				free(sort->currentline);
-				return (sort->previousline);
-			}
-			check_line_start(&sort->currentline, ret);
-			if (sort->previousline)
-			{
-				tofree = ft_strjoin(sort->previousline, "~");
-				temp = ft_strjoin(tofree, sort->currentline);
-				ft_subspace(temp);
-				free(tofree);
-				free(sort->previousline);
-				sort->previousline = ft_subspace(temp);
-				free(temp);
-				free(sort->currentline);
-			}
-		}
-		else
-		{
-			sort->previousline = sort->currentline;
-			ft_check_types(sort->currentline, sort, ret);
-		}
-	}
-	return (NULL);
-}
-
 void
 	ft_raycast(t_mlx_data *data)
 {
@@ -76,7 +32,7 @@ void
 
 	if (data->showbonus == 1)
 	{
-		while (y < data->sort->resh)
+		while (y <= data->sort->resh)
 		{
 			float	rayDirX0 = data->dirx - data->planex;
 			float	rayDirY0 = data->diry - data->planey;

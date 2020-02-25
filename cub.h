@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 07:23:02 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 20:46:36 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
-# include <mlx.h>
-#include "./libft-42/libft.h"
+# include "./libft-42/libft.h"
+# include "./minilibx/mlx.h"
 # define UDIV 1
 # define VDUV 1
 # define VMOVE 0.0
@@ -236,4 +236,6 @@ void			ft_checkmapborder(t_mlx_data *data);
 void			ft_mlx_vertline(t_mlx_data *data, int color, t_pos *pos, int len);
 void			ft_raycast(t_mlx_data *data);
 void			ft_mlx_show_minimap(t_mlx_data *mlxdata, t_sort *sort);
+void			ft_encodemap(t_sort *sort);
+void			ft_getline_checktype(t_sort *sort, int ret);
 #endif
