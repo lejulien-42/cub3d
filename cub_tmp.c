@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 20:53:32 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 21:04:24 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #include "cub.h"
 #include "get_next_line.h"
 #include "./libft-42/libft.h"
-#define texWidth 512
-#define texHeight 512
 
 void
 	ft_raycast(t_mlx_data *data)
@@ -50,7 +48,7 @@ void
 
 			float floorX = data->posx + rowDistance * rayDirX0;
 			float floorY = data->posy + rowDistance * rayDirY0;
-			x = 0;
+			x = -1;
 			while (++x < data->sort->resw)
 			{
 				int cellX = (int)(floorX);
@@ -232,16 +230,16 @@ void
 				if (side == 1)
 				{
 					if (rayDirY < 0)
-						color = data->s_lava.data[((int)texposs_lava & (data->s_lava.height - 1)) * data->s_lava.height + texxs_lava]; //TEX_WEST
+						color = data->s_lava.data[((int)texposs_lava & (data->s_lava.height - 1)) * data->s_lava.height + texxs_lava];
 					else
-						color = data->s_health.data[((int)texposs_health & (data->s_health.height - 1)) * data->s_health.height + texxs_health]; //TEX_SOUTH
+						color = data->s_health.data[((int)texposs_health & (data->s_health.height - 1)) * data->s_health.height + texxs_health];
 				}
 				else
 				{
 					if (rayDirX < 0)
-						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour]; //TEX_EAST
+						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour];
 					else
-						color = data->s_walltwo.data[((int)texposs_walltwo & (data->s_walltwo.height - 1)) * data->s_walltwo.height + texxs_walltwo]; //TEX_NORTH
+						color = data->s_walltwo.data[((int)texposs_walltwo & (data->s_walltwo.height - 1)) * data->s_walltwo.height + texxs_walltwo];
 				}
 			}
 			else if (what == '3')

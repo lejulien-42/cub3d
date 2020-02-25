@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 20:46:36 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 20:59:08 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define UDIV 1
 # define VDUV 1
 # define VMOVE 0.0
+# define texWidth 512
+# define texHeight 512
 
 typedef struct	s_img
 {
