@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/26 06:48:51 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/26 07:11:57 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,10 @@ void
 	{
 		while (y < data->sort->resh)
 		{
-			float	rayDirX0 = data->dirx - data->planex;
-			float	rayDirY0 = data->diry - data->planey;
-			float	rayDirX1 = data->dirx + data->planex;
-			float	rayDirY1 = data->diry + data->planey;
-
-			int p = y - data->sort->resh / 2;
-
-			float posZ = 0.5 * data->sort->resh;
-
-			float rowDistance = posZ / p;
-
-			data->floorstepx = rowDistance * (rayDirX1 - rayDirX0) / data->sort->resw;
-			data->floorstepy = rowDistance * (rayDirY1 - rayDirY0) / data->sort->resw;
-
-			data->floorx = data->posx + rowDistance * rayDirX0;
-			data->floory = data->posy + rowDistance * rayDirY0;
-			x = -1;
-			while (++x < data->sort->resw)
-			{
-				data->cellx = (int)(data->floorx);
-				data->celly = (int)(data->floory);
-				ft_get_color_tex(data, x, y);
-			}
+			float	raydirxo = data->dirx - data->planex;
+			data->raydiryo = data->diry - data->planey;
+			data->raydirxone = data->dirx + data->planex;
+			ft_distpoint(data, raydirxo, x, y);
 			y++;
 		}
 	}

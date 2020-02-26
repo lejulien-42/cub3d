@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/26 06:45:06 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/26 07:12:14 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,8 @@ typedef struct	s_mlx_data
 	float		floorstepx;
 	float		floorstepy;
 	double		mousespeed;
+	float		raydirxone;
+	float		raydiryo;
 }				t_mlx_data;
 
 void			ft_mlx_draw_square(t_square *square, t_data *data, int color);
@@ -250,4 +252,5 @@ void			ft_mlx_show_minimap(t_mlx_data *mlxdata, t_sort *sort);
 void			ft_encodemap(t_sort *sort);
 void			ft_getline_checktype(t_sort *sort, int ret);
 void			ft_get_color_tex(t_mlx_data *data, int x, int y);
+void			ft_distpoint(t_mlx_data *data, float raydirxo, int x, int y);
 #endif

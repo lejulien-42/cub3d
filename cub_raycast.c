@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 05:28:01 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/26 06:53:11 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/26 07:10:47 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,29 @@ void
 	data->img.data[y * data->sort->resw + x] = color;
 	data->img.data[(data->sort->resh - y - 1) * data->sort->resw + x] =
 		data->s_roofeleven.data[data->s_roofeleven.width * tyr + txr];
+}
+
+void
+	ft_distpoint(t_mlx_data *data, float raydirxo, int x, int y)
+{
+	float	raydiryone = data->diry + data->planey;
+
+	int p = y - data->sort->resh / 2;
+
+	float posZ = 0.5 * data->sort->resh;
+
+	float rowDistance = posZ / p;
+
+	data->floorstepx = rowDistance * (data->raydirxone - raydirxo) / data->sort->resw;
+	data->floorstepy = rowDistance * (raydiryone - data->raydiryo) / data->sort->resw;
+
+	data->floorx = data->posx + rowDistance * raydirxo;
+	data->floory = data->posy + rowDistance * data->raydiryo;
+	x = -1;
+	while (++x < data->sort->resw)
+	{
+		data->cellx = (int)(data->floorx);
+		data->celly = (int)(data->floory);
+		ft_get_color_tex(data, x, y);
+	}
 }
