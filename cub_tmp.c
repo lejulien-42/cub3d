@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 21:04:24 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/26 06:48:51 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void
 
 	if (data->showbonus == 1)
 	{
-		while (y <= data->sort->resh)
+		while (y < data->sort->resh)
 		{
 			float	rayDirX0 = data->dirx - data->planex;
 			float	rayDirY0 = data->diry - data->planey;
@@ -43,26 +43,17 @@ void
 
 			float rowDistance = posZ / p;
 
-			float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / data->sort->resw;
-			float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / data->sort->resw;
+			data->floorstepx = rowDistance * (rayDirX1 - rayDirX0) / data->sort->resw;
+			data->floorstepy = rowDistance * (rayDirY1 - rayDirY0) / data->sort->resw;
 
-			float floorX = data->posx + rowDistance * rayDirX0;
-			float floorY = data->posy + rowDistance * rayDirY0;
+			data->floorx = data->posx + rowDistance * rayDirX0;
+			data->floory = data->posy + rowDistance * rayDirY0;
 			x = -1;
 			while (++x < data->sort->resw)
 			{
-				int cellX = (int)(floorX);
-				int cellY = (int)(floorY);
-
-				int txf = (int)(data->s_escalier.width * (floorX - cellX)) & (data->s_escalier.width - 1);
-				int tyf = (int)(data->s_escalier.height * (floorY - cellY)) & (data->s_escalier.height - 1);
-				int txr = (int)(data->s_roofeleven.width * (floorX - cellX)) & (data->s_roofeleven.width - 1);
-				int tyr = (int)(data->s_roofeleven.height * (floorY - cellY)) & (data->s_roofeleven.height - 1);
-				floorX += floorStepX;
-				floorY += floorStepY;
-				int color =  data->s_escalier.data[tyf * data->s_escalier.width + txf];
-				data->img.data[y * data->sort->resw + x] = color;
-				data->img.data[(data->sort->resh - y - 1) * data->sort->resw + x] = data->s_roofeleven.data[data->s_roofeleven.width * tyr + txr];
+				data->cellx = (int)(data->floorx);
+				data->celly = (int)(data->floory);
+				ft_get_color_tex(data, x, y);
 			}
 			y++;
 		}
@@ -345,6 +336,7 @@ int main(int argc, const char *argv[])
 
 	error = 0;
 	sort = ft_initialaze_sort();
+	fd = 0;
 	if (argc == 2 || argc == 3)
 	{
 		if ((fd = open(argv[1], O_RDONLY)) == -1)
@@ -354,10 +346,7 @@ int main(int argc, const char *argv[])
 		else if (argc == 3)
 			error = 1;
 		if (error)
-		{
-			write(1, "Error\nBad Argument\n", 19);
-			return (0);
-		}
+			ft_puterror("Error  bad arguments\n");
 		ft_sort_and_rend(fd, &sort);
 	}
 	return (0);

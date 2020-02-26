@@ -6,7 +6,7 @@
 #    By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/01 15:52:54 by lejulien          #+#    #+#              #
-#    Updated: 2020/02/25 20:33:47 by lejulien         ###   ########.fr        #
+#    Updated: 2020/02/26 06:10:48 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ GCC		= gcc
 
 FLAGS	= -Wall -Wextra -Werror
 
-INCLUDEH = -framework OpenGL -framework AppKit ./minilibx/libmlx.a
+INCLUDEH = -framework OpenGL -framework AppKit
 
 all:	$(NAME)
 
@@ -53,7 +53,7 @@ cubheader:
 	@echo ""
 
 $(NAME): cubheader $(OBJS)
-	gcc $(INCLUDEH) -o $(NAME) $(OBJS)
+	gcc $(INCLUDEH) -o $(NAME) $(OBJS) ./minilibx/libmlx.a
 
 test:
 	@gcc -D BUFFER_SIZE=1024 $(INCLUDEH) -c $(SRCSTEST)
@@ -70,7 +70,7 @@ re: fclean all
 
 %.o: %.c
 	@echo "${_CYAN}Passing from $< to .o ..."
-	@$(GCC) -D BUFFER_SIZE=1024 $(INCLUDEH) -c $<  -o $(<:.c=.o) ./minilibx/libmlx.a
+	@$(GCC) -D BUFFER_SIZE=1024 $(INCLUDEH) -c $<  -o $(<:.c=.o)
 
 run: fclean $(NAME) clean
 	@echo "${_GREEN}Starting Cub3D :"

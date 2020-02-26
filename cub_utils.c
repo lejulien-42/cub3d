@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 01:04:04 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 03:45:40 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/26 03:54:50 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void
 {
 	ft_putstr_fd("\e[34m", 2);
 	ft_putstr_fd(text, 2);
+	system("leaks cub3d.out");
 	exit(0);
 }
 

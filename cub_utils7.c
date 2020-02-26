@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 03:06:42 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 07:24:38 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/26 06:22:30 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void
 
 	oldplanex = data->planex;
 	olddirx = data->dirx;
-	rotspeed = 0.05;
-	if (data->key_right == 1)
+	rotspeed = 0.05 + data->mousespeed;
+	if (data->key_right == 1 || data->mouser == 1)
 	{
 		data->dirx = data->dirx * cos(-rotspeed) - data->diry * sin(-rotspeed);
 		data->diry = olddirx * sin(-rotspeed) + data->diry * cos(-rotspeed);
@@ -57,8 +57,8 @@ void
 
 	oldplanex = data->planex;
 	olddiry = data->dirx;
-	rotspeed = 0.05;
-	if (data->key_left == 1)
+	rotspeed = 0.07 + data->mousespeed;
+	if (data->key_left == 1 || data->mousel == 1)
 	{
 		data->dirx = data->dirx * cos(rotspeed) - data->diry * sin(rotspeed);
 		data->diry = olddiry * sin(rotspeed) + data->diry * cos(rotspeed);

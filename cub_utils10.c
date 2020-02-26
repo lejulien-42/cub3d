@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 04:38:03 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 07:45:26 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/26 06:21:06 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,34 @@ static void
 	}
 }
 
+static void
+	ft_movewmouse(t_mlx_data *data)
+{
+	int	mousex;
+	int	mousey;
+
+	mousex = 0;
+	mousey = 0;
+	mlx_mouse_get_pos(data->data->mlx_win, &mousex, &mousey);
+	if (mousex < (data->sort->resw / 2))
+	{
+		data->mousel = 1;
+		data->mousespeed = (((data->sort->resw) / 2 - mousex)) / 70;
+	}
+	else if (mousex > (data->sort->resw / 2)){
+		data->mouser = 1;
+		data->mousespeed = ((mousex - (data->sort->resw) / 2)) / 70;
+	}
+	else
+	{
+		data->mousel = 0;
+		data->mouser = 0;
+		data->mousespeed = 0;
+	}
+	mlx_mouse_move(data->data->mlx_win, data->sort->resw / 2, 0);
+	mlx_mouse_hide();
+}
+
 int
 	draw(t_mlx_data *data)
 {
@@ -59,6 +87,7 @@ int
 
 	data->movespeed = 0.05;
 	ft_keybr_event(data);
+	ft_movewmouse(data);
 	ft_raycast(data);
 	if (data->showbonus == 1)
 		ft_mlx_show_minimap(data, data->sort);
@@ -74,50 +103,50 @@ int
 		ft_lifebar(square, data);
 		ft_staminabar(square, data);
 	}
-	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win,
-	data->img.img_ptr, 0, 0);
+	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
 	screenshot(data);
 	ft_die(data);
 	return (1);
 }
 
-static void
-	ft_set_mlx_datatwo(t_mlx_data *mlx_data)
+static t_mlx_data
+	ft_set_mlx_datatwo(void)
 {
-	mlx_data->left = 0;
-	mlx_data->down = 0;
-	mlx_data->right = 0;
-	mlx_data->esc = 0;
-	mlx_data->mkey = 0;
-	mlx_data->r = 0;
-	mlx_data->key_left = 0;
-	mlx_data->key_right = 0;
-	mlx_data->key_up = 0;
-	mlx_data->key_down = 0;
-	mlx_data->shift = 0;
-	mlx_data->spritenumber = 0;
-	mlx_data->posx = 1.5;
-	mlx_data->posy = 1.5;
-	mlx_data->dirx = -1;
-	mlx_data->diry = 0;
-	mlx_data->planex = 0;
-	mlx_data->planey = 0.66;
-	mlx_data->promton = 0;
-	mlx_data->isdead = 0;
-	mlx_data->health = 100;
-	mlx_data->stamina = 100;
-	mlx_data->hasstamina = 1;
-	mlx_data->biggest = 0;
+	t_mlx_data	mlx_data;
+
+	mlx_data.left = 0;
+	mlx_data.down = 0;
+	mlx_data.right = 0;
+	mlx_data.esc = 0;
+	mlx_data.mkey = 0;
+	mlx_data.r = 0;
+	mlx_data.key_left = 0;
+	mlx_data.key_right = 0;
+	mlx_data.key_up = 0;
+	mlx_data.key_down = 0;
+	mlx_data.shift = 0;
+	mlx_data.spritenumber = 0;
+	mlx_data.posx = 1.5;
+	mlx_data.posy = 1.5;
+	mlx_data.dirx = -1;
+	mlx_data.diry = 0;
+	mlx_data.planex = 0;
+	mlx_data.planey = 0.66;
+	mlx_data.promton = 0;
+	mlx_data.isdead = 0;
+	mlx_data.health = 100;
+	mlx_data.stamina = 100;
+	mlx_data.hasstamina = 1;
+	mlx_data.biggest = 0;
+	return (mlx_data);
 }
 
 t_mlx_data
 	ft_set_mlx_data(char **map, t_data *data, t_sort *sort, t_player *player)
 {
 	t_mlx_data	mlx_data;
-	double		zbuffer[sort->resw];
-	int			spriteorder[mlx_data.numesprite];
-	double		spritedistance[mlx_data.numesprite];
 
+	mlx_data = ft_set_mlx_datatwo();
 	mlx_data.map = map;
 	mlx_data.numesprite = 2;
 	mlx_data.data = data;
@@ -139,10 +168,9 @@ t_mlx_data
 	mlx_data.s_lifeframe.img_ptr = NULL;
 	mlx_data.s_health.img_ptr = NULL;
 	mlx_data.s_fl.img_ptr = NULL;
-	mlx_data.zbuffer = zbuffer;
-	mlx_data.spriteorder = spriteorder;
-	mlx_data.spritedistance = spritedistance;
+	mlx_data.zbuffer = NULL;
+	mlx_data.spriteorder = NULL;
+	mlx_data.spritedistance = NULL;
 	mlx_data.showbonus = 0;
-	ft_set_mlx_datatwo(&mlx_data);
 	return (mlx_data);
 }

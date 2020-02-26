@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 23:00:43 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 07:49:51 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/25 23:26:58 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ int
 	return (0);
 }
 
+static void
+	ft_init_mlxdata(t_data *data)
+{
+	data->mlx_ptr = NULL;
+	data->mlx_win = NULL;
+}
+
 int
 	ft_sort_and_rend(int fd, t_sort *sort)
 {
@@ -58,6 +65,7 @@ int
 		ft_debug_sort(sort);
 	map = ft_split(compressedmap, '~');
 	free(compressedmap);
+	ft_init_mlxdata(&data);
 	mlx_data = ft_set_mlx_data(map, &data, sort, &player);
 	ft_checkmap(&mlx_data);
 	if (!(ft_count_sprite(&mlx_data)))
