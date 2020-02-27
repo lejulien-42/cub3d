@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/26 07:11:57 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/27 14:38:21 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,101 +21,40 @@
 void
 	ft_raycast(t_mlx_data *data)
 {
-	double	cameraX;
-	double	rayDirX;
-	double	rayDirY;
 	int		x = 0;
 	int		y = 0;
 	char	zbuffer[data->sort->resw];
 
-	if (data->showbonus == 1)
-	{
-		while (y < data->sort->resh)
-		{
-			float	raydirxo = data->dirx - data->planex;
-			data->raydiryo = data->diry - data->planey;
-			data->raydirxone = data->dirx + data->planex;
-			ft_distpoint(data, raydirxo, x, y);
-			y++;
-		}
-	}
-	else
-		ft_setimg(data);
+	ft_floorcasting(data, &x, &y);
 	y = 0;
 	x = 0;
 	while (x < data->sort->resw)
 	{
-		cameraX = 2 * x / (double)(data->sort->resw) - 1;
-		rayDirX = data->dirx + data->planex * cameraX;
-		rayDirY = data->diry + data->planey * cameraX;
-		int mapX = (int)data->posx;
-		int mapY = (int)data->posy;
-		double sideDistX;
-		double sideDistY;
-		char	what;
+		data->camerax = 2 * x / (double)(data->sort->resw) - 1;
+		data->raydirx = data->dirx + data->planex * data->camerax;
+		data->raydiry = data->diry + data->planey * data->camerax;
+		data->mapx = (int)data->posx;
+		data->mapy = (int)data->posy;
 
-		double deltaDistX = fabs(1 / rayDirX);
-		double deltaDistY = fabs(1 / rayDirY);
-		double perpWalldist;
-
-		int	stepX;
-		int	stepY;
+		data->deltadistx = fabs(1 / data->raydirx);
+		data->deltadisty = fabs(1 / data->raydiry);
 
 		int	hit = 0;
 		int	side;
 
-		if (rayDirX < 0)
-		{
-			stepX = -1;
-			sideDistX = (data->posx - mapX) * deltaDistX;
-		}
-		else
-		{
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - data->posx) * deltaDistX;
-		}
-		if (rayDirY < 0)
-		{
-			stepY = -1;
-			sideDistY = (data->posy - mapY) * deltaDistY;
-		}
-		else
-		{
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - data->posy) * deltaDistY;
-		}
+		ft_dda(data);
 
 		//detection des murs
 		while (hit == 0)
-		{
-			if (sideDistX < sideDistY)
-			{
-				sideDistX = sideDistX + deltaDistX;
-				mapX = mapX + stepX;
-				side = 0;
-			}
-			else
-			{
-				sideDistY = sideDistY + deltaDistY;
-				mapY = mapY + stepY;
-				side = 1;
-			}
-			char this = data->map[mapX][mapY];
-			if (this != '0' && this != 'A' && this != 'B'
-				&& this != 'N' && this != 'S' && this != 'E' && this != 'W')
-			{
-				what = data->map[mapX][mapY];
-				hit = 1;
-			}
-		}
+			ft_walldetection(data, &side, &hit);
 
 		if (side == 0)
-			perpWalldist = (mapX - data->posx + (1 - stepX) / 2) / rayDirX;
+			data->perpwalldist = (data->mapx - data->posx + (1 - data->stepx) / 2) / data->raydirx;
 		else
-			perpWalldist = (mapY - data->posy + (1 - stepY) / 2) / rayDirY;
+			data->perpwalldist = (data->mapy - data->posy + (1 - data->stepy) / 2) / data->raydiry;
 
 
-		int lineheight = (int)(data->sort->resh / perpWalldist);
+		int lineheight = (int)(data->sort->resh / data->perpwalldist);
 
 
 		int drawstart = -lineheight / 2 + data->sort->resh / 2;
@@ -129,9 +68,9 @@ void
 
 		double wallx;
 		if (side == 0)
-			wallx = data->posy + perpWalldist * rayDirY;
+			wallx = data->posy + data->perpwalldist * data->raydiry;
 		else
-			wallx = data->posx + perpWalldist * rayDirX;
+			wallx = data->posx + data->perpwalldist * data->raydirx;
 		wallx = wallx - floor((wallx));
 
 
@@ -143,7 +82,7 @@ void
 		int texxs_lava = (int)(wallx * (double)(data->s_lava.width));
 		int texxs_health = (int)(wallx * (double)(data->s_health.width));
 		int texxs_fl = (int)(wallx * (double)(data->s_fl.width));
-		if (side == 0 && rayDirX > 0)
+		if (side == 0 && data->raydirx > 0)
 		{
 			texxs_wallfour = data->s_wallfour.width - texxs_wallfour - 1;
 			texxs_wallfour = data->s_lifeframe.width - texxs_lifeframe - 1;
@@ -154,7 +93,7 @@ void
 			texxs_health = data->s_health.width - texxs_health - 1;
 			texxs_fl = data->s_fl.width - texxs_fl - 1;
 		}
-		if (side == 1 && rayDirY < 0)
+		if (side == 1 && data->raydiry < 0)
 		{
 			texxs_wallfour = data->s_wallfour.width - texxs_wallfour - 1;
 			texxs_arrowtex = data->s_arrowtex.width - texxs_arrowtex - 1;
@@ -197,34 +136,34 @@ void
 			texposs_health = texposs_health + steps_health;
 			texposs_fl = texposs_fl + steps_fl;
 			int color = 0;
-			if (what == '1')
+			if (data->what == '1')
 			{
 				if (side == 1)
 				{
-					if (rayDirY < 0)
+					if (data->raydiry < 0)
 						color = data->s_lava.data[((int)texposs_lava & (data->s_lava.height - 1)) * data->s_lava.height + texxs_lava];
 					else
 						color = data->s_health.data[((int)texposs_health & (data->s_health.height - 1)) * data->s_health.height + texxs_health];
 				}
 				else
 				{
-					if (rayDirX < 0)
+					if (data->raydirx < 0)
 						color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour];
 					else
 						color = data->s_walltwo.data[((int)texposs_walltwo & (data->s_walltwo.height - 1)) * data->s_walltwo.height + texxs_walltwo];
 				}
 			}
-			else if (what == '3')
+			else if (data->what == '3')
 			{
 				color = data->s_wallfour.data[((int)texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + texxs_wallfour];
 			}
-			else if (what == '2')
+			else if (data->what == '2')
 				color = data->s_fl.data[((int)texposs_fl & (data->s_fl.height - 1)) * data->s_fl.height + texxs_fl];
-			else if (what == '7')
+			else if (data->what == '7')
 				color = data->s_arrowtex.data[((int)texposs_arrowtex & (data->s_arrowtex.height - 1)) * data->s_arrowtex.height + texxs_arrowtex];
-			else if (what == '8')
+			else if (data->what == '8')
 				color = data->s_arrowtexl.data[((int)texposs_arrowtexl & (data->s_arrowtexl.height - 1)) * data->s_arrowtexl.height + texxs_arrowtexl];
-			else if (what == '9')
+			else if (data->what == '9')
 				color = data->s_lifeframe.data[((int)texposs_lifeframe & (data->s_lifeframe.height - 1)) * data->s_lifeframe.height + texxs_lifeframe];
 			else
 			{
@@ -233,7 +172,7 @@ void
 			data->img.data[y * data->sort->resw + x] = color;
 			y++;
 		}
-		zbuffer[x] = perpWalldist;
+		zbuffer[x] = data->perpwalldist;
 		x++;
 	}
 	//sprite casting
