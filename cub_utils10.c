@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 04:38:03 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/26 06:21:06 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 04:37:55 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,34 +52,6 @@ static void
 	}
 }
 
-static void
-	ft_movewmouse(t_mlx_data *data)
-{
-	int	mousex;
-	int	mousey;
-
-	mousex = 0;
-	mousey = 0;
-	mlx_mouse_get_pos(data->data->mlx_win, &mousex, &mousey);
-	if (mousex < (data->sort->resw / 2))
-	{
-		data->mousel = 1;
-		data->mousespeed = (((data->sort->resw) / 2 - mousex)) / 70;
-	}
-	else if (mousex > (data->sort->resw / 2)){
-		data->mouser = 1;
-		data->mousespeed = ((mousex - (data->sort->resw) / 2)) / 70;
-	}
-	else
-	{
-		data->mousel = 0;
-		data->mouser = 0;
-		data->mousespeed = 0;
-	}
-	mlx_mouse_move(data->data->mlx_win, data->sort->resw / 2, 0);
-	mlx_mouse_hide();
-}
-
 int
 	draw(t_mlx_data *data)
 {
@@ -87,7 +59,6 @@ int
 
 	data->movespeed = 0.05;
 	ft_keybr_event(data);
-	ft_movewmouse(data);
 	ft_raycast(data);
 	if (data->showbonus == 1)
 		ft_mlx_show_minimap(data, data->sort);
@@ -103,6 +74,7 @@ int
 		ft_lifebar(square, data);
 		ft_staminabar(square, data);
 	}
+	mlx_do_sync(data->data->mlx_ptr);
 	mlx_put_image_to_window(data->data->mlx_ptr, data->data->mlx_win, data->img.img_ptr, 0, 0);
 	screenshot(data);
 	ft_die(data);

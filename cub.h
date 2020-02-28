@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/27 14:35:44 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 07:19:14 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
+# include <math.h>
 # include "./libft-42/libft.h"
 # include "./minilibx/mlx.h"
 # define UDIV 1
@@ -137,17 +138,41 @@ typedef struct	s_mlx_data
 	t_img		img;
 	t_img		s_wall;
 	t_img		s_walltwo;
+	int			texxs_walltwo;
+	double		steps_walltwo;
+	double		texposs_walltwo;
 	t_img		s_wallthree;
 	t_img		s_wallfour;
+	int			texxs_wallfour;
+	double		steps_wallfour;
+	double		texposs_wallfour;
 	t_img		s_floorfour;
 	t_img		s_lava;
+	int			texxs_lava;
+	double		steps_lava;
+	double		texposs_lava;
 	t_img		s_roofeleven;
 	t_img		s_escalier;
 	t_img		s_fl;
+	int			texxs_fl;
+	double		steps_fl;
+	double		texposs_fl;
 	t_img		s_arrowtex;
+	int			texxs_arrowtex;
+	double		steps_arrowtex;
+	double		texposs_arrowtex;
 	t_img		s_arrowtexl;
+	int			texxs_arrowtexl;
+	double		steps_arrowtexl;
+	double		texposs_arrowtexl;
 	t_img		s_lifeframe;
+	int			texxs_lifeframe;
+	double		steps_lifeframe;
+	double		texposs_lifeframe;
 	t_img		s_health;
+	int			texxs_health;
+	double		steps_health;
+	double		texposs_health;
 	t_img		s_monster;
 	t_square	square;
 	int			resph;
@@ -158,15 +183,12 @@ typedef struct	s_mlx_data
 	int			numesprite;
 	int			biggest;
 	int			playercount;
-	int			mouser;
-	int			mousel;
 	float		floorx;
 	float		floory;
 	float		cellx;
 	float		celly;
 	float		floorstepx;
 	float		floorstepy;
-	double		mousespeed;
 	float		raydirxone;
 	float		raydiryo;
 	double		camerax;
@@ -182,6 +204,11 @@ typedef struct	s_mlx_data
 	double		perpwalldist;
 	int			stepx;
 	int			stepy;
+	int			side;
+	int			lineheight;
+	int			drawstart;
+	int			drawend;
+	double		wallx;
 }				t_mlx_data;
 
 void			ft_mlx_draw_square(t_square *square, t_data *data, int color);
@@ -269,4 +296,12 @@ void			ft_distpoint(t_mlx_data *data, float raydirxo, int x, int y);
 void			ft_floorcasting(t_mlx_data *data, int *x, int *y);
 void			ft_dda(t_mlx_data *data);
 void			ft_walldetection(t_mlx_data *data, int *side, int *hit);
+void			ft_setcamerainfo(t_mlx_data *data, int x);
+void			ft_getlinenwallx(t_mlx_data *data);
+void			ft_setcamerainfo(t_mlx_data *data, int x);
+void			ft_init_texx(t_mlx_data *data);
+void			ft_get_texposray(t_mlx_data *data);
+void			ft_reset_poss(t_mlx_data *data);
+int				ft_fourtexcube(t_mlx_data *data);
+int				ft_set_texture(t_mlx_data *data);
 #endif

@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 07:39:14 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/26 06:58:22 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 04:34:53 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ void
 void
 	ft_do_mlx(t_mlx_data *data)
 {
-    mlx_mouse_hide();
-	mlx_mouse_move(data->data->mlx_win, (data->sort->resw / 2),
-		(data->sort->resw / 2));
 	mlx_hook(data->data->mlx_win, 17, 0L, closeit, NULL);
 	mlx_hook(data->data->mlx_win, 2, 1L << 0, key_press, data);
 	mlx_hook(data->data->mlx_win, 3, 1l << 1, key_release, data);
