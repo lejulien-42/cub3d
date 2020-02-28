@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 14:59:11 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 15:46:05 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,14 @@
 void
 	ft_raycast(t_mlx_data *data)
 {
-	int		x;
-	int		y;
+	int	i;
 
-	data->zbuffer = malloc(data->sort->resw * sizeof(double));
-	y = 0;
-	x = 0;
-	ft_floorcasting(data);
-	ft_wallcasting(data);
-	//sprite casting
-	int	i = 0;
-	int numSprite = data->spritenumber;
-	int spriteOrder[numSprite];
-	double  spriteDistance[numSprite];
-	while (i < numSprite)
-	{
-		spriteOrder[i] = i;
-		spriteDistance[i] = ((data->posx - data->sprite[i].x) * (data->posx - data->sprite[i].x) + (data->posy - data->sprite[i].y) * (data->posy - data->sprite[i].y));
-		i++;
-	}
-	sortsprite(spriteOrder, spriteDistance, numSprite);
+	ft_loadnsort_sprites(data);
 	i = 0;
-	while (i < numSprite)
+	while (i < data->spritenumber)
 	{
-		double  spriteX = data->sprite[spriteOrder[i]].x - data->posx;
-		double  spriteY = data->sprite[spriteOrder[i]].y - data->posy;
+		double  spriteX = data->sprite[data->spriteorder[i]].x - data->posx;
+		double  spriteY = data->sprite[data->spriteorder[i]].y - data->posy;
 
 		double  invDet = 1.0 / (data->planex * data->diry - data->dirx * data->planey);
 
@@ -85,7 +68,7 @@ void
 					int color = 0;
 					if (texWidth * texY + texX > 0)
 					{
-						if (data->sprite[spriteOrder[i]].texture == 0)
+						if (data->sprite[data->spriteorder[i]].texture == 0)
 							color = data->s_fl.data[texWidth * texY + texX];
 						else
 							color = data->s_monster.data[texWidth * texY + texX];
@@ -100,6 +83,8 @@ void
 		i++;
 	}
 	free(data->zbuffer);
+	free(data->spriteorder);
+	free(data->spritedistance);
 }
 
 
@@ -116,7 +101,8 @@ int main(int argc, const char *argv[])
 	{
 		if ((fd = open(argv[1], O_RDONLY)) == -1)
 			error = 1;
-		if (argc == 3 && (ft_strncmp(argv[2], "-save", 6) == 0 || ft_strncmp(argv[2], "--save", 6) == 0))
+		if (argc == 3 && (ft_strncmp(argv[2], "-save", 6) == 0
+			|| ft_strncmp(argv[2], "--save", 6) == 0))
 			sort.issave = 1;
 		else if (argc == 3)
 			error = 1;

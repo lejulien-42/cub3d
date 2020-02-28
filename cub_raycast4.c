@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 14:19:56 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 14:58:04 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 15:46:48 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,21 @@ void
 void
 	ft_loadnsort_sprites(t_mlx_data *data)
 {
-	
+	int i;
+
+	i = 0;
+	data->zbuffer = malloc(data->sort->resw * sizeof(double));
+	ft_floorcasting(data);
+	ft_wallcasting(data);
+	data->spriteorder = malloc(data->spritenumber * sizeof(int));
+	data->spritedistance = malloc(data->spritenumber * sizeof(double));
+	while (i < data->spritenumber)
+	{
+		data->spriteorder[i] = i;
+		data->spritedistance[i] = ((data->posx - data->sprite[i].x) *
+			(data->posx - data->sprite[i].x) + (data->posy - data->sprite[i].y)
+			* (data->posy - data->sprite[i].y));
+		i++;
+	}
+	sortsprite(data->spriteorder, data->spritedistance, data->spritenumber);
 }

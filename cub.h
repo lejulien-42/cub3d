@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 14:28:09 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 15:47:43 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,4 +305,6 @@ void			ft_reset_poss(t_mlx_data *data);
 int				ft_fourtexcube(t_mlx_data *data);
 int				ft_set_texture(t_mlx_data *data);
 void			ft_putwall_pixel(t_mlx_data *data, int x);
+void			ft_wallcasting(t_mlx_data *data);
+void			ft_loadnsort_sprites(t_mlx_data *data);
 #endif
