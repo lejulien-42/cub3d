@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 15:47:43 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 16:21:37 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,18 @@ typedef struct	s_mlx_data
 	int			drawstart;
 	int			drawend;
 	double		wallx;
+	double		spritex;
+	double		spritey;
+	double		transformx;
+	double		transformy;
+	int			spritescreenx;
+	int			spriteheight;
+	int			drawstarty;
+	int			drawendy;
+	int			spritewidth;
+	int			drawstartx;
+	int			drawendx;
+	int			stripe;
 }				t_mlx_data;
 
 void			ft_mlx_draw_square(t_square *square, t_data *data, int color);
@@ -307,4 +319,5 @@ int				ft_set_texture(t_mlx_data *data);
 void			ft_putwall_pixel(t_mlx_data *data, int x);
 void			ft_wallcasting(t_mlx_data *data);
 void			ft_loadnsort_sprites(t_mlx_data *data);
+void			ft_init_sprite(t_mlx_data *data, int i);
 #endif
