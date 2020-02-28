@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   cub_get_next_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 01:57:21 by lejulien          #+#    #+#             */
-/*   Updated: 2020/01/03 02:42:19 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 21:55:52 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft-42/libft.h"
+#include "../libft-42/libft.h"
 #include "./get_next_line.h"
 #include <stdlib.h>
 

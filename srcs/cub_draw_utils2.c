@@ -6,12 +6,11 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 15:35:23 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 07:15:40 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 21:55:39 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-#include "./libft-42/libft.h"
 
 void
 	ft_mlx_drawfilled_square(t_square *square, int color, t_mlx_data *datamlx)

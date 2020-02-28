@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 21:41:51 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 21:55:01 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 # include <stddef.h>
 # include <unistd.h>
 # include <math.h>
-# include "./libft-42/libft.h"
-# include "./minilibx/mlx.h"
+# include "../libft-42/libft.h"
+# include "../minilibx/mlx.h"
+# include "./get_next_line.h"
 # define UDIV 1
 # define VDUV 1
 # define VMOVE 0.0

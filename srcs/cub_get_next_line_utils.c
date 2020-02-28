@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   cub_get_next_line_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 00:35:11 by lejulien          #+#    #+#             */
-/*   Updated: 2020/01/03 02:38:30 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 21:56:03 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "./libft-42/libft.h"
+#include "../libft-42/libft.h"
 
 char	*ft_strjoingnl(char const *s1, char const *s2)
 {

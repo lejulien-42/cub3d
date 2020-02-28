@@ -6,12 +6,10 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 19:44:56 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/15 22:45:19 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 21:55:13 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft-42/libft.h"
-#include <fcntl.h>
 #include "cub.h"
 
 static void

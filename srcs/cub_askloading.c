@@ -6,13 +6,11 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 23:00:43 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 20:55:36 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 21:54:30 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./cub.h"
-#include "./get_next_line.h"
-#include "./libft-42/libft.h"
 
 int
 	ft_askloading(char *txt)

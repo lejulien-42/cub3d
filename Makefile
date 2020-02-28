@@ -6,7 +6,7 @@
 #    By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/01 15:52:54 by lejulien          #+#    #+#              #
-#    Updated: 2020/02/28 05:13:08 by lejulien         ###   ########.fr        #
+#    Updated: 2020/02/28 21:59:32 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,7 @@ _PURPLE=$'\x1b[35m
 _CYAN=$'\x1b[36m
 _WHITE=$'\x1b[37m
 
-SRCS	= $(wildcard cub*.c) $(wildcard ./libft-42/*.c)
-SRCSTEST= ./cub_draw_utils.c ./cub_get_next_line.c ./cub_get_next_line_utils.c ./test.c $(wildcard ./libft-42/*.c)
-OTEST= $(wildcard ./*.o) $(wildcard ./*/*.o)
+SRCS	= $(wildcard ./srcs/cub*.c) $(wildcard ./libft-42/*.c)
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -55,11 +53,6 @@ cubheader:
 $(NAME): cubheader $(OBJS)
 	gcc $(INCLUDEH) -o $(NAME) $(OBJS) ./minilibx/libmlx.a
 
-test:
-	@gcc -D BUFFER_SIZE=1024 $(INCLUDEH) -c $(SRCSTEST)
-	@gcc $(INCLUDEH) -o $(NAME) $(OTEST)
-
-
 clean:
 	@rm -f $(OBJS)
 
@@ -70,15 +63,15 @@ re: fclean all
 
 %.o: %.c
 	@echo "${_CYAN}Passing from $< to .o ..."
-	@$(GCC) -D BUFFER_SIZE=1024 $(INCLUDEH) -c $<  -o $(<:.c=.o)
+	@$(GCC) -w -D BUFFER_SIZE=1024 $(INCLUDEH) -c $<  -o $(<:.c=.o)
 
 run: fclean $(NAME) clean
 	@echo "${_GREEN}Starting Cub3D :"
 	@rm -f $(OBJS)
-	@./cub3d.out conf.cub
+	@./cub3d.out ./maps/conf.cub
 
 runsave: fclean $(NAME) clean
 	@echo "${_GREEN}Starting Cub3D :"
 	@rm -f $(OBJS)
-	@./cub3d.out conf.cub --save
+	@./cub3d.out ./maps/conf.cub --save
 

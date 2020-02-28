@@ -6,17 +6,11 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 21:17:29 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 21:56:16 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
 #include "cub.h"
-#include "get_next_line.h"
-#include "./libft-42/libft.h"
 
 static void
 	ft_raycast2(t_mlx_data *data, int i)
