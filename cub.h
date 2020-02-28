@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 07:19:14 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 14:28:09 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,7 @@ void			ft_encodemap(t_sort *sort);
 void			ft_getline_checktype(t_sort *sort, int ret);
 void			ft_get_color_tex(t_mlx_data *data, int x, int y);
 void			ft_distpoint(t_mlx_data *data, float raydirxo, int x, int y);
-void			ft_floorcasting(t_mlx_data *data, int *x, int *y);
+void			ft_floorcasting(t_mlx_data *data);
 void			ft_dda(t_mlx_data *data);
 void			ft_walldetection(t_mlx_data *data, int *side, int *hit);
 void			ft_setcamerainfo(t_mlx_data *data, int x);
@@ -304,4 +304,5 @@ void			ft_get_texposray(t_mlx_data *data);
 void			ft_reset_poss(t_mlx_data *data);
 int				ft_fourtexcube(t_mlx_data *data);
 int				ft_set_texture(t_mlx_data *data);
+void			ft_putwall_pixel(t_mlx_data *data, int x);
 #endif

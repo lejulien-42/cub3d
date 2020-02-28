@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 07:18:44 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 14:59:11 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,14 @@
 void
 	ft_raycast(t_mlx_data *data)
 {
-	int		x = 0;
-	int		y = 0;
-	char	zbuffer[data->sort->resw];
+	int		x;
+	int		y;
 
-	ft_floorcasting(data, &x, &y);
+	data->zbuffer = malloc(data->sort->resw * sizeof(double));
 	y = 0;
 	x = 0;
-	while (x < data->sort->resw)
-	{
-		ft_setcamerainfo(data, x);
-		ft_getlinenwallx(data);
-		ft_init_texx(data);	
-		ft_get_texposray(data);
-		int y = data->drawstart;
-		while (y < data->drawend)
-		{
-			ft_reset_poss(data);
-			data->img.data[y * data->sort->resw + x] = ft_set_texture(data);
-			y++;
-		}
-		zbuffer[x] = data->perpwalldist;
-		x++;
-	}
+	ft_floorcasting(data);
+	ft_wallcasting(data);
 	//sprite casting
 	int	i = 0;
 	int numSprite = data->spritenumber;
@@ -90,7 +75,7 @@ void
 		{
 			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
 
-			if (transformY > 0 && stripe > 0 && stripe < data->sort->resw && transformY < zbuffer[stripe])
+			if (transformY > 0 && stripe > 0 && stripe < data->sort->resw && transformY < data->zbuffer[stripe])
 			{
 				int y = drawStartY;
 				while (y < drawEndY)
@@ -114,6 +99,7 @@ void
 		}
 		i++;
 	}
+	free(data->zbuffer);
 }
 
 

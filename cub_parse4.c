@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 02:47:50 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 20:48:54 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 14:19:03 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,10 @@ char
 			isatmap = 1;
 		if (isatmap)
 		{
-			if (ret == 0)
-			{
-				free(sort->currentline);
-				return (sort->previousline);
-			}
 			check_line_start(&sort->currentline, ret);
 			ft_encodemap(sort);
+			if (ret == 0)
+				return (sort->previousline);
 		}
 		else
 			ft_getline_checktype(sort, ret);

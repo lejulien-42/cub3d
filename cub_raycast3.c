@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 06:26:41 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 07:18:46 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 14:08:09 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,18 @@ int
 	else
 		color = data->s_wallfour.data[((int)data->texposs_wallfour & (data->s_wallfour.height - 1)) * data->s_wallfour.height + data->texxs_wallfour];
 	return (color);
+}
+
+void
+	ft_putwall_pixel(t_mlx_data *data, int x)
+{
+	int y;
+	
+	y = data->drawstart;	
+	while (y < data->drawend)
+	{
+		ft_reset_poss(data);
+		data->img.data[y * data->sort->resw + x] = ft_set_texture(data);
+		y++;
+	}
 }

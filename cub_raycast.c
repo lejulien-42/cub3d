@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 05:28:01 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/27 14:34:39 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/02/28 14:28:29 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,23 @@ void
 }
 
 void
-	ft_floorcasting(t_mlx_data *data, int *x, int *y)
+	ft_floorcasting(t_mlx_data *data)
 {
-	float raydirxo;
+	float	raydirxo;
+	int 	x;
+	int		y;
 
+	x = 0;
+	y = 0;
 	if (data->showbonus == 1)
 	{
-		while (*y < data->sort->resh)
+		while (y < data->sort->resh)
 		{
 			raydirxo = data->dirx - data->planex;
 			data->raydiryo = data->diry - data->planey;
 			data->raydirxone = data->dirx + data->planex;
-			ft_distpoint(data, raydirxo, *x, *y);
-			*y = *y + 1;
+			ft_distpoint(data, raydirxo, x, y);
+			y = y + 1;
 		}
 	}
 	else
