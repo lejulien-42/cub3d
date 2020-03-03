@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 05:24:58 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 05:53:59 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/03 09:41:14 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@ static void
 		if (ft_askloading("Missing east texture load ? [y|n]\n") == 1)
 			sort->eastpath = "./textures/Error.xpm";
 		else
-			ft_puterror("Error met les textures poto\n");
+			ft_puterror("Error missing testure\n");
 	}
 	if (!sort->westpath)
 	{
 		if (ft_askloading("Missing west texture load ? [y|n]\n") == 1)
 			sort->westpath = "./textures/Error.xpm";
 		else
-			ft_puterror("Error met les textures poto\n");
+			ft_puterror("Error missing texture\n");
 	}
 }
 
@@ -92,21 +92,21 @@ void
 		if (ft_askloading("Missing sprite texture load ? [y|n]\n") == 1)
 			sort->sprite = "./textures/Error.xpm";
 		else
-			ft_puterror("Error met les textures poto\n");
+			ft_puterror("Error missing texture\n");
 	}
 	if (!sort->northpath)
 	{
 		if (ft_askloading("Missing north texture load ? [y|n]\n") == 1)
 			sort->northpath = "./textures/Error.xpm";
 		else
-			ft_puterror("Error met les textures poto\n");
+			ft_puterror("Error missing texture\n");
 	}
 	if (!sort->southpath)
 	{
 		if (ft_askloading("Missing south texture load ? [y|n]\n") == 1)
 			sort->southpath = "./textures/Error.xpm";
 		else
-			ft_puterror("Error met les textures poto\n");
+			ft_puterror("Error missing texture\n");
 	}
 	ft_askloading3(sort);
 }

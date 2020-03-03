@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 03:07:42 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 21:07:31 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/03 11:23:01 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int
 	while (ft_strlen(data->map[i]) != 0)
 	{
 		count = ft_time_in_str(data->map[i], 'A') + count;
-		count = ft_time_in_str(data->map[i], 'B') + count;
+		count = ft_time_in_str(data->map[i], '2') + count;
 		i++;
 	}
 	if (!(data->sprite = malloc(count * sizeof(t_sprite))))

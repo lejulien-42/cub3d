@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 01:04:04 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 21:59:10 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/03 11:23:17 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int
 		while (x < ft_strlen(data->map[y]))
 		{
 			type = data->map[y][x];
-			if (type == 'A' || type == 'B')
+			if (type == 'A' || type == '2')
 			{
 				data->s = s;
 				ft_attrib2(x, y, type, data);

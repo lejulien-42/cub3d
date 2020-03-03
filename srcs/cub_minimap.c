@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 04:44:18 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/25 05:22:11 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/03 11:25:11 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void
 static int
 	ft_checkoab(char c)
 {
-	if (c == '0' || c == 'A' || c == 'B')
+	if (c == '0' || c == 'A' || c == '2')
 		return (1);
 	return (0);
 }

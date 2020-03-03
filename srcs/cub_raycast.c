@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 05:28:01 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 21:28:32 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/03 11:24:15 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void
 		*side = 1;
 	}
 	this = data->map[data->mapx][data->mapy];
-	if (this != '0' && this != 'A' && this != 'B'
+	if (this != '0' && this != 'A' && this != '2'
 		&& this != 'N' && this != 'S' && this != 'E' && this != 'W')
 	{
 		data->what = data->map[data->mapx][data->mapy];
