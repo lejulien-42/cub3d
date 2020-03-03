@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 02:47:50 by lejulien          #+#    #+#             */
-/*   Updated: 2020/03/03 05:02:11 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/03 05:48:31 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ void
 		ft_checkc(currentline, sort);
 	else if (currentline[0] == 'F')
 		ft_checkf(currentline, sort);
+	else if (currentline[0] != '\0')
+		free(currentline);
+	else
+	{
+		currentline[0] = 's';
+		free(currentline);
+		printf("-=>%c\n", currentline[0]);	
+	}
 }
 
 void
@@ -53,16 +61,18 @@ void
 	char *tofree;
 	char *temp;
 
-	if (sort->previousline)
+	if (sort->previousline[0] == '1')
 	{
 		tofree = ft_strjoin(sort->previousline, "~");
 		temp = ft_strjoin(tofree, sort->currentline);
-		free(tofree);
 		free(sort->previousline);
+		free(tofree);
 		sort->previousline = ft_subspace(temp);
 		free(temp);
 		free(sort->currentline);
 	}
+	else
+		sort->previousline = sort->currentline;
 }
 
 void
