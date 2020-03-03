@@ -6,7 +6,7 @@
 #    By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/01 15:52:54 by lejulien          #+#    #+#              #
-#    Updated: 2020/02/28 21:59:32 by lejulien         ###   ########.fr        #
+#    Updated: 2020/03/03 07:00:49 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,8 @@ cubheader:
 
 $(NAME): cubheader $(OBJS)
 	gcc $(INCLUDEH) -o $(NAME) $(OBJS) ./minilibx/libmlx.a
+
+bonus: $(NAME)
 
 clean:
 	@rm -f $(OBJS)

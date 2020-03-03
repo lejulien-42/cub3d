@@ -1,0 +1,13 @@
+R 700 	600
+NO ./textures/WALL_01.XPM
+SO ./textures/WALL_04.XPM
+EA ./textures/fl.XPM
+WE ./textures/escalier.xpm
+S ./textures/healing.xpm
+F 255,0,0
+C 0,255,0
+
+
+111
+1N1
+111

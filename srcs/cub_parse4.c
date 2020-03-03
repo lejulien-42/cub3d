@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 02:47:50 by lejulien          #+#    #+#             */
-/*   Updated: 2020/03/03 05:48:31 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/03 09:19:08 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void
 	{
 		currentline[0] = 's';
 		free(currentline);
-		printf("-=>%c\n", currentline[0]);	
 	}
 }
 
