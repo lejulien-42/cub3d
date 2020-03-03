@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 02:28:33 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/24 05:14:04 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/03 05:04:14 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void
 	i = next_n_check_coma(&currentline[i], i);
 	b = ft_checkdcc(ft_atoi(&currentline[i]));
 	sort->rgbc = rgb_int(r, g, b);
+	free(currentline);
 }
 
 void
@@ -85,4 +86,5 @@ void
 	i = next_n_check_coma(&currentline[i], i);
 	b = ft_checkdcc(ft_atoi(&currentline[i]));
 	sort->rgbf = rgb_int(r, g, b);
+	free(currentline);
 }

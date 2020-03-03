@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 02:43:48 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 21:05:24 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/03 05:03:40 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void
 	sort->resh = ft_checkheight(ft_atoi(&currentline[i]));
 	if (!sort->resh)
 		ft_puterror("\e[33mres Error\n");
+	free(currentline);
 }
 
 void
@@ -62,6 +63,7 @@ void
 		i++;
 	if (currentline[i] == '1')
 		sort->isbonus = 1;
+	free(currentline);
 }
 
 void

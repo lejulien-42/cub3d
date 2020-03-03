@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 02:47:50 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 21:03:14 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/03 05:02:11 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void
 	{
 		tofree = ft_strjoin(sort->previousline, "~");
 		temp = ft_strjoin(tofree, sort->currentline);
-		ft_subspace(temp);
 		free(tofree);
 		free(sort->previousline);
 		sort->previousline = ft_subspace(temp);
