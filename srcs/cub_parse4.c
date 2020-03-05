@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 02:47:50 by lejulien          #+#    #+#             */
-/*   Updated: 2020/03/05 04:08:17 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/05 06:00:38 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void
 	check_line_start(char **currentline, int ret)
 {
 	int	i;
-       
+
 	i = 0;
 	while (currentline[0][i] == ' ')
 		i++;
@@ -64,7 +64,7 @@ void
 {
 	char	*tofree;
 	char	*temp;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (sort->previousline[i] == ' ')

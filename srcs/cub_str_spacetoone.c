@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 03:48:48 by lejulien          #+#    #+#             */
-/*   Updated: 2020/03/05 03:55:37 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/05 06:01:46 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char
 	*ft_str_spacetoone(char *str)
 {
 	char	*res;
-	int 	i;
+	int		i;
 
 	i = 0;
 	res = malloc((ft_strlen(str) + 1) * sizeof(char));
