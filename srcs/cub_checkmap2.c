@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 22:27:21 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 21:55:33 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/05 03:59:29 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ static int
 	int i;
 
 	i = 0;
+	while (str[i] == ' ')
+		i++;
 	while (str[i] != '\0')
 	{
-		if (str[i] != '1')
+		if (str[i] != '1' && str[i] != ' ')
 			return (0);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 02:47:50 by lejulien          #+#    #+#             */
-/*   Updated: 2020/03/03 09:19:08 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/05 04:08:17 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,36 @@ void
 void
 	check_line_start(char **currentline, int ret)
 {
-	if (*currentline[0] != '1' && ret == 1)
+	int	i;
+       
+	i = 0;
+	while (currentline[0][i] == ' ')
+		i++;
+	if (currentline[0][i] != '1' && ret == 1)
 	{
+		printf("-=> %c\n", currentline[0][i]);
 		free(*currentline);
-		write(1, "Error map\n", 10);
-		exit(0);
+		ft_puterror("Error wrong map\n");
 	}
 }
 
 void
 	ft_encodemap(t_sort *sort)
 {
-	char *tofree;
-	char *temp;
+	char	*tofree;
+	char	*temp;
+	int	i;
 
-	if (sort->previousline[0] == '1')
+	i = 0;
+	while (sort->previousline[i] == ' ')
+		i++;
+	if (sort->previousline[i] == '1')
 	{
 		tofree = ft_strjoin(sort->previousline, "~");
 		temp = ft_strjoin(tofree, sort->currentline);
 		free(sort->previousline);
 		free(tofree);
-		sort->previousline = ft_subspace(temp);
+		sort->previousline = ft_str_spacetoone(temp);
 		free(temp);
 		free(sort->currentline);
 	}
@@ -86,13 +95,17 @@ char
 {
 	int	ret;
 	int	isatmap;
+	int	i;
 
 	ret = 1;
 	isatmap = 0;
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &sort->currentline);
-		if (sort->currentline[0] == '1')
+		i = 0;
+		while (sort->currentline[i] == ' ')
+			i++;
+		if (sort->currentline[i] == '1')
 			isatmap = 1;
 		if (isatmap)
 		{

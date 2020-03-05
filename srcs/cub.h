@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/28 21:55:01 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/05 03:54:33 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,4 +328,5 @@ void			ft_getsprite_color(t_mlx_data *data, int i, int y, int texx);
 t_mlx_data		ft_set_mlx_datathree(void);
 int				ft_do_ninetext(t_mlx_data *data);
 int				ft_do_ninetexttwo(t_mlx_data *data);
+char			*ft_str_spacetoone(char *str);
 #endif
