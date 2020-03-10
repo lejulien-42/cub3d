@@ -6,7 +6,7 @@
 #    By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/01 15:52:54 by lejulien          #+#    #+#              #
-#    Updated: 2020/03/05 05:38:37 by lejulien         ###   ########.fr        #
+#    Updated: 2020/03/10 03:46:36 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ _WHITE=$'\x1b[37m
 SRCS	= srcs/cub_askloading.c ./srcs/cub_bmp.c ./srcs/cub_checkmap.c ./srcs/cub_checkmap2.c ./srcs/cub_draw_utils.c ./srcs/cub_draw_utils2.c ./srcs/cub_get_next_line.c ./srcs/cub_get_next_line_utils.c \
 	  ./srcs/cub_getdata_img.c ./srcs/cub_loadimg.c ./srcs/cub_main.c ./srcs/cub_minimap.c ./srcs/cub_parse1.c ./srcs/cub_parse2.c ./srcs/cub_parse3.c ./srcs/cub_parse4.c ./srcs/cub_parse5.c \
 	  ./srcs/cub_raycast.c ./srcs/cub_raycast2.c ./srcs/cub_raycast3.c ./srcs/cub_raycast4.c ./srcs/cub_utils.c ./srcs/cub_utils10.c ./srcs/cub_utils11.c ./srcs/cub_utils2.c ./srcs/cub_utils3.c \
-	  ./srcs/cub_utils4.c ./srcs/cub_utils5.c ./srcs/cub_utils6.c ./srcs/cub_utils7.c ./srcs/cub_utils8.c ./srcs/cub_utils9.c ./srcs/cub_str_spacetoone.c
+	  ./srcs/cub_utils4.c ./srcs/cub_utils5.c ./srcs/cub_utils6.c ./srcs/cub_utils7.c ./srcs/cub_utils8.c ./srcs/cub_utils9.c ./srcs/cub_str_spacetoone.c ./srcs/cub_parse6.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -60,8 +60,6 @@ makelibs:
 	@$(MAKE) -C ./minilibx/.
 	@$(MAKE) -C ./libft-42/.
 
-bonus: $(NAME)
-
 clean:
 	@rm -f $(OBJS)
 	@$(MAKE) -C ./minilibx/. clean
@@ -78,13 +76,13 @@ re: fclean all
 	@echo "${_CYAN}Passing from $< to .o ..."
 	@$(GCC) -w -D BUFFER_SIZE=1024 $(INCLUDEH) -c $<  -o $(<:.c=.o)
 
-run: fclean $(NAME) clean
+bonus: fclean $(NAME) clean
 	@echo "${_GREEN}Starting Cub3D :"
 	@rm -f $(OBJS)
-	@./cub3D ./maps/conf.cub
+	@./cub3D ./maps/bonus_maps/conf.cub
 
 runsave: fclean $(NAME) clean
 	@echo "${_GREEN}Starting Cub3D :"
 	@rm -f $(OBJS)
-	@./cub3d.out ./maps/conf.cub --save
+	@./Cub3D ./maps/normal.cub --save
 

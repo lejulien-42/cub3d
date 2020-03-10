@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 02:47:50 by lejulien          #+#    #+#             */
-/*   Updated: 2020/03/08 00:42:47 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/10 02:46:44 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ void
 	else if (currentline[0] == 'F')
 		ft_checkf(currentline, sort);
 	else if (currentline[0] != '\0')
-	{
-		free(currentline);
-		ft_puterror("Error wrong line\n");
-	}
+		ft_wrongline(currentline);
 	else
 	{
 		currentline[0] = 's';

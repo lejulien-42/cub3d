@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 23:00:43 by lejulien          #+#    #+#             */
-/*   Updated: 2020/03/05 00:19:34 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/10 04:16:35 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int
 		return (EXIT_FAILURE);
 	if (sort->isbonus)
 		ft_debugmap(map);
+	ft_check_double(sort);
 	ft_loadmlx(&mlx_data);
 	return (1);
 }

@@ -1,14 +1,19 @@
-R 700 	600 dasdhuasiudhasud
+R 700 	600       
 
-NO ./textures/WALL_01.XPM
+NO ./textures/WALL_01.XPM                         
 SO ./textures/WALL_04.XPM
-EA ./textures/fl.XPM
+EA ./textures/FL.xpm
 
 
 WE ./textures/escalier.xpm
 S ./textures/loli.xpm
 F 156, 153, 42
 C 12, 80, 255
+
+
+
+
+
 
         1111111111111111111111111
         1000000000110000000000001

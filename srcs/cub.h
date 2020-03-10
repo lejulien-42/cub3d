@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 22:16:24 by lejulien          #+#    #+#             */
-/*   Updated: 2020/03/05 03:54:33 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/10 04:08:04 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,14 @@ typedef struct	s_sort
 	int			isbonus;
 	char		*previousline;
 	char		*currentline;
+	int			ir;
+	int			in;
+	int			iso;
+	int			ie;
+	int			iw;
+	int			is;
+	int			inf;
+	int			ic;
 }				t_sort;
 
 typedef struct	s_mlx_data
@@ -329,4 +337,9 @@ t_mlx_data		ft_set_mlx_datathree(void);
 int				ft_do_ninetext(t_mlx_data *data);
 int				ft_do_ninetexttwo(t_mlx_data *data);
 char			*ft_str_spacetoone(char *str);
+void			ft_check_end_r(char *currentline);
+void			ft_wrongline(char *currentline);
+void			ft_init_instructions(t_sort *sort);
+void			ft_path_selector(int wich, t_sort *sort, char *currentline);
+void			ft_check_double(t_sort *sort);
 #endif

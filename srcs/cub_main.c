@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 23:11:38 by lejulien          #+#    #+#             */
-/*   Updated: 2020/03/03 07:01:44 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/03/10 03:39:45 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int
 
 	error = 0;
 	sort = ft_initialaze_sort();
+	ft_init_instructions(&sort);
 	fd = 0;
 	if (argc == 2 || argc == 3)
 	{
