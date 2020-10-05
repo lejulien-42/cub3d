@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 00:28:27 by lejulien          #+#    #+#             */
-/*   Updated: 2020/02/21 02:20:39 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/10/05 17:01:02 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,18 @@ static void
 void
 	ft_spookia(t_mlx_data *data)
 {
+	double	reached_pos = data->movespeed / 3;
+	double	lposx = data->sprite[data->ord].x;
+	double	lposy = data->sprite[data->ord].y;
 	if (data->sprite[data->ord].texture == 0)
 	{
-		if (data->sprite[data->ord].x < data->posx)
+		if (data->sprite[data->ord].x < data->posx && lposx + reached_pos)
 			data->sprite[data->ord].x = data->sprite[data->ord].x
 				+ data->movespeed / 3;
-		if (data->sprite[data->ord].x > data->posx)
+		if (data->sprite[data->ord].x > data->posx && lposx - reached_pos)
 			data->sprite[data->ord].x = data->sprite[data->ord].x
 				- data->movespeed / 3;
-		if (data->sprite[data->ord].y < data->posy)
+		if (data->sprite[data->ord].y < data->posy && lposy + reached_pos)
 			data->sprite[data->ord].y = data->sprite[data->ord].y
 				+ data->movespeed / 3;
 		if (data->sprite[data->ord].y > data->posy)
