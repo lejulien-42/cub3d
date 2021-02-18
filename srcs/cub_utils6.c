@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 00:28:27 by lejulien          #+#    #+#             */
-/*   Updated: 2020/10/05 17:01:02 by lejulien         ###   ########.fr       */
+/*   Updated: 2020/10/06 15:17:24 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@ static void
 void
 	ft_spookia(t_mlx_data *data)
 {
-	double	reached_pos = data->movespeed / 3;
-	double	lposx = data->sprite[data->ord].x;
-	double	lposy = data->sprite[data->ord].y;
+	int		reached_pos = data->movespeed / 3;
+	int	lposx = data->sprite[data->ord].x;
+	int	lposy = data->sprite[data->ord].y;
 	if (data->sprite[data->ord].texture == 0)
 	{
-		if (data->sprite[data->ord].x < data->posx && lposx + reached_pos)
+		if (data->sprite[data->ord].x < data->posx && data->map[lposx + reached_pos][lposy] != '1')
 			data->sprite[data->ord].x = data->sprite[data->ord].x
 				+ data->movespeed / 3;
-		if (data->sprite[data->ord].x > data->posx && lposx - reached_pos)
+		if (data->sprite[data->ord].x > data->posx && data->map[lposx - reached_pos][lposy] != '1')
 			data->sprite[data->ord].x = data->sprite[data->ord].x
 				- data->movespeed / 3;
-		if (data->sprite[data->ord].y < data->posy && lposy + reached_pos)
+		if (data->sprite[data->ord].y < data->posy && data->map[lposx][lposy + reached_pos] != '1')
 			data->sprite[data->ord].y = data->sprite[data->ord].y
 				+ data->movespeed / 3;
-		if (data->sprite[data->ord].y > data->posy)
+		if (data->sprite[data->ord].y > data->posy && data->map[lposx][lposy - reached_pos] != '1')
 			data->sprite[data->ord].y = data->sprite[data->ord].y
 				- data->movespeed / 3;
 		if (data->posx > data->sprite[data->ord].x - 0.5 && data->posx
