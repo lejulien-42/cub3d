@@ -6,7 +6,7 @@
 ![Cub3D](Cub3D.png)
 
 <h6>  Installation : ⚠️ works only on macOSX</h6>
-<p>make && ./Cub3D ./maps/<map file><p>
+<p>make && ./Cub3D ./maps/[map_file]><p>
 <h6>  Controls :</h6>
 <p>   - WASD to move</p>
 <p>   - ESC to quit</p>
